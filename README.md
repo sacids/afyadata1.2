@@ -1,0 +1,1 @@
+# afyadata1.2
