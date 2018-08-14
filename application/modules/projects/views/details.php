@@ -58,38 +58,49 @@
                         <?php if (isset($forms_list) && $forms_list) { ?>
                             <div class="table-responsive">
                                 <table class="table table-striped table-hover table-bordered">
+                                    <thead>
                                     <tr>
-                                        <th width="30%">Form Title</th>
+                                        <th width="3%">#</th>
+                                        <th width="28%">Form Title</th>
+                                        <th width="12%">Viewers</th>
                                         <th width="10%">Created At</th>
                                         <th width="8%">Status</th>
-                                        <th width="15%"></th>
+                                        <th width="5%">Actions</th>
                                     </tr>
+                                    </thead>
+                                    <tbody>
                                     <?php
                                     $i = 1;
                                     foreach ($forms_list as $v) { ?>
                                         <tr>
-                                            <td><?= anchor('forms/data_view/' . $project->id . '/' . $v->id . '/' . str_replace(' ', '-', strtolower($v->title)), '<h5>' . $v->title . '</h5>') ?>
+                                            <td><?= $i ?></td>
+                                            <td><?= anchor('forms/data_view/' . $project->id . '/' . $v->id, '<h5>' . $v->title . '</h5>') ?>
                                                 <?= $v->description ?></td>
-                                            <td><?= date('F jS, Y', strtotime($v->created_at)) ?></td>
+                                            <td></td>
+                                            <td><?= date('d/m/Y', strtotime($v->created_at)) ?></td>
                                             <td><?= ($v->status == 'published' ? '<span class="label label-success">Published</span>' : '<span class="label label-warning">Draft</span>') ?></td>
-                                            <td>
-                                                <?php
-                                                //if (perms_role('documents', 'edit'))
-                                                echo anchor('forms/edit/' . $project->id . '/' . $v->id . '/' . str_replace(' ', '-', strtolower($v->title)), '<i class="fa fa-pencil"></i> Edit', 'class="btn btn-primary btn-xs"') . '&nbsp;&nbsp';
-
-                                                //if (perms_role('documents', 'edit'))
-                                                echo anchor('forms/field_mapping/' . $project->id . '/' . $v->id . '/' . str_replace(' ', '-', strtolower($v->title)), '<i class="fa fa-clone"></i> Mapping', 'class="btn btn-info btn-xs"') . '&nbsp;&nbsp';
-
-                                                //if (perms_role('documents', 'delete'))
-                                                echo anchor('forms/delete/' . $project->id . '/' . $v->id . '/' . str_replace(' ', '-', strtolower($v->title)), '<i class="fa fa-trash"></i> Delete', 'class="btn btn-danger btn-xs delete"');
-                                                ?>
+                                            <td class="text-center">
+                                                <div class="list-icons">
+                                                    <div class="dropdown">
+                                                        <a href="#" class="list-icons-item" data-toggle="dropdown">
+                                                            <i class="icon-menu9"></i>
+                                                        </a>
+                                                        <div class="dropdown-menu dropdown-menu-right">
+                                                            <a href="<?= site_url('forms/edit/' . $project->id . '/' . $v->id) ?>"
+                                                               class="dropdown-item"><i class="icon-pencil"></i> Edit</a>
+                                                            <a href="<?= site_url('forms/delete/' . $project->id . '/' . $v->id) ?>"
+                                                               class="dropdown-item"><i class="icon-trash"></i> Delete</a>
+                                                        </div>
+                                                    </div>
+                                                </div>
                                             </td>
                                         </tr>
                                         <?php
                                         $i++;
                                     } ?>
+                                    </tbody>
                                 </table>
-                            </div>
+                            </div><!--./responsive div -->
 
                             <?php if (!empty($links)): ?>
                                 <div class="widget-foot">

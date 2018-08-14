@@ -44,7 +44,6 @@
                 <table class="table datatable-basic table-hover">
                     <thead>
                     <tr>
-                    <tr>
                         <th width="3%"></th>
                         <th width="35%">Project Title</th>
                         <th width="15%">Creator</th>

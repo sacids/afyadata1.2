@@ -67,8 +67,18 @@ class Projects extends MX_Controller
         }
         $this->data['project'] = $project;
 
+        //project forms
+        $config = array(
+            'base_url' => $this->config->base_url("projects/details/" . $id . '/'),
+            'total_rows' => $this->xform_model->count_forms(),
+            'uri_segment' => 4,
+        );
 
-        $this->data['forms_list'] = array();
+        $this->pagination->initialize($config);
+        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+
+        $this->data['forms_list'] = $this->xform_model->get_forms_list($id, $this->pagination->per_page, $page);
+        $this->data["links"] = $this->pagination->create_links();
 
         //render view
         $this->load->view('header', $this->data);
