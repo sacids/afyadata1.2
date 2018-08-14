@@ -46,6 +46,7 @@ require dirname(__FILE__) . '/Base.php';
  * @property CI_URI $uri
  * @property CI_Config $config
  * @property Ion_auth $ion_auth
+ * @property User_model $user_model
  * @property Project_model $project_model
  */
 class MX_Controller

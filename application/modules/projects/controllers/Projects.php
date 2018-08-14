@@ -44,10 +44,14 @@ class Projects extends MX_Controller
         $this->data['projects_list'] = $this->project_model->get_projects_list($this->pagination->per_page, $page);
         $this->data["links"] = $this->pagination->create_links();
 
+        foreach ($this->data['projects_list'] as $k => $v) {
+            $this->data['projects_list'][$k]->user = $this->user_model->get_user_by_id($v->created_by);
+        }
+
         //render view
         $this->load->view('header', $this->data);
-        $this->load->view('lists');
         $this->load->view('sidebar');
+        $this->load->view('lists');
         $this->load->view('footer');
     }
 
@@ -90,6 +94,7 @@ class Projects extends MX_Controller
                     'description' => $this->input->post('description'),
                     'created_at' => date('Y-m-d'),
                     'created_by' => $this->user_id,
+                    'update_by' => $this->user_id,
                     'perms' => 'P1P, G1G' //todo : insert from interface
                 ));
 
@@ -128,16 +133,90 @@ class Projects extends MX_Controller
         $this->load->view('footer');
     }
 
+    //edit project
     function edit($id)
     {
+        $this->data['title'] = "Edit Project";
         $this->is_logged_in();
 
+        $project = $this->project_model->get_project_by_id($id);
+        if (count($project) == 0) {
+            show_error('Project not found');
+        }
+        $this->data['project'] = $project;
+
+        //form validation
+        $this->form_validation->set_rules('name', 'Project Title', 'required|trim');
+
+        if ($this->form_validation->run() == TRUE) {
+            //update project
+            $result = $this->project_model->update_project(
+                array(
+                    'title' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
+                    'update_by' => $this->user_id
+                ), $id);
+
+            if ($result)
+                $this->session->set_flashdata('message', display_message('Project updated'));
+            else
+                $this->session->set_flashdata('message', display_message('Failed to update project', 'danger'));
+
+            redirect('projects/details/' . $id, 'refresh');
+        }
+
+        //populate data
+        $this->data['name'] = array(
+            'name' => 'name',
+            'id' => 'name',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('name', $project->title),
+            'class' => 'form-control',
+            'placeholder' => 'Write project title...'
+        );
+
+        $this->data['description'] = array(
+            'name' => 'description',
+            'id' => 'description',
+            'type' => 'text area',
+            'rows' => '5',
+            'value' => $this->form_validation->set_value('description', $project->description),
+            'class' => 'form-control',
+            'placeholder' => 'Write project description...'
+        );
+
+        //render view
+        $this->load->view('header', $this->data);
+        $this->load->view('sidebar');
+        $this->load->view('edit');
+        $this->load->view('footer');
     }
 
-    function delete($id)
+    //delete project
+    function delete($project_id)
     {
+        $this->data['title'] = "Delete Project";
         $this->is_logged_in();
 
+        $project = $this->project_model->get_project_by_id($project_id);
+        if (count($project) == 0) {
+            show_error('Project not found');
+        }
+
+        //TODO: get forms with project_id
+
+        //TODO: get tables with form_id
+
+
+        //delete
+        //$delete = $this->project_model->delete_project($project_id);
+
+        //if ($delete) {
+        //get fr
+        //}
+
+        //redirect
+        redirect('projects/lists', 'refresh');
     }
 
 }
