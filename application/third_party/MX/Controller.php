@@ -40,14 +40,18 @@ require dirname(__FILE__) . '/Base.php';
 /**
  * Class MX_Controller
  * @property CI_Form_validation $form_validation
+ * @property CI_Upload $upload
  * @property CI_Session $session
+ * @property CI_Router $router
  * @property CI_Input $input
  * @property CI_Pagination $pagination
  * @property CI_URI $uri
  * @property CI_Config $config
  * @property Ion_auth $ion_auth
+ * @property Model $model
  * @property User_model $user_model
  * @property Project_model $project_model
+ * @property Xform_model $xform_model
  */
 class MX_Controller
 {

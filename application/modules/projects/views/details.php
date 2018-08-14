@@ -34,17 +34,20 @@
 
                 <div class="row">
                     <div class="col-lg-12">
-                        <button class="btn btn-success btn-sm dropdown-toggle" type="button"
-                                data-toggle="dropdown"><i class="fa fa-plus"></i> Upload Form
-                        </button>
-                        <ul class="dropdown-menu">
-                            <li><a class="dropdown-item" href="<?= site_url('forms/add_new/' . $project->id) ?>">Upload
-                                    XML</a></li>
-                            <li><a class="dropdown-item" href="#">Upload XLS</a></li>
-                        </ul>
+                        <div class="pull-left">
+                            <button class="btn btn-success btn-sm dropdown-toggle" type="button"
+                                    data-toggle="dropdown"><i class="fa fa-plus"></i> Upload Form
+                            </button>
+                            <ul class="dropdown-menu">
+                                <li><a class="dropdown-item" href="<?= site_url('forms/add_new/' . $project->id) ?>">Upload
+                                        XML</a></li>
+                                <li><a class="dropdown-item" href="#">Upload XLS</a></li>
+                            </ul>
 
-                        <?= anchor('projects/edit/' . $project->id, '<i class="fa fa-pencil"></i> Edit Project', 'class="btn btn-sm btn-warning"') ?>
-                        <?= anchor('projects/delete/' . $project->id, '<i class="fa fa-trash"></i> Delete Project', 'class="btn btn-sm btn-danger delete"') ?>
+                            <?= anchor('projects/edit/' . $project->id, '<i class="icon-pencil"></i> Edit Project', 'class="btn btn-sm btn-warning"') ?>
+                            <?= anchor('projects/delete/' . $project->id, '<i class="icon-trash"></i> Delete Project', 'class="btn btn-sm btn-danger delete"') ?>
+                            <?= anchor('projects/edit/#', '<i class="icon-envelop"></i> Invite', 'class="btn btn-sm btn-info"') ?>
+                        </div>
                     </div>
                 </div><!--./row -->
 

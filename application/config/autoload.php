@@ -103,7 +103,7 @@ $autoload['helper'] = array('common', 'url', 'form', 'file', 'projects');
 | config files.  Otherwise, leave it blank.
 |
 */
-$autoload['config'] = array();
+$autoload['config'] = array('afyadata');
 
 /*
 | -------------------------------------------------------------------
@@ -132,4 +132,10 @@ $autoload['language'] = array();
 |
 |	$autoload['model'] = array('first_model' => 'first');
 */
-$autoload['model'] = array('projects/project_model', 'auth/user_model');
+$autoload['model'] = array(
+    'model',
+    'auth/user_model',
+    'projects/project_model',
+    'forms/xform_model',
+    'forms/formreader_model',
+);
