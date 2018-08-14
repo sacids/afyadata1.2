@@ -10,16 +10,24 @@ class Dashboard extends CI_Controller
 {
     private $data;
 
-    //Dashboard constructor.
     public function __construct()
     {
         parent::__construct();
+    }
+
+    //check if user logged in
+    function is_logged_in()
+    {
+        if (!$this->ion_auth->logged_in()) {
+            redirect('auth/login', 'refresh');
+        }
     }
 
     //index function
     function index()
     {
         $this->data['title'] = "Taarifa kwa Wakati!";
+        $this->is_logged_in();
 
         //render view
         $this->load->view('header', $this->data);

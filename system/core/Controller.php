@@ -49,6 +49,18 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @author		EllisLab Dev Team
  * @link		https://codeigniter.com/user_guide/general/controllers.html
  */
+
+/**
+ * Class MX_Controller
+ * @property CI_Form_validation $form_validation
+ * @property CI_Session $session
+ * @property CI_Input $input
+ * @property CI_Pagination $pagination
+ * @property CI_URI $uri
+ * @property CI_Config $config
+ * @property Ion_auth $ion_auth
+ * @property Project_model $project_model
+ */
 class CI_Controller {
 
 	/**
