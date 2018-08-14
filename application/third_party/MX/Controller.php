@@ -45,6 +45,7 @@ require dirname(__FILE__) . '/Base.php';
  * @property CI_Pagination $pagination
  * @property CI_URI $uri
  * @property CI_Config $config
+ * @property Ion_auth $ion_auth
  * @property Project_model $project_model
  */
 class MX_Controller

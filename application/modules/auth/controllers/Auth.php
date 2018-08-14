@@ -19,25 +19,11 @@ class Auth extends MX_Controller
     // redirect if needed, otherwise display the user list
     public function index()
     {
-
         if (!$this->ion_auth->logged_in()) {
             // redirect them to the login page
             redirect('auth/login', 'refresh');
-        } elseif (!$this->ion_auth->is_admin()) // remove this elseif if you want to enable this for non-admins
-        {
-            // redirect them to the home page because they must be an administrator to view this
-            return show_error('You must be an administrator to view this page.');
         } else {
-            // set the flash data error message if there is one
-            $this->data['message'] = (validation_errors()) ? validation_errors() : $this->session->flashdata('message');
-
-            //list the users
-            $this->data['users'] = $this->ion_auth->users()->result();
-            foreach ($this->data['users'] as $k => $user) {
-                $this->data['users'][$k]->groups = $this->ion_auth->get_users_groups($user->id)->result();
-            }
-
-            $this->_render_page('auth/index', $this->data);
+            redirect('dashboard', 'refresh');
         }
     }
 
@@ -59,7 +45,7 @@ class Auth extends MX_Controller
                 //if the login is successful
                 //redirect them back to the home page
                 $this->session->set_flashdata('message', $this->ion_auth->messages());
-                redirect('/', 'refresh');
+                redirect('auth/index', 'refresh');
             } else {
                 // if the login was un-successful
                 // redirect them back to the login page
@@ -74,11 +60,15 @@ class Auth extends MX_Controller
             $this->data['identity'] = array('name' => 'identity',
                 'id' => 'identity',
                 'type' => 'text',
+                'class' => 'form-control',
+                'placeholder' => 'Username',
                 'value' => $this->form_validation->set_value('identity'),
             );
             $this->data['password'] = array('name' => 'password',
                 'id' => 'password',
                 'type' => 'password',
+                'class' => 'form-control',
+                'placeholder' => 'Password',
             );
 
             $this->_render_page('auth/login', $this->data);

@@ -16,12 +16,21 @@ class Projects extends MX_Controller
         parent::__construct();
         $this->load->model(array('project_model'));
 
-        $this->user_id = 1;//$this->session->userdata('user_id');
+        $this->user_id = $this->session->userdata('user_id');
+    }
+
+    //check if user logged in
+    function is_logged_in()
+    {
+        if (!$this->ion_auth->logged_in()) {
+            redirect('auth/login', 'refresh');
+        }
     }
 
     function lists()
     {
         $this->data['title'] = 'Projects Lists';
+        $this->is_logged_in();
 
         $config = array(
             'base_url' => $this->config->base_url("projects/lists"),
@@ -46,6 +55,7 @@ class Projects extends MX_Controller
     function details($id)
     {
         $this->data['title'] = "Project Details";
+        $this->is_logged_in();
 
         $project = $this->project_model->get_project_by_id($id);
         if (count($project) == 0) {
@@ -67,6 +77,7 @@ class Projects extends MX_Controller
     function create()
     {
         $this->data['title'] = "Create new project";
+        $this->is_logged_in();
 
         //form validation
         $this->form_validation->set_rules('name', 'Project Title', 'required|trim');
@@ -119,11 +130,13 @@ class Projects extends MX_Controller
 
     function edit($id)
     {
+        $this->is_logged_in();
 
     }
 
     function delete($id)
     {
+        $this->is_logged_in();
 
     }
 
