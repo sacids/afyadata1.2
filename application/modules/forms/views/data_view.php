@@ -42,11 +42,13 @@
                         <ul class="nav nav-tabs nav-tabs-highlight">
                             <li class="nav-item"><a href="#data-list" class="nav-link active"
                                                     data-toggle="tab">Data Lists</a></li>
-                            <li class="nav-item"><a href="#visualization" class="nav-link"
-                                                    data-toggle="tab">Visualization</a>
-                            </li>
-                            <li class="nav-item"><a href="#maps" class="nav-link" data-toggle="tab">Maps</a>
-                            </li>
+                            <?php if (isset($form_config) && $form_config) {
+                                if ($form_config->has_charts == 1)
+                                    echo '<li class="nav-item"><a href="#visualization" class="nav-link" data-toggle="tab">Visualization</a></li>';
+
+                                if ($form_config->has_map == 1)
+                                    echo '<li class="nav-item"><a href="#maps" class="nav-link" data-toggle="tab">Maps</a></li>';
+                            } ?>
                         </ul>
 
                         <div class="tab-content">

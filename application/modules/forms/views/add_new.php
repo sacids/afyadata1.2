@@ -147,6 +147,28 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
+                                                <label>Has Visualization</label><br>
+                                                <?php
+                                                echo form_checkbox('has_charts', 1, set_checkbox('has_charts', 1), 'id="has_charts"');
+                                                echo form_label('Yes', 'has_charts'); ?>
+                                            </div>
+                                        </div>
+                                    </div> <!-- /.row -->
+
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
+                                                <label>Has Map</label><br>
+                                                <?php
+                                                echo form_checkbox('has_map', 1, set_checkbox('has_map', 1), 'id="has_map"');
+                                                echo form_label('Yes', 'has_map'); ?>
+                                            </div>
+                                        </div>
+                                    </div> <!-- /.row -->
+
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
                                                 <label>Allow DHIS2</label><br>
                                                 <?php
                                                 echo form_checkbox('allow_dhis', 1, set_checkbox('allow_dhis', 1), 'id="allow_dhis"');

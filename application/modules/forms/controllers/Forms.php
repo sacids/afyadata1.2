@@ -56,6 +56,8 @@ class Forms extends MX_Controller
         $this->form_validation->set_rules('attachment', 'Form XML', 'callback_upload_attachment|trim');
         $this->form_validation->set_rules('description', 'Description', 'trim');
         $this->form_validation->set_rules('push', 'Push', 'trim');
+        $this->form_validation->set_rules('has_charts', 'Visualization', 'trim');
+        $this->form_validation->set_rules('has_map', 'Maps', 'trim');
         $this->form_validation->set_rules('has_feedback', 'Has Feedback', 'trim');
         $this->form_validation->set_rules('allow_dhis', 'Allow DHIS2', 'trim');
 
@@ -99,6 +101,8 @@ class Forms extends MX_Controller
                             array(
                                 'push' => $this->input->post('status'),
                                 'has_feedback' => $this->input->post('has_feedback'),
+                                'has_charts' => $this->input->post('has_charts'),
+                                'has_map' => $this->input->post('has_map'),
                                 'allow_dhis' => $this->input->post('allow_dhis')
                             )
                         );
@@ -270,9 +274,14 @@ class Forms extends MX_Controller
         }
         $this->data['form'] = $form;
 
-//        echo "<pre>";
-//        print_r($form);
-//        exit();
+        //xform config
+        $this->model->set_table('xform_config');
+        $form_config = $this->model->get_by(array('form_id' => $form->id));
+
+        if ($form_config)
+            $this->data['form_config'] = $form_config;
+        else
+            $this->data['form_config'] = array();
 
         //table columns
         $this->data['table_fields'] = $this->xform_model->find_table_columns($form->form_id);
