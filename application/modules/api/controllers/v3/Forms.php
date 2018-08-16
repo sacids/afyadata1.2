@@ -96,7 +96,7 @@ class Forms extends CI_Controller
             $xml .= '<version>1.1</version>';
             $xml .= '<hash>md5:' . $hash . '</hash>';
             $xml .= '<descriptionText>' . $form->description . '</descriptionText>';
-            $xml .= '<downloadUrl>' . base_url() . 'assets/uploads/forms/definition/' . $form->attachment . '</downloadUrl>';
+            $xml .= '<downloadUrl>' . base_url('assets/uploads/forms/definition/') . $form->attachment . '</downloadUrl>';
             $xml .= '</xform>';
         }
         $xml .= '</xforms>';
@@ -169,6 +169,9 @@ class Forms extends CI_Controller
             $http_response_code = 204;
         } elseif ($_SERVER ['REQUEST_METHOD'] === "POST") {
 
+            $inserted_form_id = NULL; //inserted id
+            $path = ''; //path
+
             foreach ($_FILES as $file) {
                 // File details
                 $file_name = $file ['name'];
@@ -177,22 +180,20 @@ class Forms extends CI_Controller
                 $value = explode('.', $file_name);
                 $file_extension = end($value);
 
-                $inserted_form_id = NULL;
 
-                $path = ''; //path
                 if ($file_extension === 'xml') {
                     // path to store xml
                     $uploaded_filename = $file_name;
                     $path = $this->config->item("form_data_upload_dir") . $file_name;
                     // insert form details in database
-                    $this->db->insert('xform_submission',
+                    $this->model->set_table('xform_submission');
+                    $inserted_form_id = $this->model->insert(
                         array(
                             'filename' => $file_name,
                             'created_at' => date("Y-m-d h:i:s"),
                             'created_by' => $user->id
-                        ));
-                    $inserted_form_id = $this->db->insert_id();
-
+                        )
+                    );
                 } elseif ($file_extension == 'jpg' or $file_extension == 'jpeg' or $file_extension == 'png') {
                     // path to store images
                     $path = $this->config->item("images_data_upload_dir") . $file_name;
@@ -212,7 +213,7 @@ class Forms extends CI_Controller
             }
             // call function to insert xform data in a database
             if (!$this->insert($uploaded_filename)) {
-                if ($this->form_model->delete_submission($inserted_form_id))
+                if ($this->xform_model->delete_submission($inserted_form_id))
                     @unlink($path);
             }
         }
@@ -230,7 +231,7 @@ class Forms extends CI_Controller
         $this->xFormReader->load_xml_data();
 
         $statement = $this->xFormReader->get_insert_form_data_query();
-        $insert_result = $this->form_model->insert_data($statement);
+        $insert_result = $this->xform_model->insert_data($statement);
 
         return $insert_result;
     }

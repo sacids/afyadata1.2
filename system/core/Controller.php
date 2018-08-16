@@ -59,7 +59,11 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @property CI_URI $uri
  * @property CI_Config $config
  * @property Ion_auth $ion_auth
+ * @property Form_auth $form_auth
  * @property Project_model $project_model
+ * @property Xform_model $xform_model
+ * @property User_model $user_model
+ * @property Model $model
  */
 class CI_Controller {
 

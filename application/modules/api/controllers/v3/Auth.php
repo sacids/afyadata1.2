@@ -28,28 +28,30 @@ class Auth extends REST_Controller
     {
         //get current app version
         $this->model->set_table('app_version');
-        $app_version = $this->model->get_by('status', 'current');
+        $app_version = $this->model->get_by('status', 'active');
 
         if ($app_version) {
             $this->response(array('status' => 'success', 'app_version' => $app_version), 200);
 
         } else {
             $this->response(array('status' => 'failed', 'message' => 'No app version available'), 204);
-
         }
     }
 
     //login
     function login_post()
     {
-        if (!$this->post('username') || !$this->post('password')) {
+        if (!$this->post('code') || !$this->post('mobile') || !$this->post('password')) {
             $this->response(array('error' => TRUE, 'error_msg' => 'Required parameter are missing'), 202);
         }
 
         //post data
-        $username = $this->post('username');
+        $code = $this->post('code');
+        $mobile = $this->post('mobile');
         $password = $this->post('password');
 
+        //username
+        $username = substr($code, 1) . $this->cast_mobile($mobile);
 
         if (!$this->ion_auth->login($username, $password)) {
             //return response for failure
@@ -75,18 +77,21 @@ class Auth extends REST_Controller
     //register user details
     function register_post()
     {
-        if (!$this->post('mobile') || !$this->post('password') || !$this->post('password_confirm')) {
+        if (!$this->post('code') || !$this->post('mobile') || !$this->post('password') || !$this->post('password_confirm')) {
             $this->response(array('status' => TRUE, 'error_msg' => 'Required parameter are missing'), 202);
         }
 
         //post data
+        $code = $this->post('code');
         $mobile = $this->post('mobile');
         $password = $this->post('password');
         $password_confirm = $this->post('password_confirm');
 
+        //username
+        $username = substr($code, 1) . $this->cast_mobile($mobile);
 
         //check mobile number existence
-        if ($this->check_user_existence($mobile)) {
+        if ($this->check_user_existence($username)) {
             //return error response
             $this->response(array('error' => TRUE, 'error_msg' => 'Mobile number used by another user'), 203);
 
@@ -96,17 +101,17 @@ class Auth extends REST_Controller
 
         } else {
             //digest password
-            $digest_password = md5("{$mobile}:{$this->realm}:{$password}");
+            $digest_password = md5("{$username}:{$this->realm}:{$password}");
 
             //additional data
             $additional_data = array(
                 'first_name' => $this->post('first_name'),
                 'last_name' => $this->post('last_name'),
-                'phone' => $mobile,
+                'phone' => $username,
                 'digest_password' => $digest_password
             );
 
-            if ($id = $this->ion_auth->register($mobile, $password, $this->default_email, $additional_data)) {
+            if ($id = $this->ion_auth->register($username, $password, $this->default_email, $additional_data)) {
                 //get user details after successfully
                 $this->model->set_table('users');
                 $user = $this->model->get_by('id', $id);
