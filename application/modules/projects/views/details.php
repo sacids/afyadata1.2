@@ -74,7 +74,7 @@
                                     foreach ($forms_list as $v) { ?>
                                         <tr>
                                             <td><?= $i ?></td>
-                                            <td><?= anchor('forms/data_view/' . $project->id . '/' . $v->id, '<h5>' . $v->title . '</h5>') ?>
+                                            <td><?= anchor('forms/data_view/' . $project->id . '/' . $v->id, '<h6>' . $v->title . '</h6>') ?>
                                                 <?= $v->description ?></td>
                                             <td></td>
                                             <td><?= date('d/m/Y', strtotime($v->created_at)) ?></td>

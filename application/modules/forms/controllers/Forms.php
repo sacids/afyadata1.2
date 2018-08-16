@@ -252,8 +252,7 @@ class Forms extends MX_Controller
         }
     }
 
-
-    //view form
+    //view form data
     function data_view($project_id, $form_id)
     {
         $this->data['title'] = "Form Data";
@@ -270,6 +269,10 @@ class Forms extends MX_Controller
             show_error('Form not found');
         }
         $this->data['form'] = $form;
+
+//        echo "<pre>";
+//        print_r($form);
+//        exit();
 
         //table columns
         $this->data['table_fields'] = $this->xform_model->find_table_columns($form->form_id);
@@ -296,11 +299,11 @@ class Forms extends MX_Controller
         $config = array(
             'base_url' => $this->config->base_url("forms/data_view/" . $form_id . '/'),
             'total_rows' => $this->xform_model->count_all_records($form->form_id),
-            'uri_segment' => 4,
+            'uri_segment' => 5,
         );
 
         $this->pagination->initialize($config);
-        $page = ($this->uri->segment(4)) ? $this->uri->segment(4) : 0;
+        $page = ($this->uri->segment(5)) ? $this->uri->segment(5) : 0;
 
         $this->data['data_list'] = $this->xform_model->find_form_data($form->form_id, $this->pagination->per_page, $page);
         $this->data["links"] = $this->pagination->create_links();
