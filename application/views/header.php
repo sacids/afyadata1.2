@@ -24,11 +24,11 @@
     <!-- /core JS files -->
 
     <!-- Theme JS files -->
-    <script src="<?= base_url('global_assets/js/plugins/tables/datatables/datatables.min.js')?>"></script>
-    <script src="<?= base_url('global_assets/js/plugins/forms/selects/select2.min.js')?>"></script>
+    <script src="<?= base_url('global_assets/js/plugins/tables/datatables/datatables.min.js') ?>"></script>
+    <script src="<?= base_url('global_assets/js/plugins/forms/selects/select2.min.js') ?>"></script>
 
-    <script src="<?= base_url('assets/js/app.js')?>"></script>
-    <script src="<?= base_url('global_assets/js/demo_pages/datatables_basic.js')?>"></script>
+    <script src="<?= base_url('assets/js/app.js') ?>"></script>
+    <script src="<?= base_url('global_assets/js/demo_pages/datatables_basic.js') ?>"></script>
     <!-- /theme JS files -->
 </head>
 
@@ -233,7 +233,8 @@
 
             <li class="nav-item dropdown dropdown-user">
                 <a href="#" class="navbar-nav-link dropdown-toggle" data-toggle="dropdown">
-                    <img src="../../../../global_assets/images/demo/users/face11.jpg" class="rounded-circle" alt="">
+                    <img src="<?= base_url('global_assets/images/demo/users/face11.jpg') ?>" class="rounded-circle"
+                         alt="">
                     <span>Victoria</span>
                 </a>
 
