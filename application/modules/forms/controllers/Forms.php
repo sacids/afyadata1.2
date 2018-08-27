@@ -56,9 +56,10 @@ class Forms extends MX_Controller
         $this->form_validation->set_rules('attachment', 'Form XML', 'callback_upload_attachment|trim');
         $this->form_validation->set_rules('description', 'Description', 'trim');
         $this->form_validation->set_rules('push', 'Push', 'trim');
+        $this->form_validation->set_rules('has_feedback', 'Has Feedback', 'trim');
+        $this->form_validation->set_rules('use_ohkr', 'Use OHKR', 'trim');
         $this->form_validation->set_rules('has_charts', 'Visualization', 'trim');
         $this->form_validation->set_rules('has_map', 'Maps', 'trim');
-        $this->form_validation->set_rules('has_feedback', 'Has Feedback', 'trim');
         $this->form_validation->set_rules('allow_dhis', 'Allow DHIS2', 'trim');
 
         if ($this->form_validation->run($this) == TRUE) {
@@ -101,6 +102,7 @@ class Forms extends MX_Controller
                             array(
                                 'push' => $this->input->post('status'),
                                 'has_feedback' => $this->input->post('has_feedback'),
+                                'use_ohkr' => $this->input->post('use_ohkr'),
                                 'has_charts' => $this->input->post('has_charts'),
                                 'has_map' => $this->input->post('has_map'),
                                 'allow_dhis' => $this->input->post('allow_dhis')

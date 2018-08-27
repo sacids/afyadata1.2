@@ -147,6 +147,17 @@
                                     <div class="row">
                                         <div class="col-lg-6">
                                             <div class="form-group">
+                                                <label>Use OHKR</label><br>
+                                                <?php
+                                                echo form_checkbox('use_ohkr', 1, set_checkbox('use_ohkr', 1), 'id="use_ohkr"');
+                                                echo form_label('Yes', 'use_ohkr'); ?>
+                                            </div>
+                                        </div>
+                                    </div> <!-- /.row -->
+
+                                    <div class="row">
+                                        <div class="col-lg-6">
+                                            <div class="form-group">
                                                 <label>Has Visualization</label><br>
                                                 <?php
                                                 echo form_checkbox('has_charts', 1, set_checkbox('has_charts', 1), 'id="has_charts"');
@@ -165,6 +176,7 @@
                                             </div>
                                         </div>
                                     </div> <!-- /.row -->
+
 
                                     <div class="row">
                                         <div class="col-lg-6">
