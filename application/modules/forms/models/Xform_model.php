@@ -156,10 +156,8 @@ class Xform_model extends CI_Model
         if ($hide_show_status != NULL)
             $this->db->where("hide", $hide_show_status);
 
-
-        $this->db->where('table_name', $table_name);
-        $this->db->from('xform_field_map');
-        return $this->db->get()->result_array();
+        return $this->db->get_where('xform_field_map', array('table_name' => $table_name))
+            ->result_array();
     }
 
     /**

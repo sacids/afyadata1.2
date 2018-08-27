@@ -100,6 +100,7 @@ class Forms extends MX_Controller
                         $this->model->set_table('xform_config');
                         $this->model->insert(
                             array(
+                                'form_id' => $id,
                                 'push' => $this->input->post('status'),
                                 'has_feedback' => $this->input->post('has_feedback'),
                                 'use_ohkr' => $this->input->post('use_ohkr'),
@@ -155,7 +156,7 @@ class Forms extends MX_Controller
         $this->load->view('footer');
     }
 
-    //add new form
+    //edit form
     function edit($project_id, $form_id)
     {
         $this->data['title'] = "Edit Form";
@@ -173,29 +174,103 @@ class Forms extends MX_Controller
         }
         $this->data['form'] = $form;
 
+        $this->model->set_table('xform_config');
+        $form_config = $this->model->get_by(array('form_id' => $form_id));
+        $this->data['form_config'] = $form_config;
+
+        // Search field by table name from mapping fields
+        $db_table_fields = $this->xform_model->get_fieldname_map($form->form_id);
+
+        //table fields
+        $table_fields = $this->xform_model->find_table_columns($form->form_id);
+
+        //check for non-inserted fields
+        if (count($db_table_fields) != count($table_fields)) {
+            foreach ($table_fields as $tf) {
+                if ($this->xform_model->xform_table_column_exists($form->form_id, $tf) == 0) {
+                    $details = array(
+                        "table_name" => $form->form_id,
+                        "col_name" => $tf,
+                        "field_name" => $tf,
+                        "field_label" => str_replace("_", " ", $tf)
+                    );
+                    $this->xform_model->create_field_name_map($details);
+                }
+            }
+        }
 
         //form validation
         $this->form_validation->set_rules('name', 'Form Title', 'required|trim');
-        $this->form_validation->set_rules('project_id', 'Project', 'required|trim');
+        $this->form_validation->set_rules('access', 'Access', 'required|trim');
         $this->form_validation->set_rules('status', 'Status', 'required|trim');
-        $this->form_validation->set_rules('description', 'Description', 'required|trim');
+        $this->form_validation->set_rules('description', 'Description', 'trim');
+        $this->form_validation->set_rules('push', 'Push', 'trim');
+        $this->form_validation->set_rules('has_feedback', 'Has Feedback', 'trim');
+        $this->form_validation->set_rules('use_ohkr', 'Use OHKR', 'trim');
+        $this->form_validation->set_rules('has_charts', 'Visualization', 'trim');
+        $this->form_validation->set_rules('has_map', 'Maps', 'trim');
+        $this->form_validation->set_rules('allow_dhis', 'Allow DHIS2', 'trim');
 
         if ($this->form_validation->run($this) == TRUE) {
-            //update form
+            //update
+            $this->db->trans_start();
             $result = $this->xform_model->update_form(
                 array(
-                    "title" => $this->input->post("name"),
-                    "description" => $this->input->post("description"),
-                    'status' => $this->input->post('status'),
-                    "project_id" => $project_id
-                ), $form_id
+                    'title' => $this->input->post('name'),
+                    'description' => $this->input->post('description'),
+                    'project_id' => $project_id,
+                    'access' => $this->input->post('access'),
+                    'status' => $this->input->post('status')
+                ),
+                $form_id
             );
 
-            if ($result)
-                $this->session->set_flashdata('message', display_message('Form updated'));
-            else
-                $this->session->set_flashdata('message', display_message('Failed to update form', 'danger'));
+            if ($result) {
+                //insert form config
+                $this->model->set_table('xform_config');
+                $this->model->update_by(
+                    array('form_id' => $form_id),
+                    array(
+                        'push' => $this->input->post('status'),
+                        'has_feedback' => $this->input->post('has_feedback'),
+                        'use_ohkr' => $this->input->post('use_ohkr'),
+                        'has_charts' => $this->input->post('has_charts'),
+                        'has_map' => $this->input->post('has_map'),
+                        'allow_dhis' => $this->input->post('allow_dhis')
+                    )
+                );
 
+                //mapped fields
+                $labels = $this->input->post("label[]");
+                $hides = $this->input->post("hide[]");
+                $ids = $this->input->post("ids[]");
+                $field_types = $this->input->post("field_type[]");
+                $chart_use = $this->input->post("chart_use[]");
+
+                $mapped_fields = [];
+                $i = 0;
+                foreach ($labels as $key => $value) {
+                    $mapped_fields[$i]["field_label"] = $value;
+                    $mapped_fields[$i]["id"] = $ids[$i];
+                    $mapped_fields[$i]["field_type"] = $field_types[$i];
+                    $mapped_fields[$i]["chart_use"] = $chart_use[$i];
+                    $mapped_fields[$i]["hide"] = 0;
+
+                    if (!empty($hides) && in_array($ids[$i], $hides)) {
+                        $mapped_fields[$i]["hide"] = 1;
+                    }
+                    $i++;
+                }
+                $this->xform_model->update_field_name_maps($mapped_fields);
+                $this->db->trans_complete();
+
+                if ($this->db->trans_status())
+                    $this->session->set_flashdata('message', display_message('Form updated'));
+                else
+                    $this->session->set_flashdata('message', display_message('Failed to update form', 'danger'));
+            } else {
+                $this->session->set_flashdata('message', display_message('Failed to update form', 'danger'));
+            }
             redirect('projects/details/' . $project_id, 'refresh');
         }
 
@@ -218,8 +293,7 @@ class Forms extends MX_Controller
             'class' => 'form-control',
             'placeholder' => 'Write form description...'
         );
-
-        $this->data['projects_list'] = $this->project_model->find_all();
+        $this->data['table_fields'] = $this->xform_model->get_fieldname_map($form->form_id);
 
         //render view
         $this->load->view('header', $this->data);
@@ -241,14 +315,20 @@ class Forms extends MX_Controller
 
         //drop table
         $this->dbforge->drop_table($form->form_id);
-
-        //delete xform field mapping
-        $this->db->delete('xform_field_map', array('table_name' => $form->form_id));
+        echo $this->db->last_query();
 
         //delete xform
-        $result = $this->db->delete('xforms', array('id' => $form_id));
+        $result = $this->xform_model->delete_form($form_id);
 
         if ($result) {
+            //delete xform field mapping
+            $this->model->set_table('xform_field_map');
+            $this->model->delete_by(array('table_name' => $form->form_id));
+
+            //delete xform config
+            $this->model->set_table('xform_config');
+            $this->model->delete_by(array('form_id' => $form_id));
+
             //unlink file
             @unlink($this->file_definition . $form->attachment);
 

@@ -425,9 +425,8 @@ class Formreader_model extends CI_Model
     function _map_field($field_name)
     {
 
-        if (substr($field_name, 0, 5) == 'meta_') {
+        if (substr($field_name, 0, 5) == 'meta_')
             return $field_name;
-        }
 
         $fn = 'col_' . md5($field_name);
 
