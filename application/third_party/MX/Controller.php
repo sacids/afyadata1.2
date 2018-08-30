@@ -52,6 +52,7 @@ require dirname(__FILE__) . '/Base.php';
  * @property User_model $user_model
  * @property Project_model $project_model
  * @property Xform_model $xform_model
+ * @property CI_DB_forge $dbforge
  */
 class MX_Controller
 {

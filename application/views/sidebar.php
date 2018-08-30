@@ -71,10 +71,13 @@
                     </li>
 
                     <li class="nav-item nav-item-submenu">
-                        <a href="#" class="nav-link"><i class="icon-users"></i> <span>Manage Users</span></a>
+                        <a href="#" class="nav-link"><i class="icon-users4"></i> <span>Manage Users</span></a>
 
-                        <ul class="nav nav-group-sub" data-submenu-title="Themes">
-                            <li class="nav-item"><a href="index.html" class="nav-link active">Default</a></li>
+                        <ul class="nav nav-group-sub" data-submenu-title="Layouts">
+                            <li class="nav-item"><a href="<?= site_url('auth/users_lists') ?>" class="nav-link">Users
+                                    List</a></li>
+                            <li class="nav-item"><a href="<?= site_url('auth/groups_lists') ?>" class="nav-link">Groups
+                                    List</a></li>
                         </ul>
                     </li>
                     <!-- /page kits -->

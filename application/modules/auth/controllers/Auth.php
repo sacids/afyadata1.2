@@ -3,6 +3,7 @@
 class Auth extends MX_Controller
 {
     private $data;
+    private $realm;
 
     public function __construct()
     {
@@ -14,6 +15,9 @@ class Auth extends MX_Controller
         $this->form_validation->set_error_delimiters($this->config->item('error_start_delimiter', 'ion_auth'), $this->config->item('error_end_delimiter', 'ion_auth'));
 
         $this->lang->load('auth');
+
+        $this->realm = 'Authorized users of AfyaData';
+        $this->default_email = 'afyadata@sacids.org';
     }
 
     // redirect if needed, otherwise display the user list
@@ -295,11 +299,11 @@ class Auth extends MX_Controller
 
         if ($activation) {
             // redirect them to the auth page
-            $this->session->set_flashdata('message', $this->ion_auth->messages());
-            redirect("auth", 'refresh');
+            $this->session->set_flashdata('message', display_message($this->ion_auth->messages()));
+            redirect("auth/users_lists", 'refresh');
         } else {
             // redirect them to the forgot password page
-            $this->session->set_flashdata('message', $this->ion_auth->errors());
+            $this->session->set_flashdata('message', display_message($this->ion_auth->errors(), 'danger'));
             redirect("auth/forgot_password", 'refresh');
         }
     }
@@ -323,7 +327,11 @@ class Auth extends MX_Controller
             $this->data['csrf'] = $this->_get_csrf_nonce();
             $this->data['user'] = $this->ion_auth->user($id)->row();
 
-            $this->_render_page('auth/deactivate_user', $this->data);
+            //render view
+            $this->load->view('header', $this->data);
+            $this->load->view('sidebar');
+            $this->_render_page('auth/deactivate_user');
+            $this->load->view('footer');
         } else {
             // do we really want to deactivate?
             if ($this->input->post('confirm') == 'yes') {
@@ -339,54 +347,107 @@ class Auth extends MX_Controller
             }
 
             // redirect them back to the auth page
-            redirect('auth', 'refresh');
+            redirect('auth/users_lists', 'refresh');
         }
+    }
+
+    //users lists
+    function users_lists()
+    {
+        $this->data['title'] = 'Users List';
+
+        if (isset($_POST['filter'])) {
+            $keyword = $this->input->post('keyword');
+            $group_id = $this->input->post('group_id');
+
+            $users_list = $this->user_model->search_users_list($group_id, $keyword);
+
+            if ($users_list) {
+                $this->data['user_list'] = $users_list;
+
+                foreach ($this->data['user_list'] as $k => $user) {
+                    $this->data['user_list'][$k]->groups = $this->ion_auth_model->get_users_groups($user->id)->result();
+                }
+            } else {
+                $this->data['user_list'] = array();
+            }
+        } else {
+
+            //pagination
+            $config = array(
+                'base_url' => $this->config->base_url("auth/users_lists/"),
+                'total_rows' => $this->user_model->count_users(),
+                'uri_segment' => 3,
+            );
+
+            $this->pagination->initialize($config);
+            $page = ($this->uri->segment(3)) ? $this->uri->segment(3) : 0;
+
+            $this->data['users_lists'] = $this->user_model->get_users_list($this->pagination->per_page, $page);
+            $this->data["links"] = $this->pagination->create_links();
+            //count users
+            $this->data["count_users"] = $this->user_model->count_users();
+
+            foreach ($this->data['users_lists'] as $k => $user) {
+                $this->data['users_lists'][$k]->groups = $this->ion_auth_model->get_users_groups($user->id)->result();
+            }
+        }
+
+        //groups list
+        $this->data['group_list'] = $this->user_model->get_group_list();
+
+        //render view
+        $this->load->view('header', $this->data);
+        $this->load->view('sidebar');
+        $this->_render_page('auth/users_lists');
+        $this->load->view('footer');
     }
 
     // create a new user
     public function create_user()
     {
         $this->data['title'] = $this->lang->line('create_user_heading');
-
-        if (!$this->ion_auth->logged_in() || !$this->ion_auth->is_admin()) {
-            redirect('auth', 'refresh');
-        }
+        //$this->is_logged_in();
 
         $tables = $this->config->item('tables', 'ion_auth');
         $identity_column = $this->config->item('identity', 'ion_auth');
         $this->data['identity_column'] = $identity_column;
+        $this->data['group_list'] = $this->user_model->get_group_list();
+
 
         // validate form input
         $this->form_validation->set_rules('first_name', $this->lang->line('create_user_validation_fname_label'), 'required');
         $this->form_validation->set_rules('last_name', $this->lang->line('create_user_validation_lname_label'), 'required');
-        if ($identity_column !== 'email') {
-            $this->form_validation->set_rules('identity', $this->lang->line('create_user_validation_identity_label'), 'required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
-            $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email');
-        } else {
-            $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email|is_unique[' . $tables['users'] . '.email]');
-        }
-        $this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'trim');
-        $this->form_validation->set_rules('company', $this->lang->line('create_user_validation_company_label'), 'trim');
+        $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email');
+        $this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'required|callback_valid_phone|is_unique[users.phone]|trim');
+        $this->form_validation->set_rules('group_id[]', 'Group', 'required|trim');
+        $this->form_validation->set_rules('organization', 'Organization', 'trim');
+        $this->form_validation->set_rules('identity', 'Username', 'required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
         $this->form_validation->set_rules('password', $this->lang->line('create_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
         $this->form_validation->set_rules('password_confirm', $this->lang->line('create_user_validation_password_confirm_label'), 'required');
 
-        if ($this->form_validation->run() == true) {
+        if ($this->form_validation->run($this) == true) {
             $email = strtolower($this->input->post('email'));
             $identity = ($identity_column === 'email') ? $email : $this->input->post('identity');
             $password = $this->input->post('password');
+            $groups = array($this->input->post('group_id'));
 
+            //digest password
+            $digest_password = md5("{$identity}:{$this->realm}:{$password}");
+
+            //additional data
             $additional_data = array(
                 'first_name' => $this->input->post('first_name'),
                 'last_name' => $this->input->post('last_name'),
-                'company' => $this->input->post('company'),
                 'phone' => $this->input->post('phone'),
+                'company' => $this->input->post('organization'),
+                'digest_password' => $digest_password
             );
         }
-        if ($this->form_validation->run() == true && $this->ion_auth->register($identity, $password, $email, $additional_data)) {
-            // check to see if we are creating the user
+        if ($this->form_validation->run() == true && $id = $this->ion_auth->register($identity, $password, $email, $additional_data, $groups)) {
             // redirect them back to the admin page
-            $this->session->set_flashdata('message', $this->ion_auth->messages());
-            redirect("auth", 'refresh');
+            $this->session->set_flashdata('message', display_message($this->ion_auth->messages()), 'success');
+            redirect("auth/users_lists", 'refresh');
         } else {
             // display the create user form
             // set the flash data error message if there is one
@@ -397,51 +458,81 @@ class Auth extends MX_Controller
                 'id' => 'first_name',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('first_name'),
+                'class' => 'form-control',
+                'placeholder' => 'Enter first name'
             );
             $this->data['last_name'] = array(
                 'name' => 'last_name',
                 'id' => 'last_name',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('last_name'),
+                'class' => 'form-control',
+                'placeholder' => 'Enter last name'
             );
             $this->data['identity'] = array(
                 'name' => 'identity',
                 'id' => 'identity',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('identity'),
+                'class' => 'form-control',
+                'placeholder' => 'Enter username'
             );
             $this->data['email'] = array(
                 'name' => 'email',
                 'id' => 'email',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('email'),
+                'class' => 'form-control',
+                'placeholder' => 'Enter email address'
             );
-            $this->data['company'] = array(
-                'name' => 'company',
-                'id' => 'company',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('company'),
+            $this->data['group_id'] = array(
+                'name' => 'group_id',
+                'id' => 'group_id',
+                'type' => 'select',
+                'value' => $this->form_validation->set_value('group_id'),
+                'class' => 'form-control'
             );
+
             $this->data['phone'] = array(
                 'name' => 'phone',
                 'id' => 'phone',
                 'type' => 'text',
                 'value' => $this->form_validation->set_value('phone'),
+                'class' => 'form-control',
+                'placeholder' => 'Enter phone'
             );
+
+            $this->data['organization'] = array(
+                'name' => 'organization',
+                'id' => 'organization',
+                'type' => 'text',
+                'value' => $this->form_validation->set_value('organization'),
+                'class' => 'form-control',
+                'placeholder' => 'Write organization....'
+            );
+
             $this->data['password'] = array(
                 'name' => 'password',
                 'id' => 'password',
                 'type' => 'password',
                 'value' => $this->form_validation->set_value('password'),
+                'class' => 'form-control',
+                'placeholder' => 'Enter password'
             );
             $this->data['password_confirm'] = array(
                 'name' => 'password_confirm',
                 'id' => 'password_confirm',
                 'type' => 'password',
                 'value' => $this->form_validation->set_value('password_confirm'),
+                'class' => 'form-control',
+                'placeholder' => 'Confirm password'
             );
 
-            $this->_render_page('auth/create_user', $this->data);
+            //render view
+            $this->load->view('header', $this->data);
+            $this->load->view('sidebar');
+            $this->_render_page('create_user');
+            $this->load->view('footer');
         }
     }
 
@@ -449,10 +540,7 @@ class Auth extends MX_Controller
     public function edit_user($id)
     {
         $this->data['title'] = $this->lang->line('edit_user_heading');
-
-        if (!$this->ion_auth->logged_in() || (!$this->ion_auth->is_admin() && !($this->ion_auth->user()->row()->id == $id))) {
-            redirect('auth', 'refresh');
-        }
+        //$this->is_logged_in();
 
         $user = $this->ion_auth->user($id)->row();
         $groups = $this->ion_auth->groups()->result_array();
@@ -461,8 +549,10 @@ class Auth extends MX_Controller
         // validate form input
         $this->form_validation->set_rules('first_name', $this->lang->line('edit_user_validation_fname_label'), 'required');
         $this->form_validation->set_rules('last_name', $this->lang->line('edit_user_validation_lname_label'), 'required');
-        $this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required');
-        $this->form_validation->set_rules('company', $this->lang->line('edit_user_validation_company_label'), 'required');
+        $this->form_validation->set_rules('phone', $this->lang->line('edit_user_validation_phone_label'), 'required|callback_valid_phone|trim');
+        $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email');
+        $this->form_validation->set_rules('groups[]', 'Groups', 'required|trim');
+        $this->form_validation->set_rules('identity', 'Username', 'required|trim');
 
         if (isset($_POST) && !empty($_POST)) {
             // do we have a valid request?
@@ -476,17 +566,26 @@ class Auth extends MX_Controller
                 $this->form_validation->set_rules('password_confirm', $this->lang->line('edit_user_validation_password_confirm_label'), 'required');
             }
 
-            if ($this->form_validation->run() === TRUE) {
+            if ($this->form_validation->run($this) === TRUE) {
+                $identity = $this->input->post('identity');
+
                 $data = array(
                     'first_name' => $this->input->post('first_name'),
                     'last_name' => $this->input->post('last_name'),
-                    'company' => $this->input->post('company'),
                     'phone' => $this->input->post('phone'),
+                    'email' => $this->input->post('email'),
+                    'company' => $this->input->post('organization'),
                 );
 
                 // update the password if it was posted
                 if ($this->input->post('password')) {
                     $data['password'] = $this->input->post('password');
+
+                    $password = $this->input->post('password');
+                    $data['password'] = $password;
+
+                    //digest password
+                    $data['digest_password'] = md5("{$identity}:{$this->realm}:{$password}");
                 }
 
 
@@ -509,22 +608,17 @@ class Auth extends MX_Controller
                 // check to see if we are updating the user
                 if ($this->ion_auth->update($user->id, $data)) {
                     // redirect them back to the admin page if admin, or to the base url if non admin
-                    $this->session->set_flashdata('message', $this->ion_auth->messages());
+                    $this->session->set_flashdata('message', display_message($this->ion_auth->messages(), 'success'));
                     if ($this->ion_auth->is_admin()) {
-                        redirect('auth', 'refresh');
-                    } else {
-                        redirect('/', 'refresh');
+                        redirect('auth/users_lists', 'refresh');
                     }
 
                 } else {
                     // redirect them back to the admin page if admin, or to the base url if non admin
-                    $this->session->set_flashdata('message', $this->ion_auth->errors());
+                    $this->session->set_flashdata('message', display_message($this->ion_auth->errors(), 'danger'));
                     if ($this->ion_auth->is_admin()) {
-                        redirect('auth', 'refresh');
-                    } else {
-                        redirect('/', 'refresh');
+                        redirect('auth/edit_user/' . $id, 'refresh');
                     }
-
                 }
 
             }
@@ -546,37 +640,85 @@ class Auth extends MX_Controller
             'id' => 'first_name',
             'type' => 'text',
             'value' => $this->form_validation->set_value('first_name', $user->first_name),
+            'class' => 'form-control'
         );
         $this->data['last_name'] = array(
             'name' => 'last_name',
             'id' => 'last_name',
             'type' => 'text',
             'value' => $this->form_validation->set_value('last_name', $user->last_name),
+            'class' => 'form-control'
         );
-        $this->data['company'] = array(
-            'name' => 'company',
-            'id' => 'company',
+
+        $this->data['identity'] = array(
+            'name' => 'identity',
+            'id' => 'identity',
             'type' => 'text',
-            'value' => $this->form_validation->set_value('company', $user->company),
+            'value' => $this->form_validation->set_value('identity', $user->username),
+            'class' => 'form-control'
         );
+        $this->data['email'] = array(
+            'name' => 'email',
+            'id' => 'email',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('email', $user->email),
+            'class' => 'form-control'
+        );
+
         $this->data['phone'] = array(
             'name' => 'phone',
             'id' => 'phone',
             'type' => 'text',
             'value' => $this->form_validation->set_value('phone', $user->phone),
+            'class' => 'form-control'
         );
+
+        $this->data['organization'] = array(
+            'name' => 'organization',
+            'id' => 'organization',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('organization', $user->company),
+            'class' => 'form-control',
+            'placeholder' => 'Write organization....'
+        );
+
         $this->data['password'] = array(
             'name' => 'password',
             'id' => 'password',
-            'type' => 'password'
+            'type' => 'password',
+            'class' => 'form-control'
         );
         $this->data['password_confirm'] = array(
             'name' => 'password_confirm',
             'id' => 'password_confirm',
-            'type' => 'password'
+            'type' => 'password',
+            'class' => 'form-control'
         );
 
-        $this->_render_page('auth/edit_user', $this->data);
+        //render view
+        $this->load->view('header', $this->data);
+        $this->load->view('sidebar');
+        $this->_render_page('edit_user');
+        $this->load->view('footer');
+    }
+
+    //groups lists
+    function groups_lists()
+    {
+        $this->data['title'] = 'Groups Lists';
+
+        if (!$this->ion_auth->logged_in() && !$this->ion_auth->is_admin()) {
+            redirect('auth/login', 'refresh');
+        }
+
+        //groups lists
+        $this->data['groups_lists'] = $this->user_model->get_user_groups();
+
+        //render view
+        $this->load->view('header', $this->data);
+        $this->load->view('sidebar');
+        $this->load->view('groups_lists');
+        $this->load->view('footer');
     }
 
     // create a new group
@@ -596,8 +738,8 @@ class Auth extends MX_Controller
             if ($new_group_id) {
                 // check to see if we are creating the group
                 // redirect them back to the admin page
-                $this->session->set_flashdata('message', $this->ion_auth->messages());
-                redirect("auth", 'refresh');
+                $this->session->set_flashdata('message', display_message($this->ion_auth->messages()));
+                redirect("auth/groups_lists", 'refresh');
             }
         } else {
             // display the create group form
@@ -608,16 +750,25 @@ class Auth extends MX_Controller
                 'name' => 'group_name',
                 'id' => 'group_name',
                 'type' => 'text',
+                'placeholder' => 'Write group name...',
+                'class' => 'form-control',
                 'value' => $this->form_validation->set_value('group_name'),
             );
             $this->data['description'] = array(
                 'name' => 'description',
                 'id' => 'description',
-                'type' => 'text',
+                'type' => 'text area',
+                'class' => 'form-control',
+                'rows' => 3,
+                'placeholder' => 'Write group description...',
                 'value' => $this->form_validation->set_value('description'),
             );
 
-            $this->_render_page('auth/create_group', $this->data);
+            //render view
+            $this->load->view('header', $this->data);
+            $this->load->view('sidebar');
+            $this->_render_page('auth/create_group');
+            $this->load->view('footer');
         }
     }
 
@@ -645,11 +796,11 @@ class Auth extends MX_Controller
                 $group_update = $this->ion_auth->update_group($id, $_POST['group_name'], $_POST['group_description']);
 
                 if ($group_update) {
-                    $this->session->set_flashdata('message', $this->lang->line('edit_group_saved'));
+                    $this->session->set_flashdata('message', display_message($this->lang->line('edit_group_saved')));
                 } else {
-                    $this->session->set_flashdata('message', $this->ion_auth->errors());
+                    $this->session->set_flashdata('message', display_message($this->ion_auth->errors(), 'danger'));
                 }
-                redirect("auth", 'refresh');
+                redirect("auth/groups_lists", 'refresh');
             }
         }
 
@@ -665,17 +816,26 @@ class Auth extends MX_Controller
             'name' => 'group_name',
             'id' => 'group_name',
             'type' => 'text',
+            'placeholder' => 'Write group name...',
+            'class' => 'form-control',
             'value' => $this->form_validation->set_value('group_name', $group->name),
             $readonly => $readonly,
         );
         $this->data['group_description'] = array(
             'name' => 'group_description',
             'id' => 'group_description',
-            'type' => 'text',
+            'type' => 'text area',
+            'class' => 'form-control',
+            'rows' => 3,
+            'placeholder' => 'Write group description...',
             'value' => $this->form_validation->set_value('group_description', $group->description),
         );
 
-        $this->_render_page('auth/edit_group', $this->data);
+        //render view
+        $this->load->view('header', $this->data);
+        $this->load->view('sidebar');
+        $this->_render_page('auth/edit_group');
+        $this->load->view('footer');
     }
 
 
@@ -708,6 +868,23 @@ class Auth extends MX_Controller
         $view_html = $this->load->view($view, $this->viewdata, $returnhtml);
 
         if ($returnhtml) return $view_html;//This will return html on 3rd argument being true
+    }
+
+
+    /*================================================================
+     Callback function
+     ===============================================================*/
+    // check phone validity
+    function valid_phone($str)
+    {
+        $str = str_replace(' ', '', trim($str));
+
+        if (preg_match("/^[0-9]{12}$/", $str)) {
+            return TRUE;
+        } else {
+            $this->form_validation->set_message('valid_phone', "%s must contain 12 digit eg:255717705746");
+            return FALSE;
+        }
     }
 
 }

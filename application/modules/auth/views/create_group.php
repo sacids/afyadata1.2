@@ -1,20 +1,76 @@
-<h1><?php echo lang('create_group_heading');?></h1>
-<p><?php echo lang('create_group_subheading');?></p>
+<!-- Main content -->
+<div class="content-wrapper">
 
-<div id="infoMessage"><?php echo $message;?></div>
+    <!-- Page header -->
+    <div class="page-header page-header-light">
+        <div class="page-header-content header-elements-md-inline">
+            <div class="page-title d-flex">
+                <h4><i class="icon-home mr-2"></i> <span class="font-weight-semibold">Home</span> -
+                    Create New Group</h4>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
 
-<?php echo form_open("auth/create_group");?>
+        <div class="breadcrumb-line breadcrumb-line-light header-elements-md-inline">
+            <div class="d-flex">
+                <div class="breadcrumb">
+                    <a href="<?= site_url('dashboard') ?>" class="breadcrumb-item"><i class="icon-home2 mr-2"></i> Home</a>
+                    <span class="breadcrumb-item active">Create New Group</span>
+                </div>
+                <a href="#" class="header-elements-toggle text-default d-md-none"><i class="icon-more"></i></a>
+            </div>
+        </div>
+    </div>
+    <!-- /page header -->
 
-      <p>
-            <?php echo lang('create_group_name_label', 'group_name');?> <br />
-            <?php echo form_input($group_name);?>
-      </p>
 
-      <p>
-            <?php echo lang('create_group_desc_label', 'description');?> <br />
-            <?php echo form_input($description);?>
-      </p>
+    <!-- Content area -->
+    <div class="content">
+        <!-- Form inputs -->
+        <div class="card">
+            <div class="card-body">
+                <?= form_open('auth/create_group', 'role="form"'); ?>
+                <fieldset class="mb-3">
+                    <legend class="text-uppercase font-size-sm font-weight-bold">Create New Group</legend>
 
-      <p><?php echo form_submit('submit', lang('create_group_submit_btn'));?></p>
+                    <?php if ($this->session->flashdata('message') != "") {
+                        echo $this->session->flashdata('message');
+                    } ?>
 
-<?php echo form_close();?>
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label><?php echo lang('create_group_name_label', 'group_name'); ?> <span
+                                            style="color: red;">*</span></label>
+                                <?= form_input($group_name); ?>
+                                <span class="form-text text-danger"><?= form_error('name') ?></span>
+                            </div> <!-- /form-group -->
+                        </div>
+                    </div> <!-- /.row -->
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <label>Description</label>
+                                <?= form_textarea($description); ?>
+
+                            </div> <!-- /form-group -->
+                        </div>
+                    </div> <!-- /.row -->
+
+                    <div class="row">
+                        <div class="col-lg-6">
+                            <div class="form-group">
+                                <?php echo form_submit('submit', 'Create', array('class' => "btn btn-primary")); ?>
+                                <?= anchor('auth/groups_lists', 'Cancel', 'class="btn btn-warning"') ?>
+                            </div> <!-- /form-group -->
+                        </div>
+                    </div> <!-- /.row -->
+                </fieldset>
+                <?= form_close() ?>
+            </div>
+        </div>
+        <!-- /form inputs -->
+
+    </div>
+    <!-- /content area -->

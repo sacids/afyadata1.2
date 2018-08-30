@@ -6,9 +6,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <title>Afyadata - <?= isset($title) ? $title : "Taarifa kwa Wakati!" ?></title>
 
-    <!-- Global stylesheets -->
+    <!-- Global stylesheets
     <link href="https://fonts.googleapis.com/css?family=Roboto:400,300,100,500,700,900" rel="stylesheet"
-          type="text/css">
+          type="text/css">-->
+
+    <!-- Google fonts - witch you want to use - (rest you can just remove) -->
+    <link href="https://fonts.googleapis.com/css?family=Signika" rel="stylesheet">
     <link href="<?= base_url('global_assets/css/icons/icomoon/styles.css') ?>" rel="stylesheet" type="text/css">
     <link href="<?= base_url('assets/css/bootstrap.min.css') ?>" rel="stylesheet" type="text/css">
     <link href="<?= base_url('assets/css/bootstrap_limitless.min.css') ?>" rel="stylesheet" type="text/css">
@@ -16,6 +19,9 @@
     <link href="<?= base_url('assets/css/components.min.css') ?>" rel="stylesheet" type="text/css">
     <link href="<?= base_url('assets/css/colors.min.css') ?>" rel="stylesheet" type="text/css">
     <!-- /global stylesheets -->
+
+    <!-- Custom css -->
+    <link rel="stylesheet" type="text/css" href="<?= base_url('assets/css/custom.css') ?>"/>
 
     <!-- Core JS files -->
     <script src="<?= base_url('global_assets/js/main/jquery.min.js') ?>"></script>

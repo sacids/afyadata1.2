@@ -47,7 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @link		https://codeigniter.com/user_guide/libraries/config.html
  *
  *
- * @property CI_DB_mysqli_driver $db
+ * @property CI_DB_mysql_driver|CI_DB_query_builder $db
  */
 class CI_Model {
 
