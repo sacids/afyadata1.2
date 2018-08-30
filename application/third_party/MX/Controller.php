@@ -52,6 +52,9 @@ require dirname(__FILE__) . '/Base.php';
  * @property User_model $user_model
  * @property Project_model $project_model
  * @property Xform_model $xform_model
+ * @property Disease_model $disease_model
+ * @property Symptom_model $symptom_model
+ * @property Specie_model $specie_model
  * @property CI_DB_forge $dbforge
  */
 class MX_Controller

@@ -35,6 +35,7 @@
 
     <script src="<?= base_url('assets/js/app.js') ?>"></script>
     <script src="<?= base_url('global_assets/js/demo_pages/datatables_basic.js') ?>"></script>
+    <script src="<?= base_url('global_assets/js/demo_pages/form_select2.js') ?>"></script>
     <!-- /theme JS files -->
 </head>
 

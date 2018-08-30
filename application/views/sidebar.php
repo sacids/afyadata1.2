@@ -62,6 +62,20 @@
                             <?= show_projects() ?>
                         </ul>
                     </li>
+
+                    <li class="nav-item nav-item-submenu">
+                        <a href="#" class="nav-link"><i class="icon-archive"></i> <span>OHKR</span></a>
+
+                        <ul class="nav nav-group-sub" data-submenu-title="Layouts">
+                            <li class="nav-item"><a href="<?= site_url('ohkr/diseases/lists') ?>" class="nav-link">Diseases</a>
+                            </li>
+                            <li class="nav-item"><a href="<?= site_url('ohkr/symptoms/lists') ?>" class="nav-link">Symptoms</a>
+                            </li>
+                            <li class="nav-item"><a href="<?= site_url('ohkr/species/lists') ?>" class="nav-link">Species</a>
+                            </li>
+                        </ul>
+                    </li>
+
                     <li class="nav-item nav-item-submenu">
                         <a href="#" class="nav-link"><i class="icon-user-lock"></i> <span>Permissions</span></a>
 
