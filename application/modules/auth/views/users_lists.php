@@ -37,9 +37,33 @@
                 } ?>
 
                 <div class="row">
-                    <div class="col-lg-12">
+                    <div class="col-lg-6">
                         <div class="pull-left">
                             <?= anchor('auth/create_user', '<b><i class="icon-user-plus"></i></b> Register User', 'class="btn btn-primary btn-labeled btn-labeled-left btn-sm"') ?>
+                        </div>
+                    </div>
+
+                    <div class="col-lg-6">
+                        <div class="pull-right">
+                            <?= form_open("auth/users_lists", 'class="form-inline"'); ?>
+                            <div class="form-group">
+                                <?php
+                                $group_options = array();
+                                foreach ($groups_lists as $value) {
+                                    $group_options[$value->id] = str_replace('_', ' ', $value->name);
+                                }
+                                $group_options = array('' => 'Choose Group') + $group_options;
+                                echo form_dropdown('group_id', $group_options, set_value('group_id'), 'class="form-control"'); ?>
+                            </div>
+
+                            <div class="form-group">
+                                <?= form_input(array('id' => 'keyword', 'name' => 'keyword', 'type' => 'text', 'class' => 'form-control', 'placeholder' => 'Firstname, Lastname')) ?>
+                            </div>
+
+                            <div class="form-group">
+                                <?= form_submit("filter", "Filter", 'class="btn btn-primary"'); ?>
+                            </div>
+                            <?= form_close(); ?>
                         </div>
                     </div>
                 </div><!--./row -->

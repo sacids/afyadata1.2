@@ -363,13 +363,13 @@ class Auth extends MX_Controller
             $users_list = $this->user_model->search_users_list($group_id, $keyword);
 
             if ($users_list) {
-                $this->data['user_list'] = $users_list;
+                $this->data['users_lists'] = $users_list;
 
-                foreach ($this->data['user_list'] as $k => $user) {
-                    $this->data['user_list'][$k]->groups = $this->ion_auth_model->get_users_groups($user->id)->result();
+                foreach ($this->data['users_lists'] as $k => $user) {
+                    $this->data['users_lists'][$k]->groups = $this->ion_auth_model->get_users_groups($user->id)->result();
                 }
             } else {
-                $this->data['user_list'] = array();
+                $this->data['users_lists'] = array();
             }
         } else {
 
@@ -394,7 +394,7 @@ class Auth extends MX_Controller
         }
 
         //groups list
-        $this->data['group_list'] = $this->user_model->get_group_list();
+        $this->data['groups_lists'] = $this->user_model->get_group_list();
 
         //render view
         $this->load->view('header', $this->data);
