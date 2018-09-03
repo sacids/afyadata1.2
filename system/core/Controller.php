@@ -52,6 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
 /**
  * Class MX_Controller
+ * @property CI_Migration $migration
  * @property CI_Form_validation $form_validation
  * @property CI_Session $session
  * @property CI_Input $input

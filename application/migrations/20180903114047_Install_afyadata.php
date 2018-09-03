@@ -241,7 +241,7 @@ class Migration_Install_afyadata extends CI_Migration
         $this->dbforge->create_table($this->tables['login_attempts']);
 
         // Drop table 'app_version' if it exists
-        $this->dbforge->drop_table($this->tables['app_version'], true);
+        $this->dbforge->drop_table('app_version', true);
 
         //table structure
         $this->dbforge->add_field(
@@ -269,10 +269,10 @@ class Migration_Install_afyadata extends CI_Migration
         );
 
         $this->dbforge->add_key('id', true);
-        $this->dbforge->create_table($this->tables['app_version']);
+        $this->dbforge->create_table('app_version');
 
         // Drop table 'projects' if it exists
-        $this->dbforge->drop_table($this->tables['projects'], TRUE);
+        $this->dbforge->drop_table('projects', TRUE);
 
         //table structure
         $this->dbforge->add_field(
@@ -317,11 +317,11 @@ class Migration_Install_afyadata extends CI_Migration
         );
 
         $this->dbforge->add_key("id", TRUE);
-        $this->dbforge->create_table($this->tables['projects']);
+        $this->dbforge->create_table('projects');
 
 
         // Drop table 'xforms' if it exists
-        $this->dbforge->drop_table($this->tables['xforms'], TRUE);
+        $this->dbforge->drop_table('xforms', TRUE);
 
         //table structure
         $this->dbforge->add_field(
@@ -374,10 +374,10 @@ class Migration_Install_afyadata extends CI_Migration
             )
         );
         $this->dbforge->add_key("id", TRUE);
-        $this->dbforge->create_table($this->tables['xforms']);
+        $this->dbforge->create_table('xforms');
 
         // Drop table 'xform_config' if it exists
-        $this->dbforge->drop_table($this->tables['xform_config'], TRUE);
+        $this->dbforge->drop_table('xform_config', TRUE);
 
         //table structure
         $this->dbforge->add_field(
@@ -426,10 +426,10 @@ class Migration_Install_afyadata extends CI_Migration
         );
 
         $this->dbforge->add_key('id', TRUE);
-        $this->dbforge->create_table($this->tables['xform_config']);
+        $this->dbforge->create_table('xform_config');
 
         // Drop table 'xform_field_map' if it exists
-        $this->dbforge->drop_table($this->tables['xform_field_map'], TRUE);
+        $this->dbforge->drop_table('xform_field_map', TRUE);
 
         //table structure
         $this->dbforge->add_field(
@@ -474,10 +474,10 @@ class Migration_Install_afyadata extends CI_Migration
         );
 
         $this->dbforge->add_key('id', TRUE);
-        $this->dbforge->create_table($this->tables['xform_field_map']);
+        $this->dbforge->create_table('xform_field_map');
 
         // Drop table 'xform_submission' if it exists
-        $this->dbforge->drop_table($this->tables['xform_submission'], TRUE);
+        $this->dbforge->drop_table('xform_submission', TRUE);
 
         //table structure
         $this->dbforge->add_field(
@@ -502,10 +502,10 @@ class Migration_Install_afyadata extends CI_Migration
         );
 
         $this->dbforge->add_key('id', TRUE);
-        $this->dbforge->create_table($this->tables['xform_submission']);
+        $this->dbforge->create_table('xform_submission');
 
         //Drop table 'ohkr_species' if it exists
-        $this->dbforge->drop_table($this->tables['ohkr_species'], true);
+        $this->dbforge->drop_table('ohkr_species', true);
 
         //table structure
         $this->dbforge->add_field(
@@ -531,10 +531,10 @@ class Migration_Install_afyadata extends CI_Migration
         );
 
         $this->dbforge->add_key('id', true);
-        $this->dbforge->create_table($this->tables['ohkr_species']);
+        $this->dbforge->create_table('ohkr_species');
 
         //Drop table 'ohkr_diseases' if it exists
-        $this->dbforge->drop_table($this->tables['ohkr_diseases'], true);
+        $this->dbforge->drop_table('ohkr_diseases', true);
 
         //table structure
         $this->dbforge->add_field(
@@ -567,10 +567,10 @@ class Migration_Install_afyadata extends CI_Migration
         );
 
         $this->dbforge->add_key('id', true);
-        $this->dbforge->create_table($this->tables['ohkr_diseases']);
+        $this->dbforge->create_table('ohkr_diseases');
 
         //Drop table 'ohkr_symptoms' if it exists
-        $this->dbforge->drop_table($this->tables['ohkr_symptoms'], true);
+        $this->dbforge->drop_table('ohkr_symptoms', true);
 
         //table structure
         $this->dbforge->add_field(
@@ -603,11 +603,11 @@ class Migration_Install_afyadata extends CI_Migration
         );
 
         $this->dbforge->add_key('id', true);
-        $this->dbforge->create_table($this->tables['ohkr_symptoms']);
+        $this->dbforge->create_table('ohkr_symptoms');
 
 
         //Drop table 'ohkr_disease_symptoms' if it exists
-        $this->dbforge->drop_table($this->tables['ohkr_disease_symptoms'], true);
+        $this->dbforge->drop_table('ohkr_disease_symptoms', true);
 
         //table structure
         $this->dbforge->add_field(
@@ -644,10 +644,10 @@ class Migration_Install_afyadata extends CI_Migration
         );
 
         $this->dbforge->add_key('id', true);
-        $this->dbforge->create_table($this->tables['ohkr_disease_symptoms']);
+        $this->dbforge->create_table('ohkr_disease_symptoms');
 
         //Drop table 'ohkr_detected_diseases' if it exists
-        $this->dbforge->drop_table($this->tables['ohkr_detected_diseases'], true);
+        $this->dbforge->drop_table('ohkr_detected_diseases', true);
 
         //table structure
         $this->dbforge->add_field(
@@ -681,7 +681,7 @@ class Migration_Install_afyadata extends CI_Migration
         );
 
         $this->dbforge->add_key('id', true);
-        $this->dbforge->create_table($this->tables['ohkr_detected_diseases']);
+        $this->dbforge->create_table('ohkr_detected_diseases');
 
     }
 
@@ -692,17 +692,17 @@ class Migration_Install_afyadata extends CI_Migration
         $this->dbforge->drop_table($this->tables['users_groups'], TRUE);
         $this->dbforge->drop_table($this->tables['login_attempts'], TRUE);
 
-        $this->dbforge->drop_table($this->tables['app_version'], TRUE);
-        $this->dbforge->drop_table($this->tables['projects'], TRUE);
-        $this->dbforge->drop_table($this->tables['xforms'], TRUE);
-        $this->dbforge->drop_table($this->tables['xform_config'], TRUE);
-        $this->dbforge->drop_table($this->tables['xform_field_map'], TRUE);
-        $this->dbforge->drop_table($this->tables['xform_submission'], TRUE);
-        $this->dbforge->drop_table($this->tables['ohkr_species'], TRUE);
-        $this->dbforge->drop_table($this->tables['ohkr_diseases'], TRUE);
-        $this->dbforge->drop_table($this->tables['ohkr_symptoms'], TRUE);
-        $this->dbforge->drop_table($this->tables['ohkr_disease_symptoms'], TRUE);
-        $this->dbforge->drop_table($this->tables['ohkr_detected_diseases'], TRUE);
+        $this->dbforge->drop_table('app_version', TRUE);
+        $this->dbforge->drop_table('projects', TRUE);
+        $this->dbforge->drop_table('xforms', TRUE);
+        $this->dbforge->drop_table('xform_config', TRUE);
+        $this->dbforge->drop_table('xform_field_map', TRUE);
+        $this->dbforge->drop_table('xform_submission', TRUE);
+        $this->dbforge->drop_table('ohkr_species', TRUE);
+        $this->dbforge->drop_table('ohkr_diseases', TRUE);
+        $this->dbforge->drop_table('ohkr_symptoms', TRUE);
+        $this->dbforge->drop_table('ohkr_disease_symptoms', TRUE);
+        $this->dbforge->drop_table('ohkr_detected_diseases', TRUE);
 
     }
 }
