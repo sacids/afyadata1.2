@@ -63,8 +63,7 @@ class Project_model extends CI_Model
      */
     function find_all()
     {
-        return $this->db
-            ->get('projects')->result();
+        return $this->db->get('projects')->result();
     }
 
     /**

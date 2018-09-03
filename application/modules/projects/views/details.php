@@ -36,7 +36,7 @@
                     <div class="col-lg-12">
                         <div class="pull-left">
                             <button class="btn btn-success btn-sm dropdown-toggle" type="button"
-                                    data-toggle="dropdown"><i class="fa fa-plus"></i> Upload Form
+                                    data-toggle="dropdown">Upload Form
                             </button>
                             <ul class="dropdown-menu">
                                 <li><a class="dropdown-item" href="<?= site_url('forms/add_new/' . $project->id) ?>">Upload
@@ -44,9 +44,9 @@
                                 <li><a class="dropdown-item" href="#">Upload XLS</a></li>
                             </ul>
 
-                            <?= anchor('projects/edit/' . $project->id, '<i class="icon-pencil"></i> Edit Project', 'class="btn btn-sm btn-warning"') ?>
-                            <?= anchor('projects/delete/' . $project->id, '<i class="icon-trash"></i> Delete Project', 'class="btn btn-sm btn-danger delete"') ?>
-                            <?= anchor('projects/edit/#', '<i class="icon-envelop"></i> Invite', 'class="btn btn-sm btn-info"') ?>
+                            <?= anchor('projects/edit/' . $project->id, '<b><i class="icon-pencil"></i></b> Edit Project', 'class="btn btn-sm btn-warning btn-labeled btn-labeled-left"') ?>
+                            <?= anchor('projects/delete/' . $project->id, '<b><i class="icon-trash"></i></b> Delete Project', 'class="btn btn-sm btn-danger btn-labeled btn-labeled-left delete"') ?>
+                            <?= anchor('projects/edit/#', '<b><i class="icon-envelop"></i></b> Invite', 'class="btn btn-sm btn-info btn-labeled btn-labeled-left"') ?>
                         </div>
                     </div>
                 </div><!--./row -->

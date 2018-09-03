@@ -47,6 +47,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
  * @subpackage	Libraries
  * @category	Libraries
  * @author		Reactor Engineers
+ * @property CI_DB_forge $dbforge
  * @link
  */
 class CI_Migration {

@@ -62,7 +62,7 @@ class Symptoms extends MX_Controller
     //add new symptom
     public function add_new()
     {
-        $this->data['title'] = "Add new Sysmptom";
+        $this->data['title'] = "Add new Symptom";
 
         //check login
         $this->is_logged_in();
