@@ -59,7 +59,7 @@
 
                         <ul class="nav nav-group-sub" data-submenu-title="Layouts">
                             <li class="nav-item"><?= anchor('projects/create', 'Create New', 'class="nav-link"') ?></li>
-                            <?= show_projects() ?>
+                            <?php show_projects() ?>
                         </ul>
                     </li>
 

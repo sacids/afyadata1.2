@@ -10,11 +10,11 @@ if (!function_exists("show_projects")) {
 
         if ($project_list) {
             foreach ($project_list as $value) {
-                return '<li class="nav-item">' . anchor('projects/details/' . $value->id, $value->title, 'class="nav-link"') . '</li>';
+                echo '<li class="nav-item">' . anchor('projects/details/' . $value->id, $value->title, 'class="nav-link"') . '</li>';
             }
         } else {
-            return '';
+            echo '';
         }
-        return '';
+        echo '';
     }
 }
