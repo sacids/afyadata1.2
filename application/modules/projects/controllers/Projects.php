@@ -101,6 +101,7 @@ class Projects extends MX_Controller
             $id = $this->project_model->create_project(
                 array(
                     'title' => $this->input->post('name'),
+                    'code' => $this->generate_code(),
                     'description' => $this->input->post('description'),
                     'created_at' => date('Y-m-d'),
                     'created_by' => $this->user_id,
@@ -185,6 +186,15 @@ class Projects extends MX_Controller
             'placeholder' => 'Write project title...'
         );
 
+        $this->data['code'] = array(
+            'name' => 'code',
+            'id' => 'code',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('code', $project->code),
+            'class' => 'form-control',
+            'readonly' => ''
+        );
+
         $this->data['description'] = array(
             'name' => 'description',
             'id' => 'description',
@@ -227,6 +237,91 @@ class Projects extends MX_Controller
 
         //redirect
         redirect('projects/lists', 'refresh');
+    }
+
+    //invite users
+    function invite($id)
+    {
+        $this->data['title'] = "Invite users";
+        $this->is_logged_in();
+
+        $project = $this->project_model->get_project_by_id($id);
+        if (count($project) == 0) {
+            show_error('Project not found');
+        }
+        $this->data['project'] = $project;
+
+        //form validation
+        $this->form_validation->set_rules('name', 'Project Title', 'required|trim');
+        $this->form_validation->set_rules('users[]', 'Users', 'required|trim');
+
+        if ($this->form_validation->run() == TRUE) {
+            $users = $this->input->post('users');
+
+            //message
+            $message = 'Please enter a code ' . $project->code . ' in afyadata app and OK to be invited in ' . $project->title;
+
+            $date_time = date('Y-m-d H:i:s');
+            $message = array(
+                'recipients' => implode(',', $users),
+                'message' => $message,
+                'datetime' => $date_time,
+                'sender_id' => $this->config->item('sms_sender_id'),
+                'mobile_service_id' => $this->config->item('mobile_service_id')
+            );
+            $post_data = array('data' => json_encode($message), 'datetime' => $date_time);
+
+            //push sms
+            $response = $this->messaging->send_push_sms($post_data);
+
+            $this->session->set_flashdata('message', display_message('Project invitation sent'));
+
+            redirect('projects/details/' . $id, 'refresh');
+        }
+
+        //populate data
+        $this->data['name'] = array(
+            'name' => 'name',
+            'id' => 'name',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('name', $project->title),
+            'class' => 'form-control',
+            'readonly' => ''
+        );
+
+        $this->data['code'] = array(
+            'name' => 'code',
+            'id' => 'code',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('code', $project->code),
+            'class' => 'form-control',
+            'readonly' => ''
+        );
+
+        $this->data['users'] = $this->user_model->find_all();
+
+        //render view
+        $this->load->view('header', $this->data);
+        $this->load->view('sidebar');
+        $this->load->view('invite');
+        $this->load->view('footer');
+    }
+
+
+    //functions
+    //generate project code
+    function generate_code()
+    {
+        //the characters you want in your id
+        $characters = 'ABCDEFGHJKLMNPQRSTUVWXYZ';
+        $max = strlen($characters) - 1;
+        $string = '';
+
+        for ($i = 0; $i <= 2; $i++) {
+            $string .= $characters[mt_rand(0, $max)];
+        }
+
+        echo $string;
     }
 
 }

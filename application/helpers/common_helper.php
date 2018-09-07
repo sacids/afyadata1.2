@@ -26,14 +26,46 @@ if (!function_exists("display_message")) {
 
 
 //display first name and last name
-if (!function_exists('display_name')) {
-    function display_name()
+if (!function_exists('show_login_user_full_name')) {
+    function show_login_user_full_name()
     {
         $CI = &get_instance();
         $user_id = $CI->session->userdata('user_id');
 
         //user details
         $user = $CI->user_model->get_user_by_id($user_id);
-        return ucfirst($user->first_name) . ' ' . ucfirst($user->last_name);
+        echo ucfirst($user->first_name) . ' ' . ucfirst($user->last_name);
+    }
+}
+
+//display last name
+if (!function_exists('show_login_user_name')) {
+    function show_login_user_name()
+    {
+        $CI = &get_instance();
+        $user_id = $CI->session->userdata('user_id');
+
+        //user details
+        $user = $CI->user_model->get_user_by_id($user_id);
+        echo ucfirst($user->last_name);
+    }
+}
+
+//display organization
+if (!function_exists('show_login_user_organization')) {
+    function show_login_user_organization()
+    {
+        $CI = &get_instance();
+        $user_id = $CI->session->userdata('user_id');
+
+        //user details
+        $user = $CI->user_model->get_user_by_id($user_id);
+
+        if ($user) {
+            if (!empty($user->company))
+                echo $user->company;
+            else
+                echo 'No company';
+        }
     }
 }

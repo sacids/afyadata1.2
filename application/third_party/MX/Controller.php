@@ -56,6 +56,7 @@ require dirname(__FILE__) . '/Base.php';
  * @property Symptom_model $symptom_model
  * @property Specie_model $specie_model
  * @property CI_DB_forge $dbforge
+ * @property Messaging $messaging
  */
 class MX_Controller
 {

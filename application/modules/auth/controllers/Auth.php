@@ -75,7 +75,10 @@ class Auth extends MX_Controller
                 'placeholder' => 'Password',
             );
 
-            $this->_render_page('auth/login', $this->data);
+            //render view
+            $this->load->view('pages/header', $this->data);
+            $this->_render_page('login');
+            $this->load->view('footer');
         }
     }
 
@@ -412,19 +415,17 @@ class Auth extends MX_Controller
         $tables = $this->config->item('tables', 'ion_auth');
         $identity_column = $this->config->item('identity', 'ion_auth');
         $this->data['identity_column'] = $identity_column;
-        $this->data['group_list'] = $this->user_model->get_group_list();
-
 
         // validate form input
         $this->form_validation->set_rules('first_name', $this->lang->line('create_user_validation_fname_label'), 'required');
         $this->form_validation->set_rules('last_name', $this->lang->line('create_user_validation_lname_label'), 'required');
         $this->form_validation->set_rules('email', $this->lang->line('create_user_validation_email_label'), 'required|valid_email');
-        $this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'required|callback_valid_phone|is_unique[users.phone]|trim');
-        $this->form_validation->set_rules('group_id[]', 'Group', 'required|trim');
-        $this->form_validation->set_rules('organization', 'Organization', 'trim');
-        $this->form_validation->set_rules('identity', 'Username', 'required|is_unique[' . $tables['users'] . '.' . $identity_column . ']');
+        $this->form_validation->set_rules('phone', $this->lang->line('create_user_validation_phone_label'), 'required|callback_valid_phone|trim');
+        $this->form_validation->set_rules('organization', 'Organization', 'required|trim');
+        $this->form_validation->set_rules('identity', 'Username', 'required|trim');
         $this->form_validation->set_rules('password', $this->lang->line('create_user_validation_password_label'), 'required|min_length[' . $this->config->item('min_password_length', 'ion_auth') . ']|max_length[' . $this->config->item('max_password_length', 'ion_auth') . ']|matches[password_confirm]');
         $this->form_validation->set_rules('password_confirm', $this->lang->line('create_user_validation_password_confirm_label'), 'required');
+        $this->form_validation->set_rules('accept_terms', 'Accept Terms', 'trim');
 
         if ($this->form_validation->run($this) == true) {
             $email = strtolower($this->input->post('email'));
@@ -443,94 +444,94 @@ class Auth extends MX_Controller
                 'company' => $this->input->post('organization'),
                 'digest_password' => $digest_password
             );
+
+
+
+            if ($id = $this->ion_auth->register($identity, $password, $email, $additional_data, $groups)) {
+                // redirect them back to the admin page
+                $this->session->set_flashdata('message', display_message($this->ion_auth->messages(), 'success'));
+                redirect("auth/register", 'refresh');
+            }
         }
-        if ($this->form_validation->run() == true && $id = $this->ion_auth->register($identity, $password, $email, $additional_data, $groups)) {
-            // redirect them back to the admin page
-            $this->session->set_flashdata('message', display_message($this->ion_auth->messages()), 'success');
-            redirect("auth/users_lists", 'refresh');
-        } else {
-            // display the create user form
-            // set the flash data error message if there is one
-            $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        $this->data['first_name'] = array(
+            'name' => 'first_name',
+            'id' => 'first_name',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('first_name'),
+            'class' => 'form-control',
+            'placeholder' => 'Enter first name'
+        );
+        $this->data['last_name'] = array(
+            'name' => 'last_name',
+            'id' => 'last_name',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('last_name'),
+            'class' => 'form-control',
+            'placeholder' => 'Enter last name'
+        );
+        $this->data['identity'] = array(
+            'name' => 'identity',
+            'id' => 'identity',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('identity'),
+            'class' => 'form-control',
+            'placeholder' => 'Enter username'
+        );
+        $this->data['email'] = array(
+            'name' => 'email',
+            'id' => 'email',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('email'),
+            'class' => 'form-control',
+            'placeholder' => 'Enter email address'
+        );
+        $this->data['group_id'] = array(
+            'name' => 'group_id',
+            'id' => 'group_id',
+            'type' => 'select',
+            'value' => $this->form_validation->set_value('group_id'),
+            'class' => 'form-control'
+        );
 
-            $this->data['first_name'] = array(
-                'name' => 'first_name',
-                'id' => 'first_name',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('first_name'),
-                'class' => 'form-control',
-                'placeholder' => 'Enter first name'
-            );
-            $this->data['last_name'] = array(
-                'name' => 'last_name',
-                'id' => 'last_name',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('last_name'),
-                'class' => 'form-control',
-                'placeholder' => 'Enter last name'
-            );
-            $this->data['identity'] = array(
-                'name' => 'identity',
-                'id' => 'identity',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('identity'),
-                'class' => 'form-control',
-                'placeholder' => 'Enter username'
-            );
-            $this->data['email'] = array(
-                'name' => 'email',
-                'id' => 'email',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('email'),
-                'class' => 'form-control',
-                'placeholder' => 'Enter email address'
-            );
-            $this->data['group_id'] = array(
-                'name' => 'group_id',
-                'id' => 'group_id',
-                'type' => 'select',
-                'value' => $this->form_validation->set_value('group_id'),
-                'class' => 'form-control'
-            );
+        $this->data['phone'] = array(
+            'name' => 'phone',
+            'id' => 'phone',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('phone'),
+            'class' => 'form-control',
+            'placeholder' => 'Enter phone'
+        );
 
-            $this->data['phone'] = array(
-                'name' => 'phone',
-                'id' => 'phone',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('phone'),
-                'class' => 'form-control',
-                'placeholder' => 'Enter phone'
-            );
+        $this->data['organization'] = array(
+            'name' => 'organization',
+            'id' => 'organization',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('organization'),
+            'class' => 'form-control',
+            'placeholder' => 'Write organization....'
+        );
 
-            $this->data['organization'] = array(
-                'name' => 'organization',
-                'id' => 'organization',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('organization'),
-                'class' => 'form-control',
-                'placeholder' => 'Write organization....'
-            );
+        $this->data['password'] = array(
+            'name' => 'password',
+            'id' => 'password',
+            'type' => 'password',
+            'value' => $this->form_validation->set_value('password'),
+            'class' => 'form-control',
+            'placeholder' => 'Enter password'
+        );
+        $this->data['password_confirm'] = array(
+            'name' => 'password_confirm',
+            'id' => 'password_confirm',
+            'type' => 'password',
+            'value' => $this->form_validation->set_value('password_confirm'),
+            'class' => 'form-control',
+            'placeholder' => 'Confirm password'
+        );
 
-            $this->data['password'] = array(
-                'name' => 'password',
-                'id' => 'password',
-                'type' => 'password',
-                'value' => $this->form_validation->set_value('password'),
-                'class' => 'form-control',
-                'placeholder' => 'Enter password'
-            );
-            $this->data['password_confirm'] = array(
-                'name' => 'password_confirm',
-                'id' => 'password_confirm',
-                'type' => 'password',
-                'value' => $this->form_validation->set_value('password_confirm'),
-                'class' => 'form-control',
-                'placeholder' => 'Confirm password'
-            );
-
-            //render view
-            $this->_render_page('register', $this->data);
-        }
+        //render view
+        $this->load->view('pages/header', $this->data);
+        $this->_render_page('register');
+        $this->load->view('footer');
     }
 
     // create a new user
@@ -573,97 +574,93 @@ class Auth extends MX_Controller
                 'company' => $this->input->post('organization'),
                 'digest_password' => $digest_password
             );
+
+            if ($id = $this->ion_auth->register($identity, $password, $email, $additional_data, $groups)) {
+                // redirect them back to the admin page
+                $this->session->set_flashdata('message', display_message($this->ion_auth->messages(), 'success'));
+                redirect("auth/users_lists", 'refresh');
+            }
         }
-        if ($this->form_validation->run() == true && $id = $this->ion_auth->register($identity, $password, $email, $additional_data, $groups)) {
-            // redirect them back to the admin page
-            $this->session->set_flashdata('message', display_message($this->ion_auth->messages()), 'success');
-            redirect("auth/users_lists", 'refresh');
-        } else {
-            // display the create user form
-            // set the flash data error message if there is one
-            $this->data['message'] = (validation_errors() ? validation_errors() : ($this->ion_auth->errors() ? $this->ion_auth->errors() : $this->session->flashdata('message')));
+        $this->data['first_name'] = array(
+            'name' => 'first_name',
+            'id' => 'first_name',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('first_name'),
+            'class' => 'form-control',
+            'placeholder' => 'Enter first name'
+        );
+        $this->data['last_name'] = array(
+            'name' => 'last_name',
+            'id' => 'last_name',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('last_name'),
+            'class' => 'form-control',
+            'placeholder' => 'Enter last name'
+        );
+        $this->data['identity'] = array(
+            'name' => 'identity',
+            'id' => 'identity',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('identity'),
+            'class' => 'form-control',
+            'placeholder' => 'Enter username'
+        );
+        $this->data['email'] = array(
+            'name' => 'email',
+            'id' => 'email',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('email'),
+            'class' => 'form-control',
+            'placeholder' => 'Enter email address'
+        );
+        $this->data['group_id'] = array(
+            'name' => 'group_id',
+            'id' => 'group_id',
+            'type' => 'select',
+            'value' => $this->form_validation->set_value('group_id'),
+            'class' => 'form-control'
+        );
 
-            $this->data['first_name'] = array(
-                'name' => 'first_name',
-                'id' => 'first_name',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('first_name'),
-                'class' => 'form-control',
-                'placeholder' => 'Enter first name'
-            );
-            $this->data['last_name'] = array(
-                'name' => 'last_name',
-                'id' => 'last_name',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('last_name'),
-                'class' => 'form-control',
-                'placeholder' => 'Enter last name'
-            );
-            $this->data['identity'] = array(
-                'name' => 'identity',
-                'id' => 'identity',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('identity'),
-                'class' => 'form-control',
-                'placeholder' => 'Enter username'
-            );
-            $this->data['email'] = array(
-                'name' => 'email',
-                'id' => 'email',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('email'),
-                'class' => 'form-control',
-                'placeholder' => 'Enter email address'
-            );
-            $this->data['group_id'] = array(
-                'name' => 'group_id',
-                'id' => 'group_id',
-                'type' => 'select',
-                'value' => $this->form_validation->set_value('group_id'),
-                'class' => 'form-control'
-            );
+        $this->data['phone'] = array(
+            'name' => 'phone',
+            'id' => 'phone',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('phone'),
+            'class' => 'form-control',
+            'placeholder' => 'Enter phone'
+        );
 
-            $this->data['phone'] = array(
-                'name' => 'phone',
-                'id' => 'phone',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('phone'),
-                'class' => 'form-control',
-                'placeholder' => 'Enter phone'
-            );
+        $this->data['organization'] = array(
+            'name' => 'organization',
+            'id' => 'organization',
+            'type' => 'text',
+            'value' => $this->form_validation->set_value('organization'),
+            'class' => 'form-control',
+            'placeholder' => 'Write organization....'
+        );
 
-            $this->data['organization'] = array(
-                'name' => 'organization',
-                'id' => 'organization',
-                'type' => 'text',
-                'value' => $this->form_validation->set_value('organization'),
-                'class' => 'form-control',
-                'placeholder' => 'Write organization....'
-            );
+        $this->data['password'] = array(
+            'name' => 'password',
+            'id' => 'password',
+            'type' => 'password',
+            'value' => $this->form_validation->set_value('password'),
+            'class' => 'form-control',
+            'placeholder' => 'Enter password'
+        );
+        $this->data['password_confirm'] = array(
+            'name' => 'password_confirm',
+            'id' => 'password_confirm',
+            'type' => 'password',
+            'value' => $this->form_validation->set_value('password_confirm'),
+            'class' => 'form-control',
+            'placeholder' => 'Confirm password'
+        );
 
-            $this->data['password'] = array(
-                'name' => 'password',
-                'id' => 'password',
-                'type' => 'password',
-                'value' => $this->form_validation->set_value('password'),
-                'class' => 'form-control',
-                'placeholder' => 'Enter password'
-            );
-            $this->data['password_confirm'] = array(
-                'name' => 'password_confirm',
-                'id' => 'password_confirm',
-                'type' => 'password',
-                'value' => $this->form_validation->set_value('password_confirm'),
-                'class' => 'form-control',
-                'placeholder' => 'Confirm password'
-            );
-
-            //render view
-            $this->load->view('header', $this->data);
-            $this->load->view('sidebar');
-            $this->_render_page('create_user');
-            $this->load->view('footer');
-        }
+        //render view
+        $this->load->view('header', $this->data);
+        $this->load->view('sidebar');
+        $this->_render_page('create_user');
+        $this->load->view('footer');
     }
 
     // edit a user

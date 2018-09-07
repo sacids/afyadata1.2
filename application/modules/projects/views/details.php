@@ -46,7 +46,7 @@
 
                             <?= anchor('projects/edit/' . $project->id, '<b><i class="icon-pencil"></i></b> Edit Project', 'class="btn btn-sm btn-warning btn-labeled btn-labeled-left"') ?>
                             <?= anchor('projects/delete/' . $project->id, '<b><i class="icon-trash"></i></b> Delete Project', 'class="btn btn-sm btn-danger btn-labeled btn-labeled-left delete"') ?>
-                            <?= anchor('projects/edit/#', '<b><i class="icon-envelop"></i></b> Invite', 'class="btn btn-sm btn-info btn-labeled btn-labeled-left"') ?>
+                            <?= anchor('projects/invite/' . $project->id, '<b><i class="icon-envelop"></i></b> Invite', 'class="btn btn-sm btn-info btn-labeled btn-labeled-left"') ?>
                         </div>
                     </div>
                 </div><!--./row -->
@@ -87,9 +87,11 @@
                                                         </a>
                                                         <div class="dropdown-menu dropdown-menu-right">
                                                             <a href="<?= site_url('forms/edit/' . $project->id . '/' . $v->id) ?>"
-                                                               class="dropdown-item"><i class="icon-pencil"></i> Edit</a>
+                                                               class="dropdown-item"><i class="icon-pencil"></i>
+                                                                Edit</a>
                                                             <a href="<?= site_url('forms/delete/' . $project->id . '/' . $v->id) ?>"
-                                                               class="dropdown-item"><i class="icon-trash"></i> Delete</a>
+                                                               class="dropdown-item"><i class="icon-trash"></i>
+                                                                Delete</a>
                                                         </div>
                                                     </div>
                                                 </div>

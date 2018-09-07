@@ -152,19 +152,19 @@ class Migration_Install_afyadata extends CI_Migration
         $data = array(
             'id' => '1',
             'ip_address' => '127.0.0.1',
-            'username' => 'administrator',
+            'username' => 'admin',
             'password' => '$2a$07$SeBknntpZror9uyftVopmu61qg0ms8Qv1yV6FG.kQOSM.9QhmTo36',
             'salt' => '',
-            'email' => 'admin@admin.com',
+            'email' => 'afyadata@sacids.org',
             'activation_code' => '',
             'forgotten_password_code' => NULL,
             'created_on' => '1268889823',
             'last_login' => '1268889823',
             'active' => '1',
-            'first_name' => 'Admin',
-            'last_name' => 'istrator',
-            'company' => 'ADMIN',
-            'phone' => '0',
+            'first_name' => 'Sacids',
+            'last_name' => 'Administrator',
+            'company' => 'Sacids Tanzania',
+            'phone' => '255783555386',
         );
         $this->db->insert($this->tables['users'], $data);
 
@@ -293,14 +293,13 @@ class Migration_Install_afyadata extends CI_Migration
                 ),
                 'code' => array(
                     'type' => 'VARCHAR',
-                    'constraints' => 10,
+                    'constraint' => 10,
                 ),
                 'created_at' => array(
                     'type' => 'DATETIME'
                 ),
                 'update_at' => array(
-                    'type' => 'DATETIME',
-                    'default' => 'CURRENT_TIMESTAMP'
+                    'type' => 'DATETIME'
                 ),
                 'created_by' => array(
                     'type' => 'INT',

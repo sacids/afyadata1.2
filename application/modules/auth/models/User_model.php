@@ -25,6 +25,16 @@ class User_model extends CI_Model
     }
 
     /**
+     * @return array
+     */
+    function find_all()
+    {
+        return $this->db
+            ->order_by('first_name', 'ASC')
+            ->get(self::$table_name)->result();
+    }
+
+    /**
      * @param $num
      * @param $start
      * @return array

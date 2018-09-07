@@ -74,11 +74,63 @@ section {
     color: #CC0000;
 }
 
-
 /**	15. Background color
  *************************************************** **/
+.bg-maroon {
+    background-color: #781E14;
+}
+
+.bg-orange {
+    background-color: #e15f00;
+}
+
+.bg-white {
+    background-color: #ffffff;
+}
+
 .bg-light-grey {
     background: #f5f5f5;
+}
+
+.bg-dark {
+    color: #fff;
+    background-color: #222;
+}
+
+/**	15. Buttons
+ *************************************************** **/
+.btn.btn-maroon {
+    background: #781E14;
+    color: #fff;
+    border: 1px solid #781E14;
+}
+
+.btn.btn-maroon:hover,
+.btn.btn-maroon:focus,
+.btn.btn-maroon:active,
+.btn.btn-maroon.active {
+    background: #781E14;
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
+}
+
+.btn.btn-orange {
+    background: #e15f00;
+    color: #fff;
+    border: 1px solid #e15f00;
+}
+
+.btn.btn-orange:hover,
+.btn.btn-orange:focus,
+.btn.btn-orange:active,
+.btn.btn-orange.active {
+    background: #e64a19;
+    transition: all 0.3s ease;
+    -webkit-transition: all 0.3s ease;
+    -moz-transition: all 0.3s ease;
+    -o-transition: all 0.3s ease;
 }
 
 /**	17. Custom table

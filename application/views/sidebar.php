@@ -29,9 +29,9 @@
                         </div>
 
                         <div class="media-body">
-                            <div class="media-title font-weight-semibold">Victoria Baker</div>
+                            <div class="media-title font-weight-semibold"><?php show_login_user_full_name(); ?></div>
                             <div class="font-size-xs opacity-50">
-                                <i class="icon-pin font-size-sm"></i> &nbsp;Santa Ana, CA
+                                <i class="icon-briefcase font-size-sm"></i> &nbsp <?php show_login_user_organization(); ?>
                             </div>
                         </div>
                     </div>
