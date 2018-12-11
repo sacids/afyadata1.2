@@ -54,3 +54,16 @@ $route['formList'] = 'api/v3/forms/form_list';
 $route['submission'] = 'api/v3/forms/submission';
 $route['404_override'] = '';
 $route['translate_uri_dashes'] = FALSE;
+
+
+$project    = $this->uri->segment(1);
+require_once( BASEPATH .'database/DB'. EXT );
+$db =& DB();
+if($query = $db->where('title',str_replace("_"," ",$project))->get( 'projects' )->row_array()){
+    $route[$project]  = "project";
+    //$route[$project.'/(:any)']  = "project/$1";
+    $route[$project.'/(:any)/(:any)']  = "project/$1/$2";
+    //echo $query['title'];
+}
+
+

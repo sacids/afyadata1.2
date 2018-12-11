@@ -1,0 +1,39 @@
+.w_nav{
+    height: 80px;
+    background-color: #ffffff;
+    padding: 15px;
+}
+@media screen and (max-width: 1000px){
+   .w_nav{
+       height: 60px;
+       padding: 5px;
+   }
+
+}
+
+
+
+
+
+.login_wrapper{
+    //height: calc(40vh - 80px);
+}
+.ez-link{
+    cursor: pointer;
+}
+.ez-th-act{
+    padding-left: 0px;
+    padding-right: 0px;
+    width: 70px;
+}
+.card_target{
+    border: 0px;
+    border-top: 1px solid #90A4AE;
+}
+.ez_del{
+    cursor: pointer;
+}
+
+.media-chat-scrollable{
+    max-height: 350px;
+}
