@@ -98,6 +98,9 @@ class Project extends CI_Controller {
             case 'member':
                 $this->manage_member();
                 break;
+            case 'group':
+                $this->manage_group();
+                break;
             default:
                 //echo 'default'; exit();
                 $this->welcome();
@@ -292,7 +295,8 @@ class Project extends CI_Controller {
             } else {
 
                 $data['output'] = $this->db_exp->output;
-                $this->load->view('project/add_form', $data);
+                $data['item']   = 'Form';
+                $this->load->view('project/add_item', $data);
             }
 
 
@@ -301,21 +305,92 @@ class Project extends CI_Controller {
             $this->load->view('project/form',$data);
         }
     }
-
     private function manage_member(){
 
-        $data['project']    = $this->project_tree[$this->project]['project'];
+        $project    = $this->project_tree[$this->project]['project'];
+        $data['project']    = $project;
 
         if($this->form == 'add'){
-            $this->load->view('project/add_member', $data);
+
+            $this->db_exp->set_table('users');
+
+            $this->db_exp->set_hidden('ip_address');
+            $this->db_exp->set_hidden('salt');
+            $this->db_exp->set_hidden('password');
+            $this->db_exp->set_hidden('activation_code');
+            $this->db_exp->set_hidden('forgotten_password_code');
+            $this->db_exp->set_hidden('forgotten_password_time');
+            $this->db_exp->set_hidden('remember_code');
+            $this->db_exp->set_hidden('activation_code');
+            $this->db_exp->set_hidden('last_login');
+
+            $this->db_exp->set_hidden('created_on', date('Y-m-d H:i:s'));
+            $this->db_exp->set_hidden('created_by', $this->user_id);
+            $this->db_exp->set_hidden('phone');
+            $this->db_exp->set_hidden('company');
+            $this->db_exp->set_select('active',array('1' => "Yes",'0' => 'No'));
+
+            $this->db_exp->set_default_action('insert');
+            $this->db_exp->render();
+
+            if ($this->db_exp->is_posted) {
+
+                $uid = $this->db->insert_id();
+
+                // assign user to project group
+                $this->model->set_table('users_groups');
+                $this->model->insert(array(
+                    'user_id'   => $uid,
+                    'group_id'  => $project->group_id));
+
+                    echo "User created succesfully";
+                    // redirect to form management page
+                    return;
+            } else {
+                $data['output'] = $this->db_exp->output;
+                $data['item']   = 'User';
+                $this->load->view('project/add_item', $data);
+            }
+
         }else{
+
             $this->load->view('project/member',$data);
         }
     }
+    private function manage_group(){
 
-    private function add_form(){
+        $project    = $this->project_tree[$this->project]['project'];
+        $data['project']    = $project;
 
-        $data['project']    = $this->project_tree[$this->project]['project'];
+        if($this->form == 'add'){
+
+            $this->db_exp->set_table('groups');
+            $this->db_exp->set_default_action('insert');
+            $this->db_exp->render();
+
+            if ($this->db_exp->is_posted) {
+
+                $gid = $this->db->insert_id();
+
+                // assign user to project group
+                $this->model->set_table('project_groups');
+                $this->model->insert(array(
+                    'project_id'   => $project->id,
+                    'group_id'  => $gid));
+
+                echo "Group created succesfully";
+                // redirect to form management page
+                return;
+            } else {
+                $data['output'] = $this->db_exp->output;
+                $data['item']   = 'Group';
+                $this->load->view('project/add_item', $data);
+            }
+
+        }else{
+
+            $this->load->view('project/member',$data);
+        }
     }
 
 	private function welcome(){

@@ -363,7 +363,7 @@ $(document).on(
                 var ref_data    = $(this).attr('ref_data');
 
                 // dim & progress
-                var dark_4 = $(this).closest('.card');
+                var dark_4 = $(this).closest('div');
                 $(dark_4).block({
                     message: '<i class="icon-spinner4 spinner"></i>',
                     overlayCSS: {
@@ -380,12 +380,12 @@ $(document).on(
                 });
 
                 //call ajax request
-                $.post('http://ad2.local/api/obox/add_comment', {comment: comment, ref_data: ref_data }, function(data) {
+                $.post('http://ad2.local/api/v3/form_data/add_comment', {comment: comment, ref_data: ref_data }, function(data) {
 
 
                     $(dark_4).unblock();
                     if(data != 0){
-                        $('#obox_chat_list').prepend(data).slideUp();
+                        $('#obox_chat_list').append(data);
                     }else{
                         alert('Oh snap! something is not right, please try again later');
                     }

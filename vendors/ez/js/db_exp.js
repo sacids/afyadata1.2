@@ -120,7 +120,7 @@ $(document).ready(function() {
         var action = $(this).attr('action');
         if(!target) target = "_blank";
         if(!action) action = 'http://ad2.local/'+$(this).closest("table").attr('action');
-        action = action+'?'+arg;
+        action = action+'&'+arg;
 
         // dim & progress
         var dark_4 = $('#'+target);
