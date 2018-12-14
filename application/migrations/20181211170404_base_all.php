@@ -5,16 +5,16 @@ class Migration_base_all extends CI_Migration {
 	public function up() {
 
 		## Create Table app_version
-		$this->db->query('CREATE TABLE `app_version` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `app_version` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(255) NOT NULL,
   `version` varchar(25) NOT NULL,
-  `status` enum('active','inactive') NOT NULL DEFAULT 'inactive',
+  `status` enum("active","inactive") NOT NULL DEFAULT "inactive",
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 
 		## Create Table groups
-		$this->db->query('CREATE TABLE `groups` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `groups` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `name` varchar(20) NOT NULL,
   `description` varchar(100) NOT NULL,
@@ -56,7 +56,7 @@ class Migration_base_all extends CI_Migration {
 		$this->db->insert_batch("groups",$data);
 
 		## Create Table login_attempts
-		$this->db->query('CREATE TABLE `login_attempts` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `login_attempts` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(45) NOT NULL,
   `login` varchar(100) DEFAULT NULL,
@@ -65,7 +65,7 @@ class Migration_base_all extends CI_Migration {
 ) ENGINE=InnoDB AUTO_INCREMENT=14 DEFAULT CHARSET=utf8');
 
 		## Create Table migrations
-		$this->db->query('CREATE TABLE `migrations` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `migrations` (
   `version` bigint(20) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 		### Insert data into table migrations ##
@@ -77,7 +77,7 @@ class Migration_base_all extends CI_Migration {
 		$this->db->insert_batch("migrations",$data);
 
 		## Create Table ohkr_detected_diseases
-		$this->db->query('CREATE TABLE `ohkr_detected_diseases` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `ohkr_detected_diseases` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `table_name` varchar(255) NOT NULL,
   `instance_id` int(11) NOT NULL,
@@ -88,7 +88,7 @@ class Migration_base_all extends CI_Migration {
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 
 		## Create Table ohkr_disease_symptoms
-		$this->db->query('CREATE TABLE `ohkr_disease_symptoms` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `ohkr_disease_symptoms` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `disease_id` int(11) NOT NULL,
   `symptom_id` int(11) NOT NULL,
@@ -100,7 +100,7 @@ class Migration_base_all extends CI_Migration {
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 
 		## Create Table ohkr_diseases
-		$this->db->query('CREATE TABLE `ohkr_diseases` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `ohkr_diseases` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
@@ -111,7 +111,7 @@ class Migration_base_all extends CI_Migration {
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 
 		## Create Table ohkr_species
-		$this->db->query('CREATE TABLE `ohkr_species` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `ohkr_species` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `created_at` datetime NOT NULL,
@@ -120,7 +120,7 @@ class Migration_base_all extends CI_Migration {
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 
 		## Create Table ohkr_symptoms
-		$this->db->query('CREATE TABLE `ohkr_symptoms` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `ohkr_symptoms` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `code` varchar(10) NOT NULL,
@@ -131,7 +131,7 @@ class Migration_base_all extends CI_Migration {
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 
 		## Create Table perm_config
-		$this->db->query('CREATE TABLE `perm_config` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `perm_config` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `perm_tree_id` int(11) NOT NULL,
   `category` varchar(20) NOT NULL,
@@ -210,7 +210,7 @@ class Migration_base_all extends CI_Migration {
 		$this->db->insert_batch("perm_config",$data);
 
 		## Create Table perm_filter
-		$this->db->query('CREATE TABLE `perm_filter` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `perm_filter` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(150) NOT NULL,
   `description` text NOT NULL,
@@ -219,7 +219,7 @@ class Migration_base_all extends CI_Migration {
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1');
 
 		## Create Table perm_filter_config
-		$this->db->query('CREATE TABLE `perm_filter_config` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `perm_filter_config` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `perm_filter_id` int(11) NOT NULL,
   `field_name` varchar(150) NOT NULL,
@@ -231,7 +231,7 @@ class Migration_base_all extends CI_Migration {
 ) ENGINE=InnoDB DEFAULT CHARSET=latin1');
 
 		## Create Table perm_module
-		$this->db->query('CREATE TABLE `perm_module` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `perm_module` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `title` varchar(100) NOT NULL,
   `icon` varchar(50) NOT NULL,
@@ -256,7 +256,7 @@ class Migration_base_all extends CI_Migration {
 		$this->db->insert_batch("perm_module",$data);
 
 		## Create Table perm_tables
-		$this->db->query('CREATE TABLE `perm_tables` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `perm_tables` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `module_id` int(11) NOT NULL,
   `label` varchar(100) NOT NULL,
@@ -354,7 +354,7 @@ class Migration_base_all extends CI_Migration {
 		$this->db->insert_batch("perm_tables",$data);
 
 		## Create Table perm_tables_conf
-		$this->db->query('CREATE TABLE `perm_tables_conf` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `perm_tables_conf` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `table_id` int(11) NOT NULL,
   `field_name` varchar(150) NOT NULL,
@@ -804,7 +804,7 @@ class Migration_base_all extends CI_Migration {
 		$this->db->insert_batch("perm_tables_conf",$data);
 
 		## Create Table perm_tabs
-		$this->db->query('CREATE TABLE `perm_tabs` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `perm_tabs` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
   `table_id` int(11) NOT NULL,
   `title` varchar(150) NOT NULL,
@@ -1014,7 +1014,7 @@ class Migration_base_all extends CI_Migration {
 		$this->db->insert_batch("perm_tabs",$data);
 
 		## Create Table perm_tree
-		$this->db->query('CREATE TABLE `perm_tree` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `perm_tree` (
   `id` int(5) unsigned NOT NULL AUTO_INCREMENT,
   `parent_id` int(5) unsigned NOT NULL,
   `module_id` int(5) unsigned NOT NULL,
@@ -1109,7 +1109,7 @@ class Migration_base_all extends CI_Migration {
 		$this->db->insert_batch("perm_tree",$data);
 
 		## Create Table projects
-		$this->db->query('CREATE TABLE `projects` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `projects` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `description` text,
@@ -1167,7 +1167,7 @@ class Migration_base_all extends CI_Migration {
 		$this->db->insert_batch("projects",$data);
 
 		## Create Table users
-		$this->db->query('CREATE TABLE `users` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `users` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `ip_address` varchar(45) NOT NULL,
   `username` varchar(100) NOT NULL,
@@ -1212,7 +1212,7 @@ class Migration_base_all extends CI_Migration {
 		$this->db->insert_batch("users",$data);
 
 		## Create Table users_groups
-		$this->db->query('CREATE TABLE `users_groups` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `users_groups` (
   `id` mediumint(8) unsigned NOT NULL AUTO_INCREMENT,
   `user_id` mediumint(8) unsigned NOT NULL,
   `group_id` mediumint(8) unsigned NOT NULL,
@@ -1244,33 +1244,33 @@ class Migration_base_all extends CI_Migration {
 		$this->db->insert_batch("users_groups",$data);
 
 		## Create Table xform_config
-		$this->db->query('CREATE TABLE `xform_config` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `xform_config` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `form_id` int(11) NOT NULL,
-  `push` int(11) NOT NULL DEFAULT '0',
-  `has_feedback` int(11) NOT NULL DEFAULT '0',
-  `use_ohkr` int(11) NOT NULL DEFAULT '0',
-  `has_map` int(11) NOT NULL DEFAULT '0',
-  `has_charts` int(11) NOT NULL DEFAULT '0',
-  `allow_dhis` int(11) NOT NULL DEFAULT '0',
+  `push` int(11) NOT NULL DEFAULT `0`,
+  `has_feedback` int(11) NOT NULL DEFAULT `0`,
+  `use_ohkr` int(11) NOT NULL DEFAULT `0`,
+  `has_map` int(11) NOT NULL DEFAULT `0`,
+  `has_charts` int(11) NOT NULL DEFAULT `0`,
+  `allow_dhis` int(11) NOT NULL DEFAULT `0`,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 
 		## Create Table xform_field_map
-		$this->db->query('CREATE TABLE `xform_field_map` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `xform_field_map` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `table_name` varchar(255) NOT NULL,
   `col_name` varchar(300) NOT NULL,
   `field_name` varchar(300) NOT NULL,
   `field_label` varchar(100) NOT NULL,
   `field_type` varchar(45) NOT NULL,
-  `hide` tinyint(1) NOT NULL DEFAULT '0',
-  `chart_use` tinyint(1) NOT NULL DEFAULT '0',
+  `hide` tinyint(1) NOT NULL DEFAULT `0`,
+  `chart_use` tinyint(1) NOT NULL DEFAULT `0`,
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 
 		## Create Table xform_submission
-		$this->db->query('CREATE TABLE `xform_submission` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `xform_submission` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `filename` text NOT NULL,
   `created_at` datetime NOT NULL,
@@ -1279,14 +1279,14 @@ class Migration_base_all extends CI_Migration {
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8');
 
 		## Create Table xforms
-		$this->db->query('CREATE TABLE `xforms` (
+		$this->db->query('CREATE TABLE IF NOT EXISTS `xforms` (
   `id` int(11) unsigned NOT NULL AUTO_INCREMENT,
   `title` varchar(255) NOT NULL,
   `description` text NOT NULL,
   `project_id` int(11) NOT NULL,
   `form_id` varchar(255) NOT NULL,
-  `access` enum('public','private') NOT NULL DEFAULT 'public',
-  `status` enum('draft','published','inactive') NOT NULL DEFAULT 'draft',
+  `access` enum(`public`,`private`) NOT NULL DEFAULT `public`,
+  `status` enum(`draft`,`published`,`inactive`) NOT NULL DEFAULT `draft`,
   `created_at` datetime NOT NULL,
   `created_by` int(11) NOT NULL,
   `attachment` varchar(255) NOT NULL,
