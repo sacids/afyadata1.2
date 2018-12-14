@@ -1,8 +1,7 @@
 <?php
 defined('BASEPATH') OR exit('No direct script access allowed');
 
-
-
+$this->session->set_userdata('form_id',$this->form);
 
 ?>
 
@@ -35,22 +34,24 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a href="#bottom-tab1" class="nav-link active legitRipple" data-toggle="tab"><i class="icon-ipad mr-2"></i>View</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#bottom-tab1" class="nav-link legitRipple" data-toggle="tab"><i class="icon-stack2 mr-2"></i>Data</a>
+                        <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/data/'); ?>"  class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-stack2 mr-2"></i>Data</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#bottom-tab1" class="nav-link legitRipple" data-toggle="tab"><i class="icon-map mr-2"></i>Map</a>
+                        <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/map/'); ?>" class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-map mr-2"></i>Map</a>
                     </li>
                     <li class="nav-item">
                         <a href="#bottom-tab1" class="nav-link legitRipple" data-toggle="tab"><i class="icon-chart mr-2"></i>Charts</a>
                     </li>
+                    <!--
                     <li class="nav-item">
-                        <a href="#bottom-tab1" class="nav-link legitRipple" data-toggle="tab"><i class="icon-bubbles6 mr-2"></i>Discussion</a>
+                        <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/feedback/'); ?>" class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-bubbles6 mr-2"></i>Discussion</a>
+                        -->
                     </li>
                     <li class="nav-item">
-                        <a href="#bottom-tab1" class="nav-link legitRipple" data-toggle="tab"><i class="icon-link2 mr-2"></i>Mapping</a>
+                        <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/mapping/');?>" class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-link2 mr-2"></i>Mapping</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#bottom-tab1" class="nav-link legitRipple" data-toggle="tab"><i class="icon-filter4 mr-2"></i>Filter</a>
+                        <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/filter/');?>"class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-filter4 mr-2"></i>Filter</a>
                     </li>
                     <li class="nav-item">
                         <a href="#bottom-tab1" class="nav-link legitRipple" data-toggle="tab"><i class="icon-user-lock mr-2"></i>Permissions</a>
@@ -59,69 +60,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         <a href="#bottom-tab1" class="nav-link legitRipple" data-toggle="tab"><i class="icon-cog3 mr-2"></i>Config</a>
                     </li>
 
-
-                    <?php
-/*
-                    $dbx_id = uniqid('dbexp');
-
-                    foreach($tabs as $tab){
-
-                        $args	= http_build_query($tab);
-                        $url   = ( array_key_exists('link', $tab) ? $tab['link'] : 'api/obox/page_not_found');
-                        $url    .= '?'.$args.'&form_id='.$dbx_id;
-                        $url    = site_url($url);
-                        $icon   = ( empty($tab['icon']) ? 'icon-menu7' : $tab['icon'] );
-
-                        echo '<li class="nav-item"><a href="#'.$dbx_id.'" class="tab nav-link legitRipple" data-toggle="tab" u="'.$url.'" ><i class="'.$icon.' mr-2"></i>'.$tab['title'].'</a></li>';
-                    }*/
-                    ?>
                 </ul>
 
                 <div class="tab-content">
-                    <div class="tab-pane fade active show" id="bottom-tab1">
-                        <?php
+                    <div class="tab-pane fade active show dbx_wrapper" id="bottom-tab1">
 
-                        //echo 'salama '.print_r($data);
-                        /*
-                                                foreach($data as $k => $v){
-
-                                                    if ( (array_key_exists ( $k, $conf ) && $conf[$k] ['field_property'] == 'hidden') || substr($k,0,2) == "__" || !array_key_exists ( $k, $conf )) {
-                                                        continue; // do not show
-                                                    }
-
-                                                    if ( (array_key_exists ( $k, $conf ) && $conf[$k] ['field_property'] == 'upload' )) {
-
-                                                        $file   = FCPATH.'assets/uploads/'.$v;
-                                                        $mime = mime_content_type($file);
-                                                        if(strstr($mime, "video/")){
-                                                            // this code for video
-                                                        }else if(strstr($mime, "image/")){
-                                                            // this code for image
-                                                            $v  = '<a href="'.site_url("/assets/uploads/$v").'" data-popup="lightbox"><img class="img-preview rounded" src="'.site_url("/assets/uploads/$v").'"></a>';
-
-                                                        }else{
-                                                            echo '<a href="'.site_url("/assets/uploads/$v").' download></a>';
-                                                        }
-
-
-
-                                                    }
-
-                                                    if ( (array_key_exists ( $k, $conf ) && substr($conf[$k] ['field_property'],0,3) == 'db_' )) {
-
-                                                        $fv = explode(":",$conf[$k]['field_value']);
-                                                        $this->model->set_table($fv[0]);
-                                                        $ret = $this->model->as_array()->get_by($fv[1],$v);
-                                                        $v  = strtoupper($ret[$fv[2]]);
-                                                    }
-
-                                                    echo '<div class="row p-1"><div class="col-1">'.str_replace("_"," ",str_replace("_id","",ucfirst($k))).'</div><div class="col-5">: '.$v.'</div></div>';
-
-                                                }*/
+                        <?php //$this->load->view('project/form/mapping');
+                            //print_r($project);
                         ?>
-                    </div>
-                    <div class="tab-pane fade dbx_wrapper" id="">
-                        nothing now
                     </div>
 
                 </div>

@@ -291,7 +291,7 @@ class Ez extends CI_Controller {
                 $flag = 1;
             }
 
-            $this->project_tree[$row->project_id]['project'][$row->id] = $row;
+            $this->project_tree[$row->project_id]['xform'][$row->id] = $row;
         }
     }
 

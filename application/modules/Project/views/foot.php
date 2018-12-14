@@ -31,7 +31,8 @@
     <script src="<?php echo base_url(); ?>vendors/limitless/global_assets/js/plugins/pickers/pickadate/picker.js"></script>
     <script src="<?php echo base_url(); ?>vendors/limitless/global_assets/js/plugins/pickers/pickadate/picker.date.js"></script>
 
-    <script src="<?php echo base_url(); ?>vendors/limitless/global_assets/js/plugins/forms/wizards/steps.min.js"></script>
+    <script src="<?php echo base_url(); ?>vendors/limitless/global_assets/js/plugins/ui/fab.min.js"></script>
+    <script src="<?php echo base_url(); ?>vendors/limitless/global_assets/js/demo_pages/extra_fab.js"></script>
 
 
 <script src="<?php echo base_url(); ?>vendors/limitless/assets/js/app.js"></script>

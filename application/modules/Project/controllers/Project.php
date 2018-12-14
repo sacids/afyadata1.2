@@ -38,7 +38,7 @@ class Project extends CI_Controller {
 
 		parent::__construct();
 
-		$this->load->model(array('model','Perm_model'));
+		$this->load->model(array('model','Perm_model','XFormreader_model'));
 		$this->load->library(array('db_exp','ion_auth'));
 
 		if (!$this->ion_auth->logged_in()) {
@@ -96,7 +96,7 @@ class Project extends CI_Controller {
                 $this->manage_form();
                 break;
             case 'member':
-                echo 'Member actions'; exit();
+                $this->manage_member();
                 break;
             default:
                 //echo 'default'; exit();
@@ -145,6 +145,7 @@ class Project extends CI_Controller {
             return;
         }
 
+
         if($this->uri->total_segments() == 2){
             $this->module_id    = 10;
             $this->perm_id      = 25;
@@ -179,6 +180,7 @@ class Project extends CI_Controller {
     }
     private function view_end(){
 
+        $this->load->view('project/add_fab');
         $this->load->view('project/page_end');
         $this->load->view('project/foot');
     }
@@ -218,12 +220,96 @@ class Project extends CI_Controller {
 
     private function manage_form(){
 
+        $data['project']        = $this->project_tree[$this->project]['project'];
+        $project                = $data['project'];
+
+        if($this->form == 'add'){
+
+            $xFormReader = new XFormreader_model();
+            $file_definition = $this->config->item('form_definition_upload_dir');
+
+            $this->db_exp->set_table('xforms');
+            $this->db_exp->set_hidden('created_at', date('Y-m-d H:i:s'));
+            $this->db_exp->set_hidden('created_by', $this->user_id);
+            $this->db_exp->set_hidden('project_id', $project->id);
+            $this->db_exp->set_hidden('form_id');
+            $this->db_exp->set_hidden('perms','P'.$this->user_id.'P,G'.$project->group_id.'G');
+            $this->db_exp->set_hidden('status','inactive');
+            $this->db_exp->set_select('access',array('private','public'),true);
+            $this->db_exp->set_textarea('description');
+            $this->db_exp->set_upload('attachment',array(
+                'upload_path'   => $this->config->item('form_definition_upload_dir'),
+                'allowed_types'  => 'xml|xlsx',
+                'max_size'      => 50000
+            ));
+
+            $this->db_exp->set_default_action('insert');
+            $this->db_exp->render();
+
+            if ($this->db_exp->is_posted) {
+                //print_r($project);
+                $rid = $this->db->insert_id();
+
+
+                // initialize form and create sql statement
+                $attachment = $this->db_exp->posted_data['attachment'];
+                $cts        = $xFormReader->initialize($attachment);
+                $form_id    = $xFormReader->get_table_name();
+
+
+                // check if form id is already in use
+                $this->model->set_table('xforms');
+                if($this->model->count_by('form_id',$form_id) != 0){
+                    @unlink($file_definition . $attachment);
+                    echo "Form ID is already used, try a different one";
+                    // link to add new form
+                    return;
+                }
+
+
+                // create table
+                if($id = $this->db->simple_query($cts)){
+
+
+                    // update form id
+                    $this->model->set_table('xforms');
+                    $this->model->update($rid, array('form_id'=>$form_id));
+
+                    echo "Form uploaded succesfully";
+                    // redirect to form management page
+                    return;
+
+                }else{
+
+                    echo "Form ID upload failed, try again later ".$cts;
+                    return;
+                    // error
+                }
+
+
+                echo $rid;
+
+            } else {
+
+                $data['output'] = $this->db_exp->output;
+                $this->load->view('project/add_form', $data);
+            }
+
+
+
+        }else{
+            $this->load->view('project/form',$data);
+        }
+    }
+
+    private function manage_member(){
+
         $data['project']    = $this->project_tree[$this->project]['project'];
 
         if($this->form == 'add'){
-            $this->load->view('project/add_form', $data);
+            $this->load->view('project/add_member', $data);
         }else{
-            $this->load->view('project/form',$data);
+            $this->load->view('project/member',$data);
         }
     }
 
@@ -236,7 +322,11 @@ class Project extends CI_Controller {
 
         $this->load->view('project/project_main');
     }
-	
+
+    public function view(){
+	    $tmp    = $this->uri->segment_array();
+	    $this->load->view('project/'.implode('/',array_slice($tmp,2)));
+    }
 
 	
 	public function edit(){

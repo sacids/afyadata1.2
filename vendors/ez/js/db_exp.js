@@ -112,6 +112,48 @@ $(document).ready(function() {
     });
 
 
+    $(document).on('click', '.dbx_arg_link', function(event) {
+
+        // get the form
+        var arg    = $(this).attr('arg');
+        var target = $(this).attr('target');
+        var action = $(this).attr('action');
+        if(!target) target = "_blank";
+        if(!action) action = 'http://ad2.local/'+$(this).closest("table").attr('action');
+        action = action+'?'+arg;
+
+        // dim & progress
+        var dark_4 = $('#'+target);
+        $(dark_4).block({
+            message: '<i class="icon-spinner4 spinner"></i>',
+            overlayCSS: {
+                backgroundColor: '#1B2024',
+                opacity: 0.85,
+                cursor: 'wait'
+            },
+            css: {
+                border: 0,
+                padding: 0,
+                backgroundColor: 'none',
+                color: '#fff'
+            }
+        });
+
+
+        $.get(action, function(data, status){
+
+            $(dark_4).unblock();
+            $('#'+target).html(data);
+
+            $('#'+target+' .multiselect').multiselect('refresh');
+
+        });
+
+        // Avoid submit event to continue normal execution
+        event.preventDefault();
+        return false;
+    });
+
     $(document).on('click', '.dbx_act_link', function(event) {
 
         // get the form

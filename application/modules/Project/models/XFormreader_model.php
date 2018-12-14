@@ -6,7 +6,7 @@
  * Time: 18:14
  */
 
-class XmlElement__
+class XmlElement
 {
     var $name;
     var $attributes;
@@ -14,7 +14,7 @@ class XmlElement__
     var $children;
 }
 
-class Formreader_model extends CI_Model
+class XFormreader_model extends CI_Model
 {
     public $form_defn;
     public $form_data;
@@ -247,6 +247,7 @@ class Formreader_model extends CI_Model
         $binds = $rxml->children [0]->children [1]->children;
         $tmp2 = $rxml->children [0]->children [1]->children [1]->children [0]->children;
         $tmp2 = $rxml->children [1]->children;
+
         // container
         $xarray = array();
 
@@ -312,6 +313,7 @@ class Formreader_model extends CI_Model
 
         // loop through xform definition array
         $counter = 0;
+        //echo '<pre>'; print_r($structure); exit();
         foreach ($structure as $key => $val) {
 
             // check if type is empty
@@ -353,6 +355,7 @@ class Formreader_model extends CI_Model
 
             if ($type == 'select') {
                 $statement .= ", $col_name TEXT $required ";
+
 
                 foreach ($val['option'] as $key => $select_opts) {
 
@@ -422,18 +425,29 @@ class Formreader_model extends CI_Model
     }
 
     //map field
-    function _map_field($field_name)
+    function _map_field($field_name,$label = false)
     {
 
         if (substr($field_name, 0, 5) == 'meta_')
             return $field_name;
 
-        $fn = 'col_' . md5($field_name);
+        $fn = '_xf_' . md5($field_name);
 
         $data = array();
         $data['table_name'] = $this->table_name;
         $data['col_name'] = $fn;
         $data['field_name'] = $field_name;
+
+        $fl     = $field_name;
+        if($label){
+            $fl = $label;
+        }
+        if(substr($fl,0,4) == '_xf_'){
+           $tmp = explode("_",$fl,3);
+           $fl  = $tmp[2];
+        }
+        $data['field_label']  = str_replace("_"," ",$fl);
+
 
         if ($this->xform_model->add_to_field_name_map($data)) {
             return $fn;

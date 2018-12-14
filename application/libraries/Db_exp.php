@@ -15,9 +15,11 @@ class Db_exp
     public $form_action;
     public $form_attributes;
     public $form_id;
+    public $posted_data;
     public $output = '';
     var $insert_id;
     public $form_hidden = array();
+    public $arg_link;
 
     public function __construct()
     {
@@ -38,6 +40,7 @@ class Db_exp
         $this->show_edit_button = true;
         $this->is_posted    = false;
         $this->output = '';
+        $this->arg_link = array();
 
         $this->ci   = &get_instance();
         $this->ci->load->library('upload');
@@ -80,10 +83,11 @@ class Db_exp
             $this->is_posted = true;
             
             //$ret = $this->_process_submit($CI->input->post());
-            $ret = $this->_process_submit($this->ci->input->post());
+            $this->posted_data = $this->_process_submit($this->ci->input->post());
+
             // what to do after submit
             if ($this->show_form_after_submit) {
-                return $ret;
+                return $this->posted_data;
             }
         }
 
@@ -123,8 +127,20 @@ class Db_exp
         $this->form_action = $uri;
     }
 
+    public function set_arg_link($action, $target, $title, $icon = 'icon-grid'){
+        $tmp    = array(
+            'action'    => $action,
+            'target'    => $target,
+            'title'     => $title,
+            'icon'      => $icon
+        );
+
+        array_push($this->arg_link, $tmp);
+    }
+
     public function set_form_attribute($option, $value = '')
     {
+
         if (is_array($option)) {
             foreach ($option as $key => $val) {
                 $this->form_attributes[$key] = $val;
@@ -899,6 +915,10 @@ class Db_exp
         $this->output   .= '<th>#</th><th>Actions</th>';
         foreach ($query->list_fields() as $field){
 
+            if(array_key_exists($field,$this->fields) && array_key_exists('label',$this->fields[$field])){
+                $field = $this->fields[$field]['label'];
+            }
+
             if ($field === 'id') continue;
             $label = ucfirst(str_replace("_", " ", str_ireplace("_id", "", $field)));
             $this->output   .= '<th>'.$label.'</th>';
@@ -914,6 +934,11 @@ class Db_exp
             $this->output   .=  '<tr><td>'.$row['id'].'</td>';
             $this->output   .=  '<td><div class="list-icons"><div class="dropdown"><a href="#" class="list-icons-item" data-toggle="dropdown" aria-expanded="false"><i class="icon-menu9"></i></a><div class="dropdown-menu dropdown-menu-right" x-placement="bottom-end">';
 
+            foreach($this->arg_link as $link){
+                $this->output   .= '<a class="dbx_arg_link dropdown-item"  target="'.$link['target'].'" action="'.$link['action'].'" arg="'.http_build_query($row).'" ><i class="'.$link['icon'].'"> '.$link['title'].'</i></a>';
+            }
+
+            $this->output   .= '<a class="dbx_act_link dropdown-item"  act="view" id="'.$row['id'].'"><i class="icon-file-eye"> View</i></a>';
 
             if($this->show_edit_button){
                 $this->output   .= '<a class="dbx_act_link dropdown-item"  act="edit" id="'.$row['id'].'"><i class="icon-file-text"> Edit</i></a>';
