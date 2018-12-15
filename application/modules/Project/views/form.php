@@ -2,7 +2,9 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $this->session->set_userdata('form_id',$this->form);
-
+$this->model->set_table('xforms');
+$form   = $this->model->get($this->form);
+//print_r($form);
 ?>
 
 
@@ -13,7 +15,9 @@ $this->session->set_userdata('form_id',$this->form);
 
         <div class="card mt-3">
             <div class="card-header header-elements-inline">
-                <h5 class="card-title"> Form Name </h5>
+                <h5 class="card-title"><?php echo $form->title; ?>
+                    <span class="d-block font-size-base text-muted"><?php echo $form->description ?></span>
+                </h5>
 
                 <div class="header-elements">
                     <div class="list-icons">

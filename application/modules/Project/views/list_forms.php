@@ -18,7 +18,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                                  width="32" height="32" alt="">
                         </td>
                         <td class="table-inbox-name">
-                            <a href="<?php echo $project->title.'/form/'.$form['id']; ?>">
+                            <a href="<?php echo base_url($project->title.'/form/'.$form['id']); ?>">
                                 <div class="letter-icon-title text-default"><?php echo $form['title'] ?></div>
                                 <span class="text-muted font-weight-normal">Created on <?php $form['created_at']; ?></span>
                         </td>
