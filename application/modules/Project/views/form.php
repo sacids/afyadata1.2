@@ -2,6 +2,7 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $this->session->set_userdata('form_id',$this->form);
+$this->session->set_userdata('project_id',$this->project);
 $this->model->set_table('xforms');
 $form   = $this->model->get($this->form);
 //print_r($form);
@@ -55,10 +56,10 @@ $form   = $this->model->get($this->form);
                         <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/mapping/');?>" class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-link2 mr-2"></i>Mapping</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/filter/');?>"class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-filter4 mr-2"></i>Filter</a>
+                        <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/filter/');?>" class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-filter4 mr-2"></i>Filter</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#bottom-tab1" class="nav-link legitRipple" data-toggle="tab"><i class="icon-user-lock mr-2"></i>Permissions</a>
+                        <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/perms/');?>" class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-user-lock mr-2"></i>Permissions</a>
                     </li>
                     <li class="nav-item">
                         <a href="#bottom-tab1" class="nav-link legitRipple" data-toggle="tab"><i class="icon-cog3 mr-2"></i>Config</a>

@@ -133,6 +133,35 @@ class Perm_model extends CI_Model{
 		
 		return $all_perms;
 	}
+
+	public function get_all_project_perms($project_id){
+
+        $all_perms	= array('X1X' => 'None');
+
+        // set group perms
+        $sql    = 'SELECT id, name FROM groups WHERE id IN (SELECT group_id FROM project_groups WHERE project_id = "'.$project_id.'")';
+        $query  = $this->db->query($sql);
+
+        foreach($query->result() as $row){
+            $key	= 'G'.$row->id.'G';
+            $val	= 'G - '.$row->name;
+            $all_perms[$key]	= $val;
+        }
+
+        // set users perms
+        $this->db->select('id, first_name, last_name');
+        $query = $this->db->get('users');
+
+        foreach($query->result() as $row){
+            $key	= 'P'.$row->id.'P';
+            $val	= $row->first_name.' '.$row->last_name;
+            $all_perms[$key]	= $val;
+        }
+
+        return $all_perms;
+
+    }
+
 	public function get_my_perms(){
 	
 		$my_id		= $this->session->userdata('user_id');
