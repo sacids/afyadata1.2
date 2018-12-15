@@ -10,8 +10,9 @@
 
     $form_id    = $this->session->userdata('form_id');
     $project_id = $this->session->userdata('project_id');
+    $group_id = $this->session->userdata('group_id');
 
-    $available_perms = $this->Perm_model->get_all_project_perms ($project_id);
+    $available_perms = $this->Perm_model->get_all_project_perms ($project_id,$group_id);
 
     $this->db_exp->set_table ( 'xforms' );
     $this->db_exp->set_hidden ( array('id','project_id','title','description','access','status','form_id','created_at','created_by', 'attachment') );

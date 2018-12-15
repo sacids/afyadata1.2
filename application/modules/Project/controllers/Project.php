@@ -302,6 +302,7 @@ class Project extends CI_Controller {
 
 
         }else{
+
             $this->load->view('project/form',$data);
         }
     }

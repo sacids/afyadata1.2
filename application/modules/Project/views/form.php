@@ -2,7 +2,10 @@
 defined('BASEPATH') OR exit('No direct script access allowed');
 
 $this->session->set_userdata('form_id',$this->form);
-$this->session->set_userdata('project_id',$this->project);
+$this->session->set_userdata('project_id',$project->id);
+$this->session->set_userdata('group_id',$project->group_id);
+
+
 $this->model->set_table('xforms');
 $form   = $this->model->get($this->form);
 //print_r($form);
