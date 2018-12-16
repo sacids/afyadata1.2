@@ -190,7 +190,7 @@ $json   = "
 
 
 <div class="chart-container">
-    <div class="chart has-fixed-height"  style="width:90vw; height:500px;" id="line_zoom"> </div>
+    <div class="chart has-fixed-height"  style="width:95vw; height:483px;" id="line_zoom"> </div>
 </div>
 
 <script> <?php echo $json; ?> </script>
