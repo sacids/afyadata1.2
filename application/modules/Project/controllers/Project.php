@@ -38,6 +38,7 @@ class Project extends CI_Controller {
 
 		parent::__construct();
 
+
 		$this->load->model(array('model','Perm_model','XFormreader_model'));
 		$this->load->library(array('db_exp','ion_auth'));
 
@@ -400,6 +401,7 @@ class Project extends CI_Controller {
     }
 
     public function view(){
+
 	    $tmp    = $this->uri->segment_array();
 	    $this->load->view('project/'.implode('/',array_slice($tmp,2)));
     }
