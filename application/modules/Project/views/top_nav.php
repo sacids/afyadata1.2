@@ -84,13 +84,17 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             </ul>
 
             <span class="navbar-text ml-md-3 mr-md-auto">
-                <span class="badge bg-pink-400 badge-pill">
-                    <?php
-                        echo $this->project ? $this->project_tree[strtolower($this->project)]['project']->title : 'My Projects';
-
-                    ?>
-
+                <span class="badge bg-danger-800 badge-pill">
+                    My Projects
                 </span>
+                <?php
+
+                if($this->project){
+                    echo '<span class="badge bg-danger-400 badge-pill">'.$this->project_tree[strtolower($this->project)]['project']->title.'
+                    </span>';
+                }
+
+                ?>
             </span>
 
             <ul class="navbar-nav">
