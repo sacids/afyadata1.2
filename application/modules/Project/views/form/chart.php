@@ -26,7 +26,12 @@ foreach($mapping as $field){
 $sql    = "SELECT DATE(submitted_at) as submitted_date, ".implode(', ',$q)." FROM $table_name GROUP BY submitted_date";
 
 $query  = $this->db->query($sql);
+if(!$query->num_rows()){
+    echo 'No data available';
+    return;
+}
 $chart_data = array();
+
 
 foreach($query->result_array() as $row){
     foreach($row as $k => $v){
