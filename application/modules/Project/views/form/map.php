@@ -42,9 +42,6 @@ $table_name = $xform->form_id;
 // check if file is cached
 
 
-
-
-
 $this->model->set_table('xform_field_map');
 $mapping    = $this->model->get_many_by('table_name',$table_name);
 //echo '<pre>'; print_r($mapping); exit();
