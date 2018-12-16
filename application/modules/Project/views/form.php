@@ -38,11 +38,11 @@ $form   = $this->model->get($this->form);
             <div class="card-body">
                 <ul class="nav nav-tabs nav-tabs-bottom">
 
-                    <li class="nav-item">
+  <!--                  <li class="nav-item">
                         <a href="#bottom-tab1" class="nav-link active legitRipple" data-toggle="tab"><i class="icon-ipad mr-2"></i>View</a>
-                    </li>
+                    </li> !-->
                     <li class="nav-item">
-                        <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/data/'); ?>"  class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-stack2 mr-2"></i>Data</a>
+                        <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/data/'); ?>"  class="tab nav-link active legitRipple" data-toggle="tab"><i class="icon-stack2 mr-2"></i>Data</a>
                     </li>
                     <li class="nav-item">
                         <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/map/'); ?>" class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-map mr-2"></i>Map</a>
@@ -73,7 +73,8 @@ $form   = $this->model->get($this->form);
                 <div class="tab-content">
                     <div class="tab-pane fade active show dbx_wrapper" id="bottom-tab1">
 
-                        <?php //$this->load->view('project/form/mapping');
+                        <?php
+                            $this->load->view('project/form/data');
                             //print_r($project);
                         ?>
                     </div>
