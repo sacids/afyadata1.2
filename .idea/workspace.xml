@@ -30,9 +30,17 @@
       <file leaf-file-name="top_nav.php" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/application/modules/Project/views/top_nav.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="340">
-              <caret line="97" column="0" lean-forward="true" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
-              <folding />
+            <state relative-caret-position="233">
+              <caret line="66" column="135" lean-forward="false" selection-start-line="66" selection-start-column="135" selection-end-line="66" selection-end-column="135" />
+              <folding>
+                <marker date="1544924262517" expanded="true" signature="3696:3754" ph="..." />
+                <marker date="1544924262517" expanded="true" signature="4057:4238" ph="..." />
+                <marker date="1544924262517" expanded="true" signature="4117:4238" ph="..." />
+                <marker date="1544924262517" expanded="true" signature="4378:5194" ph="..." />
+                <marker date="1544924262517" expanded="true" signature="4458:5194" ph="..." />
+                <marker date="1544924262517" expanded="true" signature="4554:4801" ph="..." />
+                <marker date="1544924262517" expanded="true" signature="4870:5194" ph="..." />
+              </folding>
             </state>
           </provider>
         </entry>
@@ -41,7 +49,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>set_la</find>
       <find>label</find>
       <find>col_</find>
       <find>_xf_</find>
@@ -71,6 +78,7 @@
       <find>manage</find>
       <find>ez/</find>
       <find>ez</find>
+      <find>balance</find>
     </findStrings>
     <replaceStrings>
       <replace>group</replace>
@@ -186,6 +194,12 @@
               <item name="afyadata1.2" type="b2602c69:ProjectViewProjectNode" />
               <item name="afyadata1.2" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="afyadata1.2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="afyadata1.2" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="config" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="afyadata1.2" type="b2602c69:ProjectViewProjectNode" />
@@ -339,12 +353,12 @@
       <updated>1543309339861</updated>
       <workItem from="1543309341262" duration="7757000" />
       <workItem from="1543344383504" duration="61093000" />
-      <workItem from="1544624418322" duration="39853000" />
+      <workItem from="1544624418322" duration="40045000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="108703000" />
+    <option name="totallyTimeSpent" value="108895000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="113" y="22" width="1263" height="802" extended-state="0" />
@@ -3063,17 +3077,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/application/config/routes.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="275">
-          <caret line="55" column="39" lean-forward="true" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
-          <folding>
-            <marker date="1544304360195" expanded="true" signature="73:1856" ph="..." />
-            <marker date="1544304360195" expanded="true" signature="2264:2436" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/modules/auth/controllers/Auth.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="236">
@@ -3247,11 +3250,30 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/application/config/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="451">
+          <caret line="61" column="51" lean-forward="false" selection-start-line="61" selection-start-column="31" selection-end-line="61" selection-end-column="51" />
+          <folding>
+            <marker date="1544304360195" expanded="true" signature="73:1856" ph="..." />
+            <marker date="1544304360195" expanded="true" signature="2264:2436" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/application/modules/Project/views/top_nav.php">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="340">
-          <caret line="97" column="0" lean-forward="true" selection-start-line="97" selection-start-column="0" selection-end-line="97" selection-end-column="0" />
-          <folding />
+        <state relative-caret-position="233">
+          <caret line="66" column="135" lean-forward="false" selection-start-line="66" selection-start-column="135" selection-end-line="66" selection-end-column="135" />
+          <folding>
+            <marker date="1544924262517" expanded="true" signature="3696:3754" ph="..." />
+            <marker date="1544924262517" expanded="true" signature="4057:4238" ph="..." />
+            <marker date="1544924262517" expanded="true" signature="4117:4238" ph="..." />
+            <marker date="1544924262517" expanded="true" signature="4378:5194" ph="..." />
+            <marker date="1544924262517" expanded="true" signature="4458:5194" ph="..." />
+            <marker date="1544924262517" expanded="true" signature="4554:4801" ph="..." />
+            <marker date="1544924262517" expanded="true" signature="4870:5194" ph="..." />
+          </folding>
         </state>
       </provider>
     </entry>

@@ -64,7 +64,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
 
                                         <li class="media">
                                             <div class="media-body">
-                                                <a href="<?php echo base_url('project/'.$project['project']->id); ?>" class="media-title font-weight-semibold"><?php echo $project['project']->title; ?></a>
+                                                <a href="<?php echo base_url(str_replace(" ","_",strtolower($project['project']->title))); ?>" class="media-title font-weight-semibold"><?php echo $project['project']->title; ?></a>
                                                 <span class="d-block text-muted font-size-sm"><?php echo $project['project']->description; ?></span>
                                             </div>
                                             <div class="ml-3 align-self-center"><span class="badge badge-mark border-success"></span></div>
