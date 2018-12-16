@@ -48,7 +48,7 @@ $form   = $this->model->get($this->form);
                         <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/map/'); ?>" class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-map mr-2"></i>Map</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#bottom-tab1" class="nav-link legitRipple" data-toggle="tab"><i class="icon-chart mr-2"></i>Charts</a>
+                        <a href="#bottom-tab1"  u="<?php echo base_url('project/view/form/chart/'); ?>" class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-chart mr-2"></i>Charts</a>
                     </li>
                     <!--
                     <li class="nav-item">

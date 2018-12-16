@@ -1,7 +1,6 @@
 
 
 <script src="<?php echo base_url(); ?>vendors/ez/js/db_exp.js"></script>
-
 <?php
 /**
  * Created by PhpStorm.
