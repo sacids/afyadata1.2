@@ -40,7 +40,7 @@ class Auth extends CI_Controller
 		}
 		else
 		{
-            redirect('ez/index', 'refresh');
+            redirect('project/index', 'refresh');
 		}
 	}
 
@@ -66,7 +66,7 @@ class Auth extends CI_Controller
 				//if the login is successful
 				//redirect them back to the home page
 				$this->session->set_flashdata('message', $this->ion_auth->messages());
-				redirect(base_url('ez'), 'refresh');
+				redirect(base_url('project'), 'refresh');
 			}
 			else
 			{
@@ -110,7 +110,7 @@ class Auth extends CI_Controller
 
         if ($this->ion_auth->logged_in())
         {
-            redirect(base_url('ez'), 'refresh');
+            redirect(base_url('project'), 'refresh');
         }
 
         $tables = $this->config->item('tables', 'ion_auth');

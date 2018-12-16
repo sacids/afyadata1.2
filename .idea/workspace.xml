@@ -2,10 +2,7 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="7805c52b-aced-471a-8aa3-a5ab3ad0323a" name="Default" comment="migration file">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/application/modules/Project/views/form/chart.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/modules/Project/views/form.php" afterPath="$PROJECT_DIR$/application/modules/Project/views/form.php" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/modules/Project/views/form/mapping.php" afterPath="$PROJECT_DIR$/application/modules/Project/views/form/mapping.php" />
+      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/application/modules/auth/controllers/Auth.php" afterPath="$PROJECT_DIR$/application/modules/auth/controllers/Auth.php" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
@@ -30,14 +27,12 @@
   </component>
   <component name="FileEditorManager">
     <leaf>
-      <file leaf-file-name="chart.php" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/application/modules/Project/views/form/chart.php">
+      <file leaf-file-name="Auth.php" pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/application/modules/auth/controllers/Auth.php">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="286">
-              <caret line="13" column="4" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
-              <folding>
-                <marker date="1544907804059" expanded="true" signature="1445:1486" ph="..." />
-              </folding>
+            <state relative-caret-position="236">
+              <caret line="206" column="33" lean-forward="false" selection-start-line="206" selection-start-column="31" selection-end-line="206" selection-end-column="33" />
+              <folding />
             </state>
           </provider>
         </entry>
@@ -46,8 +41,6 @@
   </component>
   <component name="FindInProjectRecents">
     <findStrings>
-      <find>tab</find>
-      <find>n view</find>
       <find>set_la</find>
       <find>label</find>
       <find>col_</find>
@@ -76,6 +69,8 @@
       <find>set_option</find>
       <find>get_all</find>
       <find>manage</find>
+      <find>ez/</find>
+      <find>ez</find>
     </findStrings>
     <replaceStrings>
       <replace>group</replace>
@@ -99,7 +94,6 @@
         <option value="$PROJECT_DIR$/application/config/ion_auth.php" />
         <option value="$PROJECT_DIR$/application/modules/auth/models/Ion_auth_model.php.bak" />
         <option value="$PROJECT_DIR$/application/modules/ez/views/top_nav.php" />
-        <option value="$PROJECT_DIR$/application/modules/auth/controllers/Auth.php" />
         <option value="$PROJECT_DIR$/application/modules/ez/views/project_main.php" />
         <option value="$PROJECT_DIR$/application/modules/ez/views/page_start.php" />
         <option value="$PROJECT_DIR$/application/modules/api/controllers/aplus.php" />
@@ -144,6 +138,7 @@
         <option value="$PROJECT_DIR$/application/modules/Project/views/form.php" />
         <option value="$PROJECT_DIR$/application/modules/Project/views/form/mapping.php" />
         <option value="$PROJECT_DIR$/application/modules/Project/views/form/chart.php" />
+        <option value="$PROJECT_DIR$/application/modules/auth/controllers/Auth.php" />
       </list>
     </option>
   </component>
@@ -197,6 +192,21 @@
               <item name="afyadata1.2" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
               <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="afyadata1.2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="afyadata1.2" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="auth" type="2a2b976b:PhpTreeStructureProvider$1" />
+            </path>
+            <path>
+              <item name="afyadata1.2" type="b2602c69:ProjectViewProjectNode" />
+              <item name="afyadata1.2" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="application" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="modules" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="auth" type="2a2b976b:PhpTreeStructureProvider$1" />
+              <item name="controllers" type="2a2b976b:PhpTreeStructureProvider$1" />
             </path>
             <path>
               <item name="afyadata1.2" type="b2602c69:ProjectViewProjectNode" />
@@ -329,12 +339,12 @@
       <updated>1543309339861</updated>
       <workItem from="1543309341262" duration="7757000" />
       <workItem from="1543344383504" duration="61093000" />
-      <workItem from="1544624418322" duration="39304000" />
+      <workItem from="1544624418322" duration="39561000" />
     </task>
     <servers />
   </component>
   <component name="TimeTrackingManager">
-    <option name="totallyTimeSpent" value="108154000" />
+    <option name="totallyTimeSpent" value="108411000" />
   </component>
   <component name="ToolWindowManager">
     <frame x="113" y="22" width="1263" height="802" extended-state="0" />
@@ -378,21 +388,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/application/modules/Project/views/projects.php">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-932">
-          <caret line="0" column="0" lean-forward="false" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/vendors/limitless/global_assets/js/demo_pages/form_wizard.js">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="692">
-          <caret line="42" column="32" lean-forward="true" selection-start-line="42" selection-start-column="32" selection-end-line="64" selection-end-column="11" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/application/migrations/20180903114047_Install_afyadata.php">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="293">
@@ -3134,8 +3129,44 @@
         <state relative-caret-position="286">
           <caret line="13" column="4" lean-forward="true" selection-start-line="13" selection-start-column="4" selection-end-line="13" selection-end-column="4" />
           <folding>
+            <marker date="1544907804059" expanded="true" signature="5:1132" ph="..." />
+            <marker date="1544907804059" expanded="true" signature="1163:1205" ph="..." />
+            <marker date="1544907804059" expanded="true" signature="1213:1345" ph="..." />
+            <marker date="1544907804059" expanded="true" signature="1236:1337" ph="{...}" />
             <marker date="1544907804059" expanded="true" signature="1445:1486" ph="..." />
+            <marker date="1544907804059" expanded="true" signature="1445:2334" ph="..." />
+            <marker date="1544907804059" expanded="true" signature="1634:2323" ph="{&quot;type&quot;: 'scatter'...}" />
+            <marker date="1544907804059" expanded="true" signature="1759:1813" ph="{...}" />
+            <marker date="1544907804059" expanded="true" signature="1788:1801" ph="..." />
+            <marker date="1544907804059" expanded="true" signature="1874:2317" ph="{...}" />
+            <marker date="1544907804059" expanded="true" signature="1926:1975" ph="{&quot;position&quot;: 'left'...}" />
+            <marker date="1544907804059" expanded="true" signature="1997:2307" ph="{...}" />
+            <marker date="1544907804059" expanded="true" signature="2022:2293" ph="[...]" />
+            <marker date="1544907804059" expanded="true" signature="2023:2291" ph="{&quot;type&quot;: 'time'...}" />
+            <marker date="1544907804059" expanded="true" signature="2085:2273" ph="{&quot;tooltipFormat&quot;: &quot;DD/MM/YY&quot;...}" />
+            <marker date="1544907804059" expanded="true" signature="2127:2200" ph="{&quot;month&quot;: 'MM/YY'...}" />
+            <marker date="1544907804059" expanded="true" signature="2346:2430" ph=" Created by PhpStorm. ..." />
+            <marker date="1544907804059" expanded="true" signature="2435:2627" ph="..." />
           </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/config/routes.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="275">
+          <caret line="55" column="39" lean-forward="true" selection-start-line="55" selection-start-column="39" selection-end-line="55" selection-end-column="39" />
+          <folding>
+            <marker date="1544304360195" expanded="true" signature="73:1856" ph="..." />
+            <marker date="1544304360195" expanded="true" signature="2264:2436" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/application/modules/auth/controllers/Auth.php">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="236">
+          <caret line="206" column="33" lean-forward="false" selection-start-line="206" selection-start-column="31" selection-end-line="206" selection-end-column="33" />
+          <folding />
         </state>
       </provider>
     </entry>
