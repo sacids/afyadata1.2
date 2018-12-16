@@ -25,6 +25,8 @@
 <script src="<?php echo base_url(); ?>vendors/limitless/global_assets/js/plugins/tables/datatables/extensions/select.min.js"></script>
 <script src="<?php echo base_url(); ?>vendors/limitless/global_assets/js/plugins/tables/datatables/extensions/responsive.min.js"></script>
     <script src="<?php echo base_url(); ?>vendors/limitless/global_assets/js/plugins/tables/datatables/extensions/scroller.min.js"></script>
+
+    <script src="<?php echo base_url(); ?>vendors/limitless/global_assets/js/plugins/tables/datatables/extensions/buttons.min.js"></script>
     <script src="<?php echo base_url(); ?>vendors/limitless/global_assets/js/plugins/forms/selects/bootstrap_multiselect.js"></script>
     <script src="<?php echo base_url(); ?>vendors/limitless/global_assets/js/plugins/loaders/progressbar.min.js"></script>
     <script src="<?php echo base_url(); ?>vendors/limitless/global_assets/js/plugins/media/fancybox.min.js"></script>

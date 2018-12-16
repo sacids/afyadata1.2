@@ -202,7 +202,24 @@ $(document).ready(function() {
         scroller:       true,
         select:         true,
         responsive: true,
-        dom: '<"datatable-header"fl><"datatable-scroll"t><"datatable-footer"ip>',
+        columnDefs: [{
+            targets: -1, // Hide actions column
+            visible: false
+        }],
+        buttons: {
+            dom: {
+                button: {
+                    className: 'btn btn-light'
+                }
+            },
+            buttons: [
+                'copyHtml5',
+                'excelHtml5',
+                'csvHtml5',
+                'pdfHtml5'
+            ]
+        },
+        dom: '<"datatable-header"fB><"datatable-scroll"t><"datatable-footer">',
         language: {
             search: '<span>Filter:</span> _INPUT_',
             lengthMenu: '<span>Show:</span> _MENU_',
@@ -210,6 +227,23 @@ $(document).ready(function() {
         }
     });
 
+
+/*
+    buttons: [
+        {
+            extend: 'print',
+            text: '<i class="icon-printer mr-2"></i> Print table',
+            className: 'btn btn-light',
+            exportOptions: {
+                columns: ':visible'
+            }
+        },
+        {
+            extend: 'colvis',
+            text: '<i class="icon-three-bars"></i>',
+            className: 'btn btn-light btn-icon dropdown-toggle'
+        }
+    ], */
 
 
 });
