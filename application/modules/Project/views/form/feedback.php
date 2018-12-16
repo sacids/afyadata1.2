@@ -1,7 +1,5 @@
 
 
-<script src="<?php echo base_url(); ?>vendors/ez/js/db_exp.js"></script>
-
 <?php
 /**
  * Created by PhpStorm.
@@ -33,44 +31,53 @@ foreach($tmp2 as $val){
 
 ?>
 
-<ul class="list-unstyled msg_list">
-        <?php
+<ul id="obox_chat_list" class="media-list media-chat media-chat-scrollable mb-3">
+    <?php
 
-            foreach($data as $comment){
-                ?>
-                <!-- <li>
-                    <div class="block">
-                        <h2 class="title">
-                            <?php echo $comment['comment']; ?>
-                        </h2>
-                        <div class="tags">
-                            <a href="" class="tag">
-                                <span><?php echo $comment['full_name']; ?></span>
-                            </a>
-                        </div>
-                        <div class="block_content">
-                            <div class="byline">
-                                <span><?php echo $comment['time_elapsed']; ?></span>
-                            </div>
-                        </div>
-                    </div>
-                </li> -->
-                <li>
-                    <a>
-                            <span class="image">
-                              <img src="<?php echo base_url('assets/obox/images/').($comment['profile_pic'] ? $comment['profile_pic']:'user.png') ?>" alt="img">
-                            </span>
-                        <span>
-                              <span><?php echo $comment['full_name']; ?></span>
-                              <span class="time"><?php echo $comment['time_elapsed']; ?></span>
-                            </span>
-                        <span class="message">
-                              <?php echo $comment['comment']; ?>
-                            </span>
-                    </a>
-                </li>
-                <?php
-            }
+    foreach($data as $comment) {
+
+
+        $pic = ($comment['profile_pic'] ? $comment['profile_pic'] : 'placeholder.jpg');
+
+        if($user_id == $comment['created_by']){
+            $class  = ' media-chat-item-reverse ';
+            $pre_icon   = '<div class="ml-3">';
+        }else{
+            $class  = '';
+            $pre_icon   = '<div class="mr-3">';
+
+        }
+
+        $pre_icon   .= '<a href="'.base_url("assets/uploads/") . $pic.'">
+                            <img src="'.base_url("assets/uploads/") . $pic.'"
+                                 class="rounded-circle" width="40" height="40" alt="">
+                        </a>
+                    </div>';
+
         ?>
+
+        <li class="media <?php echo $class; ?>">
+
+            <?php if($class == '') echo $pre_icon ?>
+            <div class="media-body">
+                <div class="media-chat-item"><?php echo $comment['comment']; ?></div>
+                <div class="font-size-sm text-muted mt-2"><?php echo $comment['time_elapsed']. ' | '. $comment['full_name']; ?><a href="#"><i
+                                class="icon-pin-alt ml-2 text-muted"></i></a></div>
+            </div>
+            <?php if($class != '') echo $pre_icon ?>
+        </li>
+
+        <?php
+    }
+    ?>
+
+
+
 </ul>
+
+<textarea id="ref_comment" name="enter-message" class="form-control mb-3" rows="3" cols="1" placeholder="Enter your message..."></textarea>
+
+<div class="d-flex align-items-center">
+    <button type="button" id="obox_comment" class="btn bg-teal-400 btn-labeled btn-labeled-right ml-auto legitRipple" ref_data="<?php echo $ref_data; ?>"><b><i class="icon-paperplane"></i></b> Send</button>
+</div>
 

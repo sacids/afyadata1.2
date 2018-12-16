@@ -44,6 +44,11 @@ $table_name = $xform->form_id;
 
 
 
+$this->model->set_table($table_name);
+if(!$this->model->count_all()){
+    echo 'No data available';
+    return;
+}
 
 $this->model->set_table('xform_field_map');
 $mapping    = $this->model->get_many_by('table_name',$table_name);
@@ -68,6 +73,7 @@ if (!$gps_prefix) {
 
 $this->model->set_table($table_name);
 $data   = $this->model->as_array()->get_all();
+
 
 $addressPoints = '<script type="text/javascript"> var addressPoints = [';
 $first = 0;
