@@ -131,6 +131,43 @@ class Auth extends REST_Controller
         }
     }
 
+    //change password
+    function change_password_post()
+    {
+        if (!$this->post('user_id') || !$this->post('old_password') || !$this->post('new_password')) {
+            $this->response(array('status' => TRUE, 'error_msg' => 'Required parameter are missing'), 202);
+        }
+
+        //post variable
+        $user_id = $this->post('user_id');
+        $old = $this->post('old_password');
+        $new = $this->post('new_password');
+
+        //user
+        $user = $this->user_model->get_user_by_id($user_id);
+
+        if ($user) {
+            //digest password
+            $digest_pwd = md5("{$user->username}:{$this->realm}:{$new}");
+
+            //compare password
+            if ($this->ion_auth->hash_password_db($user_id, $old) === true) {
+                //user data
+                $data = ['password' => $new, 'digest_password' => $digest_pwd];
+
+                if ($this->ion_auth->update($user_id, $data)) {
+                    $this->response(array('error' => FALSE, 'success_msg' => 'Password changed'), 200);
+                } else {
+                    $this->response(array('error' => TRUE, 'error_msg' => 'Failed to update password'), 203);
+                }
+            } else {
+                $this->response(array('error' => TRUE, 'error_msg' => 'Wrong Password'), 203);
+            }
+        } else {
+            $this->response(array('error' => TRUE, 'error_msg' => 'User not exist'), 203);
+        }
+    }
+
     //remove 0 on start of mobile
     function cast_mobile($mobile)
     {
