@@ -296,7 +296,7 @@ class Forms extends CI_Controller
                     $specie = $this->specie_model->get_specie_by_name($species_name);
                     log_message("debug", "specie db => " . json_encode($specie));
 
-                    if ($specie) {
+                    if ($specie && $symptoms_reported) {
                         $request_data = [
                             "specie_id" => $specie->id,
                             "symptoms" => $symptoms_reported
@@ -311,6 +311,11 @@ class Forms extends CI_Controller
                         if (isset($json_object->status) && $json_object->status == 1) {
                             $detected_diseases = [];
 
+                            //message
+                            $message = 'Kutokana na taarifa ulizotuma haya ndiyo magonjwa yanayodhaniwa ni:  ';
+                            $suspected_diseases__message = $message . "<br/>";
+
+                            $i = 1;
                             foreach ($json_object->data as $disease) {
                                 $ug = $this->disease_model->get_disease_by_name($disease->title);
 
@@ -322,47 +327,19 @@ class Forms extends CI_Controller
                                     "reported_at" => date("Y-m-d H:i:s"),
                                     'reported_by' => $this->user_submitting_feedback_id
                                 ];
-                            }
-                            $this->db->insert_batch('ohkr_detected_diseases', $detected_diseases);
+                                $suspected_diseases__message .= $i . "." . $disease->title . "<br/>";
 
-                            //construct message
-
-                        }
-                    }
-
-                    if (count($symptoms_reported) > 0) {
-                        $suspected_diseases_array = array();
-                        $suspected_diseases = $this->ohkr_model->find_diseases_by_symptoms_code($symptoms_reported);
-
-                        $message = 'Kutokana na taarifa ulizotuma haya ndiyo magonjwa yanayodhaniwa ni:  ';
-                        $suspected_diseases_list = $message . "<br/>";
-
-                        if ($suspected_diseases) {
-
-                            $i = 1;
-                            foreach ($suspected_diseases as $disease) {
-
-                                $suspected_diseases_list .= $i . "." . $disease->disease_name . "<br/>";
-
-                                $suspected_diseases_array[$i - 1] = [
-                                    "table_name" => $this->xFormReader->get_table_name(),
-                                    "instance_id" => $this->xFormReader->get_form_data()['meta_instanceID'],
-                                    "disease_id" => $disease->disease_id,
-                                    "location" => $district,
-                                    "reported_at" => date("Y-m-d H:i:s"),
-                                    'reported_by' => $this->user_submitting_feedback_id
-                                ];
                                 $i++;
                             }
-                            $this->db->insert_batch('ohkr_detected_diseases', $suspected_diseases_array);
+                            $this->db->insert_batch('ohkr_detected_diseases', $detected_diseases);
                         } else {
-                            $suspected_diseases_list = 'Hatukuweza kudhania ugonjwa kutokana na taarifa ulizotuma kwa sasa,
+                            $suspected_diseases_message = 'Hatukuweza kudhania ugonjwa kutokana na taarifa ulizotuma kwa sasa,
 					tafadhali wasiliana na wataalam wetu kwa msaada zaidi';
                         }
 
                         //feedback
                         $feedback = [
-                            'message' => $suspected_diseases_list,
+                            'message' => $suspected_diseases_message,
                             'table_id' => $this->xFormReader->get_form_data()['meta_instanceID'],
                             'table_name' => $this->xFormReader->get_table_name(),
                             "created_by" => $this->user_submitting_feedback_id,
