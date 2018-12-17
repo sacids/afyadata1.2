@@ -45,6 +45,10 @@ class Form_data extends CI_Controller{
         $table_name = $this->input->get('tn');
         $table_id   = $this->session->userdata ['post'] ['id'];
 
+        $this->model->set_table($table_name);
+        $fd         = $this->model->as_array()->get($table_id);
+        $instance_id    = $fd['meta_instanceID'];
+
         $fields = $this->db->field_data($table_name);
         $ignore = array();
         array_push($ignore,$table_name);
@@ -69,12 +73,12 @@ class Form_data extends CI_Controller{
 
 
         $this->model->set_table('feedback');
-        $tmp    = array('table_id' => $table_id, 'table_name' => $table_name);
+        $tmp    = array('table_id' => $instance_id, 'table_name' => $table_name);
 
         $data   = array(
                 'msg' => array(),
                 'tbl' => $table_name,
-                'tbl_id' => $this->session->userdata ['post'] ['id']
+                'tbl_id' => $instance_id
         );
 
         $feedback   = $this->model->as_array()->get_many_by($tmp);
