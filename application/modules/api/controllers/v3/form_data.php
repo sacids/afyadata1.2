@@ -48,6 +48,11 @@ class Form_data extends CI_Controller{
         $this->model->set_table($table_name);
         $fd         = $this->model->as_array()->get($table_id);
         $instance_id    = $fd['meta_instanceID'];
+        $username       = $fd['meta_username'];
+
+        $this->model->set_table('users');
+        $user       = $this->model->get_by('username',$username);
+        $user_id    = $user->id;
 
         $fields = $this->db->field_data($table_name);
         $ignore = array();
@@ -78,7 +83,8 @@ class Form_data extends CI_Controller{
         $data   = array(
                 'msg' => array(),
                 'tbl' => $table_name,
-                'tbl_id' => $instance_id
+                'tbl_id' => $table_id,
+                'created_by' => $user_id
         );
 
         $feedback   = $this->model->as_array()->get_many_by($tmp);
@@ -87,7 +93,7 @@ class Form_data extends CI_Controller{
 
         foreach($feedback as $val){
 
-            $user                   = $this->model->as_object()->get($val['created_by']);
+            $user                   = $this->model->as_object()->get($val['replied_by']);
             $val['full_name']       = $user->first_name.' '.$user->last_name;
             $val['time_elapsed']    = $this->time_elapsed_string($val['created_on']);
             array_push($data['msg'],$val);
@@ -248,14 +254,22 @@ class Form_data extends CI_Controller{
         $table      = $ref_data[0];
         $table_id   = $ref_data[1];
 
+        //echo $table.' - '.$table_id; exit();
+        
         $this->model->set_table($table);
         $fd         = $this->model->as_array()->get($table_id);
         $instance_id    = $fd['meta_instanceID'];
+        $username       = $fd['meta_username'];
+
+        $this->model->set_table('users');
+        $user       = $this->model->get_by('username',$username);
+        $user_id    = $user->id;
 
         $data   = array(
             'table_name'         => $table,
             'table_id'      => $instance_id,
-            'created_by'    => $this->session->userdata('user_id'),
+            'created_by'    => $user_id,
+            'replied_by'    => $this->session->userdata('user_id'),
             'message'       => $this->input->post('comment'),
             'created_on'    => date("Y-m-d H:i:s")
         );
