@@ -11,6 +11,19 @@
 
 
 //echo $this->session->userdata('form_id');
+$field_type_options = array('TEXT' => "Text",
+                            'INT'
+                                   => "Number",
+                            "GPS" => "GPS Location",
+                            "DATE" => "DATE",
+                            "DALILI" => 'Dalili',
+                            "LAT" => "Latitude",
+                            "LONG" => "Longitude",
+                            "IDENTITY" => "Username/Identity",
+                            "IMAGE" => "Image",
+                            "DISTRICT" => "District",
+                            "SPECIE" => "Specie"
+);
 
 
 $this->model->set_table('xforms');
@@ -21,6 +34,7 @@ $this->db_exp->set_table('xform_field_map');
 $this->db_exp->set_search_condition("table_name = '$table_name'");
 $this->db_exp->set_form_action('project/view/form/mapping?');
 $this->db_exp->set_default_action('row_list');
+$this->db_exp->set_select('field_type',$field_type_options);
 $this->db_exp->set_select('chart',array(0 => 'None',1 => 'Sum', '2' => 'Count', '3' => 'Avg'));
 $this->db_exp->show_insert_button = false;
 $this->db_exp->show_delete_button = false;

@@ -92,6 +92,7 @@ foreach ($data as $val) {
     $lat = $val[$gps_prefix . '_lat'];
     $lng = $val[$gps_prefix . '_lng'];
     //TODO Replace a with form data.
+    $data_string = '';
     if (!$first++) {
         $addressPoints .= '[' . $lat . ', ' . $lng . ', "' . $data_string . '"]';
     } else {

@@ -244,9 +244,13 @@ class Form_data extends CI_Controller{
         $table      = $ref_data[0];
         $table_id   = $ref_data[1];
 
+        $this->model->set_table($table);
+        $fd         = $this->model->as_array()->get($table_id);
+        $instance_id    = $fd['meta_instanceID'];
+
         $data   = array(
             'table_name'         => $table,
-            'table_id'      => $table_id,
+            'table_id'      => $instance_id,
             'created_by'    => $this->session->userdata('user_id'),
             'message'       => $this->input->post('comment'),
             'created_on'    => date("Y-m-d H:i:s")
