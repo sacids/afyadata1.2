@@ -201,7 +201,7 @@ class Form_data extends CI_Controller{
 
         $pic = 'placeholder.jpg';
 
-        if($this->session->userdata('user_id') == $comment['created_by']){
+        if($this->session->userdata('user_id') == $comment['replied_by']){
             $class  = ' media-chat-item-reverse ';
             $pre_icon   = '<div class="ml-3">';
         }else{
@@ -255,7 +255,7 @@ class Form_data extends CI_Controller{
         $table_id   = $ref_data[1];
 
         //echo $table.' - '.$table_id; exit();
-        
+
         $this->model->set_table($table);
         $fd         = $this->model->as_array()->get($table_id);
         $instance_id    = $fd['meta_instanceID'];
