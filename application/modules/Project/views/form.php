@@ -65,7 +65,7 @@ $form   = $this->model->get($this->form);
                         <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/perms/');?>" class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-user-lock mr-2"></i>Permissions</a>
                     </li>
                     <li class="nav-item">
-                        <a href="#bottom-tab1" class="nav-link legitRipple" data-toggle="tab"><i class="icon-cog3 mr-2"></i>Config</a>
+                        <a href="#bottom-tab1" u="<?php echo base_url('project/view/form/config/');?>"  class="tab nav-link legitRipple" data-toggle="tab"><i class="icon-cog3 mr-2"></i>Config</a>
                     </li>
 
                 </ul>

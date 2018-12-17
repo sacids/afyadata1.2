@@ -83,19 +83,16 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 </li>
             </ul>
 
-            <span class="navbar-text ml-md-3 mr-md-auto">
-                <span class="badge bg-danger-800 badge-pill">
-                    My Projects
-                </span>
+            <div class="breadcrumb ml-md-3 mr-md-auto">
+                <a href="<?php echo base_url('project'); ?>" class="breadcrumb-item">My Projects</a>
                 <?php
 
                 if($this->project){
-                    echo '<span class="badge bg-danger-400 badge-pill">'.$this->project_tree[strtolower($this->project)]['project']->title.'
-                    </span>';
+                    echo '<a href="'.base_url($this->project_tree[strtolower($this->project)]['project']->title).'" class="breadcrumb-item">'.$this->project_tree[strtolower($this->project)]['project']->title.'</a>';
                 }
 
                 ?>
-            </span>
+            </div>
 
             <ul class="navbar-nav">
                 
