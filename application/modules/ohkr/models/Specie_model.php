@@ -75,4 +75,14 @@ class Specie_model extends CI_Model
         return $this->db
             ->get_where('ohkr_species', array('id' => $id))->row();
     }
+
+    /**
+     * @param $name
+     * @return mixed
+     */
+    function get_specie_by_name($name)
+    {
+        return $this->db
+            ->get_where('ohkr_species', array('title' => $name))->row();
+    }
 }

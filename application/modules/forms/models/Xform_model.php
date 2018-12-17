@@ -134,6 +134,29 @@ class Xform_model extends CI_Model
             ->get_where('xforms', array('form_id' => $form_id))->row();
     }
 
+    /**
+     * @param array $perms
+     * @param null $status
+     * @return mixed
+     */
+    public function get_form_list_by_perms($perms, $status = NULL)
+    {
+        if (is_array($perms)) {
+            $this->db->group_start();
+            foreach ($perms as $key => $value) {
+                $this->db->or_like("perms", $value);
+            }
+            $this->db->group_end();
+        } else {
+            $this->db->where("perms", $perms);
+        }
+
+        if ($status != NULL)
+            $this->db->where("status", $status);
+
+        return $this->db->get('xforms')->result();
+    }
+
 
     /**
      * @param $data

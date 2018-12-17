@@ -188,7 +188,7 @@ class Formreader_model extends CI_Model
 
             $index = count($elements);
             if ($tag ['type'] == "complete" || $tag ['type'] == "open") {
-                $elements [$index] = new XmlElement ();
+                $elements [$index] = new XmlElement__();
                 $elements [$index]->name = $tag ['tag'];
 
                 if (!empty ($tag ['attributes'])) {

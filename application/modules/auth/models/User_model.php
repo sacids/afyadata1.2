@@ -112,6 +112,43 @@ class User_model extends CI_Model
     }
 
     /**
+     * @param $user_id
+     * @return array
+     */
+    public function get_user_groups_by_id($user_id)
+    {
+        $this->db->select("ug.*,g.*");
+        $this->db->from("users_groups ug");
+        $this->db->join("users u", "u.id = ug.user_id");
+        $this->db->join("groups g", "g.id = ug.group_id");
+        $this->db->where("ug.user_id", $user_id);
+        return $this->db->get()->result();
+    }
+
+    public function get_my_perms($my_id = false)
+    {
+        if (!$my_id) {
+            $my_id = $this->session->userdata('user_id');
+        }
+
+        $my_perms = array('X' . $my_id . 'X' => 'X' . $my_id . 'X');
+        $my_perms = array('P' . $my_id . 'P' => 'P' . $my_id . 'P');
+
+
+        // set group perms
+        $this->db->where('user_id', $my_id);
+        $query = $this->db->get('users_groups');
+
+        foreach ($query->result() as $row) {
+            $key = 'G' . $row->group_id . 'G';
+            $val = 'G' . $row->group_id . 'G';
+            $my_perms[$key] = $val;
+        }
+
+        return $my_perms;
+    }
+
+    /**
      * @return int
      */
     function count_groups()

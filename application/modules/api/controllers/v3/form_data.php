@@ -68,7 +68,7 @@ class Form_data extends CI_Controller{
         }
 
 
-        $this->model->set_table('feedback');
+        $this->model->set_table('Feedbacks');
         $tmp    = array('table_id' => $table_id, 'table_name' => $table_name);
 
         $data   = array(
@@ -252,7 +252,7 @@ class Form_data extends CI_Controller{
             'created_on'    => date("Y-m-d H:i:s")
         );
 
-        $this->model->set_table('feedback');
+        $this->model->set_table('Feedbacks');
 
         if($this->model->insert($data)){
 
