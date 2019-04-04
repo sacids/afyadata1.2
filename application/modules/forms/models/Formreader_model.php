@@ -517,7 +517,7 @@ class Formreader_model extends CI_Model
                 array_push($col_values, $acc);
                 array_push($col_names, $cn . '_acc');
 
-                $point = "GeomFromText('POINT($lat $lng)')";
+                $point = "ST_GeomFromText('POINT($lat $lng)')";
                 array_push($points_v, $point);
                 array_push($points_n, $cn . '_point');
             }

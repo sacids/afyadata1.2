@@ -45,7 +45,7 @@ $this->db_exp->render();
     <div class="col-md-8">
         <?php echo $this->db_exp->output; ?>
     </div>
-    <div class="col-md-4 border-1 p-0" id="form_data" style="border-color: #ddd; background-color: #e8f5e9; max-height: 600px; overflow-y: scroll">
+    <div class="col-md-4 border-1 p-0" id="form_data" style="border-color: #ddd; max-height: 600px; overflow-y: scroll">
 
     </div>
 </div>

@@ -22,7 +22,7 @@ class Feedback_model extends CI_Model
      */
     function find_all($where_perm, $where_array, $created_on = NULL)
     {
-//        if (is_array($where_perm)) {
+        //        if (is_array($where_perm)) {
 //            $this->db->group_start();
 //            foreach ($where_perm as $key => $value) {
 //                $this->db->or_like("table_name", $value);
@@ -31,6 +31,7 @@ class Feedback_model extends CI_Model
 //        } else {
 //            $this->db->where("table_name", $where_perm);
 //        }
+
 
 
         if ($created_on != NULL)

@@ -184,7 +184,7 @@ class Feedback extends REST_Controller
         $form_details = $this->model->get_by('form_id', $this->table_name);
 
         //set file defn
-        $this->formreader_model->set_definition_file($this->config->item("form_definition_upload_dir") . $form_details->filename);
+        $this->formreader_model->set_definition_file($this->config->item("form_definition_upload_dir") . $form_details->attachment);
         $this->formreader_model->load_xml_definition();
         $form_definition = $this->formreader_model->get_definition();
 

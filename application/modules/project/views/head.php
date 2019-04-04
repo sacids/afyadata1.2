@@ -9,7 +9,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-    <title>OBOX | out of the box </title>
+    <title>Afyadata | Taarifa kwa wakati </title>
 
 
     <!-- Global stylesheets -->
