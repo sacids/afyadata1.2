@@ -1,8 +1,3 @@
-<?php
-defined('BASEPATH') OR exit('No direct script access allowed');
-
-?>
-
 <?php if (isset($xforms) && $xforms) { ?>
     <div class="table-responsive">
         <table class="table table-inbox">
@@ -11,18 +6,14 @@ defined('BASEPATH') OR exit('No direct script access allowed');
             foreach ($xforms as $form) {
                 ?>
                 <tr class="unread">
-                    <td width="30%" class="table-inbox-name">
-                        <a href="<?php echo base_url($project->title . '/form/' . $form['id']); ?>">
+                    <td width="70%" class="table-inbox-name">
+                        <a href="<?php echo base_url(str_replace(" ", "_", strtolower($project->title)) . '/form/' . $form['id']); ?>">
                             <div class="letter-icon-title text-default"><?php echo $form['title'] ?></div>
-                            <span class="text-muted font-weight-normal">Created on <?php echo date('jS F, Y', strtotime($form['created_at'])); ?></span>
+                            <span class="text-muted font-weight-normal"><?php echo $form['description']; ?></span>
                         </a>
                     </td>
-                    <td width="40%" class="table-inbox-message">
-                <span class="table-inbox-subject">
-                            <span class="text-muted font-weight-normal"><?php echo $form['description']; ?></span>
-                    </td>
-                    <td width="10%" class="table-inbox-time">
-                        <?php echo date('h.i A', strtotime($form['created_at'])); ?>
+                    <td width="20%" class="table-inbox-time">
+                        <?php echo date('jS F, Y h.i A', strtotime($form['created_at'])); ?>
                     </td>
                 </tr>
                 <?php

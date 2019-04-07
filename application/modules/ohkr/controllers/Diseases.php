@@ -31,6 +31,18 @@ class Diseases extends MX_Controller
         }
     }
 
+
+//    function update()
+//    {
+//        $this->model->set_table('xforms');
+//        $xforms = $this->model->get_all();
+//
+//        foreach ($xforms as $v) {
+//            $this->model->update_by(['id' => $v->id],
+//                ['attachment' => $v->filename, 'created_at' => $v->date_created, 'created_by' => 1]);
+//        }
+//    }
+
     //diseases lists
     function lists()
     {

@@ -44,7 +44,6 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                         $url .= '?' . $args . '&form_id=' . $dbx_id;
                         $url = site_url($url);
                         $icon = (empty($tab['icon']) ? 'icon-menu7' : $tab['icon']);
-
                         echo '<li class="nav-item"><a href="#' . $dbx_id . '" class="tab nav-link legitRipple" data-toggle="tab" u="' . $url . '" ><i class="' . $icon . ' mr-2"></i>' . $tab['title'] . '</a></li>';
                     }
                     ?>
@@ -53,49 +52,7 @@ defined('BASEPATH') OR exit('No direct script access allowed');
                 <div class="tab-content">
                     <div class="tab-pane fade active show" id="bottom-tab1">
                         <?php
-                        //                        echo $summary_url;
-                        //
-                        //                        $ch = curl_init();
-                        //                        curl_setopt($ch,CURLOPT_RETURNTRANSFER,1);
-                        //                        curl_setopt($ch,CURLOPT_URL,site_url($summary_url));
-                        //                        $data = curl_exec($ch);
-                        echo $str = file_get_contents($summary_url, false);
-                        //                        echo $data;
-                        //                        curl_close($ch);
-                        /*foreach ($data as $k => $v) {
-
-                            if ((array_key_exists($k, $conf) && $conf[$k] ['field_property'] == 'hidden') || substr($k, 0, 2) == "__" || !array_key_exists($k, $conf)) {
-                                continue; // do not show
-                            }
-
-                            if ((array_key_exists($k, $conf) && $conf[$k] ['field_property'] == 'upload')) {
-
-                                $file = FCPATH . 'assets/uploads/' . $v;
-                                $mime = mime_content_type($file);
-                                if (strstr($mime, "video/")) {
-                                    // this code for video
-                                } else if (strstr($mime, "image/")) {
-                                    // this code for image
-                                    $v = '<a href="' . site_url("/assets/uploads/$v") . '" data-popup="lightbox"><img class="img-preview rounded" src="' . site_url("/assets/uploads/$v") . '"></a>';
-
-                                } else {
-                                    echo '<a href="' . site_url("/assets/uploads/$v") . ' download></a>';
-                                }
-
-
-                            }
-
-                            if ((array_key_exists($k, $conf) && substr($conf[$k] ['field_property'], 0, 3) == 'db_')) {
-
-                                $fv = explode(":", $conf[$k]['field_value']);
-                                $this->model->set_table($fv[0]);
-                                $ret = $this->model->as_array()->get_by($fv[1], $v);
-                                $v = strtoupper($ret[$fv[2]]);
-                            }
-
-                            echo '<div class="row p-1"><div class="col-1">' . str_replace("_", " ", str_replace("_id", "", ucfirst($k))) . '</div><div class="col-5">: ' . $v . '</div></div>';
-
-                        }*/
+                        //todo : load view automatically
                         ?>
                     </div>
                     <div class="tab-pane fade dbx_wrapper" id="<?php echo $dbx_id; ?>">

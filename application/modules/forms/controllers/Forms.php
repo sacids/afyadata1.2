@@ -322,7 +322,7 @@ class Forms extends MX_Controller
 
         if ($result) {
             //delete xform field mapping
-            $this->model->set_table('xform_field_map');
+            $this->model->set_table('xform_fieldname_map');
             $this->model->delete_by(array('table_name' => $form->form_id));
 
             //delete xform config

@@ -141,7 +141,7 @@ class Xform_model extends CI_Model
      */
     public function add_to_field_name_map($data)
     {
-        $q = $this->db->insert_string('xform_field_map', $data);
+        $q = $this->db->insert_string('xform_fieldname_map', $data);
         $q = str_replace('INSERT INTO', 'INSERT IGNORE INTO', $q);
         return $this->db->query($q);
     }
@@ -156,7 +156,7 @@ class Xform_model extends CI_Model
         if ($hide_show_status != NULL)
             $this->db->where("hide", $hide_show_status);
 
-        return $this->db->get_where('xform_field_map', array('table_name' => $table_name))
+        return $this->db->get_where('xform_fieldname_map', array('table_name' => $table_name))
             ->result_array();
     }
 
@@ -218,7 +218,7 @@ class Xform_model extends CI_Model
      */
     public function create_field_name_map($details)
     {
-        return $this->db->insert('xform_field_map', $details);
+        return $this->db->insert('xform_fieldname_map', $details);
     }
 
     /**
@@ -231,7 +231,7 @@ class Xform_model extends CI_Model
         $this->db->where("table_name", $table_name);
         $this->db->where("col_name", $column_name);
         //$this->db->limit(1);
-        return ($this->db->get('xform_field_map')->num_rows() > 0) ? TRUE : FALSE;
+        return ($this->db->get('xform_fieldname_map')->num_rows() > 0) ? TRUE : FALSE;
     }
 
     /**
@@ -242,7 +242,7 @@ class Xform_model extends CI_Model
      */
     public function update_field_name_maps($details)
     {
-        return $this->db->update_batch('xform_field_map', $details, "id");
+        return $this->db->update_batch('xform_fieldname_map', $details, "id");
     }
 
     /**
