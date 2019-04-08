@@ -466,7 +466,8 @@ class Auth extends CI_Controller
     function set_password()
     {
         // user id to change
-        $user_id = $this->input->get('ele_id');
+        $user_id = ( empty($this->input->get('ele_id')) ? $this->input->get('id') : $this->input->get('ele_id'));
+
 
         //print_r($this->input->get());
 

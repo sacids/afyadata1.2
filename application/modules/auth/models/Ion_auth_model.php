@@ -1988,8 +1988,8 @@ class Ion_auth_model extends CI_Model
 
         $successfully_changed_password_in_db = $this->db->update($this->tables['users'], $data, array($this->identity_column => $identity));
 
-        print_r($data);
-        echo $this->tables['users'].' -- '.$this->identity_column.' -- '.$identity;
+        //print_r($data);
+        //echo $this->tables['users'].' -- '.$this->identity_column.' -- '.$identity;
 
 
         if ($successfully_changed_password_in_db)
