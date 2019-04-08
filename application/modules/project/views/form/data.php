@@ -17,7 +17,7 @@ $table_name = $xform->form_id;
 // get user permissions from filters of particular
 
 // get table mappings
-$this->model->set_table('xform_field_map');
+$this->model->set_table('xform_fieldname_map');
 $mappings   = $this->model->get_many_by('table_name',$table_name);
 
 $this->db_exp->set_table($table_name);

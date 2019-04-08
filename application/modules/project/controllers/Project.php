@@ -763,7 +763,6 @@ class Project extends CI_Controller
 
     private function get_page($row_id)
     {
-
         $tmp = $this->perm_tree[$this->module_id]['tasks'][$this->perm_id]->perm_data;
         $perm_data = json_decode($tmp, true);
         $this->render_tbl_id = $perm_data['table_id'];
@@ -785,7 +784,7 @@ class Project extends CI_Controller
         $ret['data'] = $tbl_data;
         $ret['conf'] = $this->get_table_config();
         $ret['perm_id'] = $this->perm_id;
-        $url    = base_url() . "project/summary?project_id=3";
+        $url = base_url() . "project/summary?project_id=3";
         $ret['summary_url'] = $url;
 
         return $ret;
@@ -1070,6 +1069,7 @@ class Project extends CI_Controller
             $form_title[$i] = $value->title;
             //overall data
             $overall_data[$i] = $this->db->get($value->form_id)->num_rows();
+
             //monthly data
             $monthly_data[$i] = $this->db->get_where($value->form_id, array('MONTH(submitted_at)' => date('m')))->num_rows();
 
@@ -1113,10 +1113,13 @@ class Project extends CI_Controller
 
     }
 
+    //lists forms
     public function listForms()
     {
 
         $pid = $this->input->get('ele_id');
+
+        //query
         $q = "SELECT * FROM xforms WHERE project_id = '$pid' AND " . $this->perm_cond;
         $query = $this->db->query($q);
 

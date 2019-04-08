@@ -31,7 +31,7 @@ $field_type_options = array('TEXT' => "Text",
                                         "SPECIE" => "Specie"
                                     );
 
-$this->db_exp->set_table('xform_field_map');
+$this->db_exp->set_table('xform_fieldname_map');
 $this->db_exp->set_search_condition("table_name = '$table_name'");
 $this->db_exp->set_form_action('project/view/form/mapping?');
 $this->db_exp->set_default_action('row_list');

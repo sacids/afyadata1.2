@@ -9,7 +9,7 @@ $table_name = $xform->form_id;
 // check if file is cached
 
 
-$this->model->set_table('xform_field_map');
+$this->model->set_table('xform_fieldname_map');
 $mapping    = $this->model->get_many_by('table_name',$table_name);
 $calc       = array('1' => 'SUM', '2' => 'COUNT', '3' => 'AVG');
 $q          = array();

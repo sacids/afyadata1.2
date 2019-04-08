@@ -264,7 +264,7 @@ class Forms extends CI_Controller
 //                log_message("debug", "Use OHKR");
 //
 //                //symptoms
-//                $this->model->set_table('xform_field_map');
+//                $this->model->set_table('xform_fieldname_map');
 //                $field_map = $this->model->get_by(['table_name' => $xform->form_id, 'field_type' => 'DALILI']);
 //
 //                if ($field_map) {
@@ -282,7 +282,7 @@ class Forms extends CI_Controller
 //                    $district = $inserted_form_data->$district_column_name;
 //
 //                    //specie
-//                    $this->model->set_table('xform_field_map');
+//                    $this->model->set_table('xform_fieldname_map');
 //                    $specie_column = $this->model->get_by(['table_name' => $xform->form_id, 'field_type' => 'SPECIE'])->col_name;
 //
 //                    if ($specie_column)

@@ -150,7 +150,7 @@ class Form_data extends CI_Controller{
 
         $table_name = $this->input->get('tn');
 
-        $this->model->set_table('xform_field_map');
+        $this->model->set_table('xform_fieldname_map');
         $tmp   = $this->model->get_many_by('table_name',$table_name);
         $mappings   = array();
         foreach($tmp as $val){

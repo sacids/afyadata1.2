@@ -43,7 +43,7 @@ if(!$this->model->count_all()){
     return;
 }
 
-$this->model->set_table('xform_field_map');
+$this->model->set_table('xform_fieldname_map');
 $mapping    = $this->model->get_many_by('table_name',$table_name);
 //echo '<pre>'; print_r($mapping); exit();
 
