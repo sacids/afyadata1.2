@@ -255,7 +255,11 @@ class Form_data extends CI_Controller{
         $table_id   = $ref_data[1];
 
         //echo $table.' - '.$table_id; exit();
+<<<<<<< HEAD:application/modules/api/controllers/v3/form_data.php
+
+=======
         
+>>>>>>> 447e4bb5aaef6e1a40b6aefcaf6e8188f4d08516:application/modules/api/controllers/v3/Form_data.php
         $this->model->set_table($table);
         $fd         = $this->model->as_array()->get($table_id);
         $instance_id    = $fd['meta_instanceID'];

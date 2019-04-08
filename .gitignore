@@ -7,7 +7,7 @@
 system/cache/*
 !*/cache/index.html
 !*/cache/.htaccess
-*idea/*
+*.idea/*
 
 
 user_guide_src/build/*
@@ -24,3 +24,4 @@ application/config/database.php
 /vendor/
 
 /assets/ad/ad_routes.php
+.idea

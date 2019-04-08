@@ -1099,17 +1099,8 @@ class Project extends CI_Controller
 
         $pid = $this->input->get('ele_id');
         $gid = $this->project_tree[$pid]['project']->group_id;
-
-
-        $q = "SELECT * FROM users WHERE id IN (SELECT user_id FROM users_groups WHERE group_id = '$gid')";
-        $q = "SELECT * FROM users WHERE id";
-        $query = $this->db->query($q);
-
-        $data = array();
-        $data['project'] = $this->project_tree[$pid]['project'];
-        $data['members'] = $query->result_array();
-
-        $this->load->view('project/members', $data);
+        $data['gid']    = $gid;
+        $this->load->view('project/project_members', $data);
 
     }
 

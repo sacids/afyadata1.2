@@ -22,6 +22,7 @@ $mappings   = $this->model->get_many_by('table_name',$table_name);
 
 $this->db_exp->set_table($table_name);
 
+$this->db_exp->set_hidden('meta_instanceID');
 foreach($mappings as $field){
     $this->db_exp->set_label($field->col_name,$field->field_label);
     if($field->hide) $this->db_exp->set_hidden($field->col_name);
@@ -42,10 +43,10 @@ $this->db_exp->render();
 ?>
 
 <div class="row">
-    <div class="col-md-8">
+    <div class="col-md-12">
         <?php echo $this->db_exp->output; ?>
     </div>
-    <div class="col-md-4 border-1 p-0" id="form_data" style="border-color: #ddd; max-height: 600px; overflow-y: scroll">
+    <div class="hidden col-md-4 border-1 p-0" id="form_data" style="border-color: #ddd; max-height: 600px; overflow-y: scroll">
 
     </div>
 </div>
