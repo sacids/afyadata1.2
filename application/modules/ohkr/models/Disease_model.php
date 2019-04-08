@@ -77,4 +77,14 @@ class Disease_model extends CI_Model
             ->get_where('ohkr_diseases', array('id' => $id))->row();
     }
 
+    /**
+     * @param $name
+     * @return mixed
+     */
+    function get_disease_by_name($name)
+    {
+        return $this->db
+            ->get_where('ohkr_diseases', array('title' => $name))->row();
+    }
+
 }

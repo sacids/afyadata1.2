@@ -11,7 +11,7 @@
 echo $this->session->userdata('form_id');
 return;
 
-$this->model->set_table('feedback');
+$this->model->set_table('Feedbacks');
 $tmp    = array('table_id' => $ele_id, 'table' => $table_name);
 
 $data['data']   = array();

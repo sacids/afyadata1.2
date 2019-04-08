@@ -403,6 +403,7 @@ class XFormreader_model extends CI_Model
 
             $statement .= "\n";
         }
+        $statement .= "," . "status VARCHAR(30) DEFAULT 'NEW'";
         $statement .= "," . "submitted_at DATETIME DEFAULT CURRENT_TIMESTAMP";
 
         $statement .= ")";

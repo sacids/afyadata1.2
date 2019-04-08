@@ -11,24 +11,25 @@
 
 
 //echo $this->session->userdata('form_id');
-$field_type_options = array('TEXT' => "Text",
-                            'INT'
-                                   => "Number",
-                            "GPS" => "GPS Location",
-                            "DATE" => "DATE",
-                            "DALILI" => 'Dalili',
-                            "LAT" => "Latitude",
-                            "LONG" => "Longitude",
-                            "IDENTITY" => "Username/Identity",
-                            "IMAGE" => "Image",
-                            "DISTRICT" => "District",
-                            "SPECIE" => "Specie"
-);
 
 
 $this->model->set_table('xforms');
 $xform      = $this->model->get($this->session->userdata('form_id'));
 $table_name = $xform->form_id;
+
+$field_type_options = array('TEXT' => "Text",
+                                        'INT'
+                                        => "Number",
+                                        "GPS" => "GPS Location",
+                                        "DATE" => "DATE",
+                                        "DALILI" => 'Dalili',
+                                        "LAT" => "Latitude",
+                                        "LONG" => "Longitude",
+                                        "IDENTITY" => "Username/Identity",
+                                        "IMAGE" => "Image",
+                                        "DISTRICT" => "District",
+                                        "SPECIE" => "Specie"
+                                    );
 
 $this->db_exp->set_table('xform_field_map');
 $this->db_exp->set_search_condition("table_name = '$table_name'");

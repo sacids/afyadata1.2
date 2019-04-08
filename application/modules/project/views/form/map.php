@@ -1,10 +1,3 @@
-
-<?php
-
-// cache page for 1 hour
-$this->output->cache(60);
-
-?>
 <link rel="stylesheet" href="<?php echo base_url(); ?>vendors/leaflet/css/leaflet.css" />
 
 <style type="text/css">
@@ -81,6 +74,8 @@ foreach ($data as $val) {
     $data_string = "<h3>" . $xform->title . "</h3>";
     foreach ($val as $key => $value) {
         if (!strpos($key, '_point')) {
+
+// remove after demo
             if (preg_match('/(\.jpg|\.png|\.bmp)$/', $value)) {
                 $data_string .= str_replace('"', '\'', '<img src = "' . base_url() . 'assets/forms/data/images/' . $value . '" width="350" /><br/>');
             } else {
@@ -92,7 +87,11 @@ foreach ($data as $val) {
     $lat = $val[$gps_prefix . '_lat'];
     $lng = $val[$gps_prefix . '_lng'];
     //TODO Replace a with form data.
+<<<<<<< HEAD:application/modules/Project/views/form/map.php
     $data_string = '';
+=======
+$data_string = '';
+>>>>>>> 447e4bb5aaef6e1a40b6aefcaf6e8188f4d08516:application/modules/project/views/form/map.php
     if (!$first++) {
         $addressPoints .= '[' . $lat . ', ' . $lng . ', "' . $data_string . '"]';
     } else {

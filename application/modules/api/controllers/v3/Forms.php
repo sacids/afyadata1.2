@@ -11,6 +11,7 @@ class Forms extends CI_Controller
     private $default_email;
     private $realm;
     private $xFormReader;
+    private $user_submitting_feedback_id;
 
     public function __construct()
     {
@@ -70,19 +71,18 @@ class Forms extends CI_Controller
             exit;
         }
 
-//        $user_groups = $this->user_model->get_user_groups_by_id($user->id);
-//        $user_perms = array(0 => "P" . $user->id . "P");
-//        $i = 1;
-//        foreach ($user_groups as $ug) {
-//            $user_perms[$i] = "G" . $ug->id . "G";
-//            $i++;
-//        }
+        //users groups
+        $user_groups = $this->user_model->get_user_groups_by_id($user->id);
+        $user_perms = array(0 => "P" . $user->id . "P");
+        $i = 1;
+        foreach ($user_groups as $ug) {
+            $user_perms[$i] = "G" . $ug->id . "G";
+            $i++;
+        }
+        $forms = $this->xform_model->get_form_list_by_perms($user_perms);
 
-        //$forms = $this->Xform_model->get_form_list_by_perms($user_perms);
 
-        $this->model->set_table('xforms');
-        $forms = $this->model->get_all();
-
+        //create forms
         $xml = '<xforms xmlns="http://openrosa.org/xforms/xformsList">';
 
         foreach ($forms as $form) {
@@ -143,6 +143,7 @@ class Forms extends CI_Controller
         $user = $this->user_model->get_user_by_username($username);
         $password = $user->digest_password;
         $db_username = $user->username;
+        $this->user_submitting_feedback_id = $user->id;
         $uploaded_filename = NULL;
 
         // show status header if user not available in database
@@ -232,6 +233,128 @@ class Forms extends CI_Controller
 
         $statement = $this->xFormReader->get_insert_form_data_query();
         $insert_result = $this->xform_model->insert_data($statement);
+
+        //form details
+        $xform = $this->xform_model->find_by_form_id($this->xFormReader->get_table_name());
+
+        if ($xform) {
+            //xform config
+            $this->model->set_table('xform_config');
+            $xform_config = $this->model->get_by('form_id', $xform->id);
+
+            //has feedback
+            if ($xform_config && $xform_config->has_feedback == 1) {
+                log_message("debug", "Has feedback message");
+
+                $feedback = [
+                    'message' => "Asante kwa kutuma taarifa, Tumepokea fomu yako.",
+                    'table_id' => $this->xFormReader->get_form_data()['meta_instanceID'],
+                    'table_name' => $this->xFormReader->get_table_name(),
+                    "created_by" => $this->user_submitting_feedback_id,
+                    'created_on' => date('Y-m-d H:i:s'),
+                    "sender" => 'server',
+                    "status" => 'pending'
+                ];
+                $this->model->set_table('feedback');
+                $this->model->insert($feedback);
+            }
+
+            //use ohkr
+//            if ($xform_config && $xform_config->use_ohkr == 1) {
+//                log_message("debug", "Use OHKR");
+//
+//                //symptoms
+//                $this->model->set_table('xform_field_map');
+//                $field_map = $this->model->get_by(['table_name' => $xform->form_id, 'field_type' => 'DALILI']);
+//
+//                if ($field_map) {
+//                    $symptoms_column_name = $field_map->col_name;
+//                    log_message("debug", "symptoms column name => " . json_encode($symptoms_column_name));
+//
+//                    $district_column_name = $this->model->get_by(['table_name' => $xform->form_id, 'field_type' => 'DISTRICT'])->col_name;
+//                    log_message("debug", "district column name => " . json_encode($district_column_name));
+//
+//                    $this->model->set_table($xform->form_id);
+//                    $inserted_form_data = $this->model->get_by(['id' => $insert_result]);
+//                    log_message("debug", "inserted data => " . json_encode($inserted_form_data));
+//
+//                    $symptoms_reported = explode(" ", $inserted_form_data->$symptoms_column_name);
+//                    $district = $inserted_form_data->$district_column_name;
+//
+//                    //specie
+//                    $this->model->set_table('xform_field_map');
+//                    $specie_column = $this->model->get_by(['table_name' => $xform->form_id, 'field_type' => 'SPECIE'])->col_name;
+//
+//                    if ($specie_column)
+//                        $species_name = $inserted_form_data->$specie_column;
+//                    else
+//                        $species_name = 'Binadamu';
+//
+//                    log_message("debug", "specie => " . $species_name);
+//
+//                    //specie name
+//                    $specie = $this->specie_model->get_specie_by_name($species_name);
+//                    log_message("debug", "specie db => " . json_encode($specie));
+//
+//                    if ($specie && $symptoms_reported) {
+//                        $request_data = [
+//                            "specie_id" => $specie->id,
+//                            "symptoms" => $symptoms_reported
+//                        ];
+//
+//                        $result = $this->ohkr_model->post_symptoms_request(json_encode($request_data));
+//                        $json_object = json_decode($result);
+//
+//                        log_message("debug", "requested_data => " . json_encode($request_data));
+//                        log_message("debug", "results => " . $result);
+//
+//                        if (isset($json_object->status) && $json_object->status == 1) {
+//                            $detected_diseases = [];
+//
+//                            //message
+//                            $message = 'Kutokana na taarifa ulizotuma haya ndiyo magonjwa yanayodhaniwa ni:  ';
+//                            $suspected_diseases_message = $message . "<br/>";
+//
+//                            $i = 1;
+//                            foreach ($json_object->data as $disease) {
+//                                $ug = $this->disease_model->get_disease_by_name($disease->title);
+//
+//                                $detected_diseases[] = [
+//                                    "table_name" => $this->xFormReader->get_table_name(),
+//                                    "instance_id" => $this->xFormReader->get_form_data()['meta_instanceID'],
+//                                    "disease_id" => $ug->id,
+//                                    "location" => $district,
+//                                    "reported_at" => date("Y-m-d H:i:s"),
+//                                    'reported_by' => $this->user_submitting_feedback_id
+//                                ];
+//                                $suspected_diseases_message .= $i . "." . $disease->title . "<br/>";
+//
+//                                $i++;
+//                            }
+//                            $this->db->insert_batch('ohkr_detected_diseases', $detected_diseases);
+//                        } else {
+//                            $suspected_diseases_message = 'Hatukuweza kudhania ugonjwa kutokana na taarifa ulizotuma kwa sasa,
+//					tafadhali wasiliana na wataalam wetu kwa msaada zaidi';
+//                        }
+//
+//                        //feedback
+//                        $feedback = [
+//                            'message' => $suspected_diseases_message,
+//                            'table_id' => $this->xFormReader->get_form_data()['meta_instanceID'],
+//                            'table_name' => $this->xFormReader->get_table_name(),
+//                            "created_by" => $this->user_submitting_feedback_id,
+//                            'created_on' => date('Y-m-d H:i:s'),
+//                            "sender" => 'server',
+//                            "status" => 'pending'
+//                        ];
+//                        $this->model->set_table('feedback');
+//                        $this->model->insert($feedback);
+//                    } else {
+//                        log_message("debug", "No symptom reported");
+//                    }
+//                }
+//            }
+        }
 
         return $insert_result;
     }

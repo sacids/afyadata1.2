@@ -138,4 +138,9 @@ $autoload['model'] = array(
     'projects/project_model',
     'forms/xform_model',
     'forms/formreader_model',
+    'feedback/feedback_model',
+    'ohkr/ohkr_model',
+    'ohkr/disease_model',
+    'ohkr/specie_model',
+    'ohkr/symptom_model',
 );
