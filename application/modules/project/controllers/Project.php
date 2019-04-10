@@ -1099,7 +1099,10 @@ class Project extends CI_Controller
 
         $pid = $this->input->get('ele_id');
         $gid = $this->project_tree[$pid]['project']->group_id;
-        $data['gid']    = $gid;
+
+        echo $gid;
+
+        $data['gid'] = $gid;
         $this->load->view('project/project_members', $data);
 
     }
@@ -1117,6 +1120,11 @@ class Project extends CI_Controller
         $data = array();
         $data['xforms'] = $query->result_array();
         $data['project'] = $this->project_tree[$pid]['project'];
+
+        foreach ($data['xforms'] as $k => $v) {
+            $this->model->set_table($v['form_id']);
+            $data['xforms'][$k]['sent_forms'] = $this->model->count_all();
+        }
 
         $this->load->view('project/list_forms', $data);
     }
