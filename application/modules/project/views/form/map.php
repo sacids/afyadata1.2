@@ -87,12 +87,9 @@ foreach ($data as $val) {
     $lat = $val[$gps_prefix . '_lat'];
     $lng = $val[$gps_prefix . '_lng'];
     //TODO Replace a with form data.
-<<<<<<< HEAD:application/modules/Project/views/form/map.php
-    $data_string = '';
-=======
 $data_string = '';
->>>>>>> 447e4bb5aaef6e1a40b6aefcaf6e8188f4d08516:application/modules/project/views/form/map.php
-    if (!$first++) {
+
+if (!$first++) {
         $addressPoints .= '[' . $lat . ', ' . $lng . ', "' . $data_string . '"]';
     } else {
         $addressPoints .= ',[' . $lat . ', ' . $lng . ', "' . $data_string . '"]';
